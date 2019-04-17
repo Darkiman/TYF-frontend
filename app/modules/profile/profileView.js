@@ -5,12 +5,8 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
-
-const getErrorMessage = () => (
-  <Text>
-    An Error occured when fetching data
-  </Text>
-);
+import NavigationRoutes from "../../constants/NavigationRoutes";
+import ErrorMessage from "../../components/ErrorMessage";
 
 export default class ProfileView extends Component {
     constructor(props) {
@@ -26,10 +22,13 @@ export default class ProfileView extends Component {
         return (
             <View>
                 {isLoading ? <ActivityIndicator /> : null}
-                {error ? getErrorMessage() : null}
+                {error ? <ErrorMessage /> : null}
                 <Text>This is profile</Text>
                 <Button
                     title='Load my Data'
+                    onPress={() =>
+                        this.props.navigation.navigate(NavigationRoutes.HOME)
+                    }
                 />
             </View>
         );

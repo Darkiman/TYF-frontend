@@ -5,12 +5,9 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
+import NavigationRoutes from "../../constants/NavigationRoutes";
+import ErrorMessage from "../../components/ErrorMessage";
 
-const getErrorMessage = () => (
-  <Text>
-    An Error occured when fetching data
-  </Text>
-);
 
 export default class HomeView extends Component {
     constructor(props) {
@@ -26,10 +23,13 @@ export default class HomeView extends Component {
         return (
             <View>
                 {isLoading ? <ActivityIndicator /> : null}
-                {error ? getErrorMessage() : null}
+                {error ? <ErrorMessage/> : null}
                 <Text>This is Home</Text>
                 <Button
                     title='Load my Data'
+                    onPress={() =>
+                        this.props.navigation.navigate(NavigationRoutes.PROFILE)
+                    }
                 />
             </View>
         );

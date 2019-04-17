@@ -1,7 +1,6 @@
-// Redux Store Configuration
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from '../modules/weather/weatherState';
+import rootReducer from '../reducers/index';
 import loggingMiddleware from './middleware/logging';
 
 const configureStore = (initialState: Object) => {
