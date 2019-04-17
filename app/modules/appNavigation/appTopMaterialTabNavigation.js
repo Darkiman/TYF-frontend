@@ -6,9 +6,9 @@ import NavigationRoutes from "../../constants/NavigationRoutes";
 import mainNavigationScreens from "../appNavigation/mainNavigationScreens";
 
 const topTabNavigator = createMaterialTopTabNavigator(
+    mainNavigationScreens,
     {
         defaultNavigationOptions: ({ navigation }) => ({
-            mainNavigationScreens,
             tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;
                 // const iconType = Platform.OS === 'ios' ? 'ionicon': 'material-community';
