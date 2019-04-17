@@ -1,27 +1,15 @@
 import React, {Component} from 'react';
 import { Provider } from 'react-redux';
+import AppNavigation from './app/modules/appNavigation/appNavigation';
 
 import configureStore from './app/store/configureStore';
-import {createStackNavigator} from 'react-navigation';
-import {createAppContainer} from 'react-navigation';
-import homeContainer from './app/modules/home/homeContainer';
-import profileContainer from './app/modules/profile/profileContainer';
-
 
 const store = configureStore({});
-const MainNavigator = createStackNavigator({
-    Home: {screen: homeContainer},
-    Profile: {screen: profileContainer},
-}, {
-    initialRouteName: 'Profile',
-});
-
-const AppContainer = createAppContainer(MainNavigator);
-export default class App extends Component<Props> {
+export default class App extends Component {
   render() {
     return (
         <Provider store={store}>
-          <AppContainer/>
+          <AppNavigation/>
         </Provider>
     );
   }

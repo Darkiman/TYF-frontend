@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Button,
@@ -12,23 +12,26 @@ const getErrorMessage = () => (
   </Text>
 );
 
-const ProfileView = (props: Props) => {
-  const {
-    isLoading,
-    error,
-    data,
-  } = props;
+export default class ProfileView extends Component {
+    constructor(props) {
+        super(props);
+    }
 
-  return (
-    <View>
-      {isLoading ? <ActivityIndicator /> : null}
-      {error ? getErrorMessage() : null}
-      <Text>This is Profile</Text>
-      <Button
-        title='Load my Data'
-      />
-    </View>
-  );
-};
-
-export default ProfileView;
+    render() {
+        const {
+            isLoading,
+            error,
+            data
+        } = this.props;
+        return (
+            <View>
+                {isLoading ? <ActivityIndicator /> : null}
+                {error ? getErrorMessage() : null}
+                <Text>This is profile</Text>
+                <Button
+                    title='Load my Data'
+                />
+            </View>
+        );
+    }
+}

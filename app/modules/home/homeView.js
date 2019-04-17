@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Button,
@@ -12,24 +12,26 @@ const getErrorMessage = () => (
   </Text>
 );
 
-const HomeView = (props: Props) => {
-  const {
-    isLoading,
-    error,
-    data,
-    weatherInfo,
-  } = props;
+export default class HomeView extends Component {
+    constructor(props) {
+        super(props);
+    }
 
-  return (
-    <View>
-      {isLoading ? <ActivityIndicator /> : null}
-      {error ? getErrorMessage() : null}
-      <Text>This is Home</Text>
-      <Button
-        title='Load my Data'
-      />
-    </View>
-  );
-};
-
-export default HomeView;
+    render() {
+        const {
+            isLoading,
+            error,
+            data
+        } = this.props;
+        return (
+            <View>
+                {isLoading ? <ActivityIndicator /> : null}
+                {error ? getErrorMessage() : null}
+                <Text>This is Home</Text>
+                <Button
+                    title='Load my Data'
+                />
+            </View>
+        );
+    }
+}
