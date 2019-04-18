@@ -4,9 +4,11 @@ import {
   Button,
   Text,
   ActivityIndicator,
+  SafeAreaView
 } from 'react-native';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import ErrorMessage from "../../components/ErrorMessage";
+import {sharedStyles} from "../../shared/sharedStyles";
 
 export default class ProfileView extends Component {
     constructor(props) {
@@ -20,17 +22,19 @@ export default class ProfileView extends Component {
             data
         } = this.props;
         return (
-            <View>
-                {isLoading ? <ActivityIndicator /> : null}
-                {error ? <ErrorMessage /> : null}
-                <Text>This is profile</Text>
-                <Button
-                    title='Load my Data'
-                    onPress={() =>
-                        this.props.navigation.navigate(NavigationRoutes.HOME)
-                    }
-                />
-            </View>
+            <SafeAreaView styles={sharedStyles.safeView}>
+                <View>
+                    {isLoading ? <ActivityIndicator /> : null}
+                    {error ? <ErrorMessage /> : null}
+                    <Text>This is profile</Text>
+                    <Button
+                        title='Load my Data'
+                        onPress={() =>
+                            this.props.navigation.navigate(NavigationRoutes.HOME)
+                        }
+                    />
+                </View>
+            </SafeAreaView>
         );
     }
 }
