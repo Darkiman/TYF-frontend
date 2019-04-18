@@ -8,6 +8,7 @@ import {
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import ErrorMessage from "../../components/ErrorMessage";
 import {sharedStyles} from "../../shared/sharedStyles";
+import i18n from '../../utils/i18n';
 
 
 export default class HomeView extends Component {
@@ -29,9 +30,9 @@ export default class HomeView extends Component {
                     <Text>This is Home</Text>
                     <Button
                         title='Load my Data'
-                        onPress={() =>
-                            this.props.navigation.navigate(NavigationRoutes.PROFILE)
-                        }
+                        onPress={() => {
+                            this.props.navigation.navigate(NavigationRoutes.PROFILE);
+                        }}
                     />
                 </View>
             </SafeAreaView>
