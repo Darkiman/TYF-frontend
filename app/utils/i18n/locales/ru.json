@@ -2,6 +2,7 @@
   "appName": "Мое приложение",
   "navigation": {
     "home": "Главная",
-    "profile": "Профиль"
+    "profile": "Профиль",
+    "back": "Назад"
   }
 }
