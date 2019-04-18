@@ -36,7 +36,7 @@ const bottomTabNavigator = createBottomTabNavigator(
                         text = i18nService.t('navigation.profile');
                         break;
                 }
-                return <Text style={{fontSize: 11, color: focused ? tintColor : '#555'}}>{text}</Text>;
+                return <Text style={{fontSize: 11, color: focused ? tintColor : '#555',  textAlign: 'center'}}>{text}</Text>;
             }
         }),
         tabBarOptions: {
