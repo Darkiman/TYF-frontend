@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   weather: weatherState,
   home: homeSate,
   profile: profileState,
-  profileData: profileDataState
+  profileData: profileDataState,
 });
 
 export default rootReducer;

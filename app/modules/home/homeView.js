@@ -8,7 +8,8 @@ import {
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import ErrorMessage from "../../components/ErrorMessage";
 import {sharedStyles} from "../../shared/sharedStyles";
-import i18n from '../../utils/i18n';
+import i18nService from '../../utils/i18n/i18nService';
+import Languages from "../../constants/Languages";
 
 
 export default class HomeView extends Component {
@@ -22,6 +23,7 @@ export default class HomeView extends Component {
             error,
             data
         } = this.props;
+        console.log(this.props)
         return (
             <SafeAreaView forceInset={{top:'always'}} styles={sharedStyles.safeView}>
                 <View>
@@ -32,6 +34,20 @@ export default class HomeView extends Component {
                         title='Go profile'
                         onPress={() => {
                             this.props.navigation.navigate(NavigationRoutes.PROFILE);
+                        }}
+                    />
+
+                    <Button
+                        title='Set Ru'
+                        onPress={() => {
+                            i18nService.setLocale(Languages.RU);
+                        }}
+                    />
+
+                    <Button
+                        title='Set EN'
+                        onPress={() => {
+                            i18nService.setLocale(Languages.EN);
                         }}
                     />
                 </View>

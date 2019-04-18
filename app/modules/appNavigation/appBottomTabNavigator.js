@@ -4,7 +4,7 @@ import { Icon } from 'react-native-elements'
 import { createBottomTabNavigator } from 'react-navigation';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import mainNavigationScreens from "../appNavigation/mainNavigationScreens";
-import i18n from '../../utils/i18n';
+import i18nService from '../../utils/i18n/i18nService';
 
 const bottomTabNavigator = createBottomTabNavigator(
     mainNavigationScreens,
@@ -30,10 +30,10 @@ const bottomTabNavigator = createBottomTabNavigator(
                 let text;
                 switch(routeName) {
                     case NavigationRoutes.HOME:
-                        text = i18n.t('navigation.home');
+                        text = i18nService.t('navigation.home');
                         break;
                     case NavigationRoutes.PROFILE:
-                        text = i18n.t('navigation.profile');
+                        text = i18nService.t('navigation.profile');
                         break;
                 }
                 return <Text style={{fontSize: 11, color: focused ? tintColor : '#555'}}>{text}</Text>;
