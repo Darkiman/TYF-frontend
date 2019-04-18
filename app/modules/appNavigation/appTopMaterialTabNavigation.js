@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform} from 'react-native';
+import {Platform, Text} from 'react-native';
 import { Icon } from 'react-native-elements'
 import { createMaterialTopTabNavigator } from 'react-navigation';
 import NavigationRoutes from "../../constants/NavigationRoutes";
@@ -25,7 +25,7 @@ const topTabNavigator = createMaterialTopTabNavigator(
                 // You can return any component that you like here! We usually use an
                 // icon component from react-native-vector-icons
                 return <Icon type={'ionicon'} name={iconName} size={25} color={tintColor} />;
-            },
+            }
         }),
         tabBarOptions: {
             activeTintColor: 'tomato',

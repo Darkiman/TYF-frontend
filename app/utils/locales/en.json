@@ -1,0 +1,7 @@
+{
+  "appName": "My app",
+  "navigation": {
+    "home": "Home",
+    "profile": "Profile"
+  }
+}
