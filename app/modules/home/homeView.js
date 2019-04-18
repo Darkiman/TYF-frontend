@@ -29,7 +29,7 @@ export default class HomeView extends Component {
                     {error ? <ErrorMessage/> : null}
                     <Text>This is Home</Text>
                     <Button
-                        title='Load my Data'
+                        title='Go profile'
                         onPress={() => {
                             this.props.navigation.navigate(NavigationRoutes.PROFILE);
                         }}

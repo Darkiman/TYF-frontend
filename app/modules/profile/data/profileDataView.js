@@ -6,13 +6,11 @@ import {
   ActivityIndicator,
   SafeAreaView
 } from 'react-native';
-import NavigationRoutes from "../../constants/NavigationRoutes";
-import ErrorMessage from "../../components/ErrorMessage";
-import {sharedStyles} from "../../shared/sharedStyles";
-import ProfileNavigation from "../appNavigation/profileStackNavigator";
-// import ProfileStackNavigator from "../appNavigation/profileStackNavigator";
+import NavigationRoutes from "../../../constants/NavigationRoutes";
+import ErrorMessage from "../../../components/ErrorMessage";
+import {sharedStyles} from "../../../shared/sharedStyles";
 
-export default class ProfileView extends Component {
+export default class ProfileDataView extends Component {
     constructor(props) {
         super(props);
     }
@@ -28,11 +26,11 @@ export default class ProfileView extends Component {
                 <View>
                     {isLoading ? <ActivityIndicator /> : null}
                     {error ? <ErrorMessage /> : null}
-                    <Text>This is profile</Text>
+                    <Text>This is Profile Data</Text>
                     <Button
-                        title='Go profile data'
+                        title='Go HOME'
                         onPress={() =>
-                            this.props.navigation.navigate(NavigationRoutes.PROFILE_DATA)
+                            this.props.navigation.navigate(NavigationRoutes.HOME)
                         }
                     />
                 </View>
