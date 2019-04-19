@@ -39,15 +39,15 @@ export default class HomeView extends Component {
 
                     <Button
                         title='Set Ru'
-                        onPress={() => {
-                            i18nService.setLocale(Languages.RU);
+                        onPress={async () => {
+                            await i18nService.setLocale(Languages.RU);
                         }}
                     />
 
                     <Button
                         title='Set EN'
-                        onPress={() => {
-                            i18nService.setLocale(Languages.EN);
+                        onPress={async () => {
+                           await i18nService.setLocale(Languages.EN);
                         }}
                     />
                 </View>
