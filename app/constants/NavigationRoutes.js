@@ -5,5 +5,7 @@ export default NavigationRoutes = {
     PROFILE_DATA: 'ProfileData',
     //
     SETTINGS: 'Settings',
-    LANGUAGE_SETTINGS: 'LanguageSettings'
+    LANGUAGE_SETTINGS: 'LanguageSettings',
+    //
+    MAPS: 'Maps'
 }

@@ -24,6 +24,10 @@ const bottomTabNavigator = createBottomTabNavigator(
                         break;
                     case NavigationRoutes.SETTINGS:
                         iconName = `${iconPrefix}-cog`;
+                        break;
+                    case NavigationRoutes.MAPS:
+                        iconName = `${iconPrefix}-map`;
+                        break;
                 }
                 return <Icon type={'ionicon'} name={iconName} size={25} color={tintColor} />;
             },
@@ -39,6 +43,9 @@ const bottomTabNavigator = createBottomTabNavigator(
                         break;
                     case NavigationRoutes.SETTINGS:
                         text = i18nService.t('navigation.settings');
+                        break;
+                    case NavigationRoutes.MAPS:
+                        text = i18nService.t('navigation.maps');
                         break;
                 }
                 return <Text style={{fontSize: 11, color: focused ? tintColor : '#555',  textAlign: 'center'}}>{text}</Text>;
