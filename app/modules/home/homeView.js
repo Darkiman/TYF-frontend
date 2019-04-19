@@ -30,26 +30,6 @@ export default class HomeView extends Component {
                     {isLoading ? <ActivityIndicator /> : null}
                     {error ? <ErrorMessage/> : null}
                     <Text>This is Home</Text>
-                    <Button
-                        title='Go profile'
-                        onPress={() => {
-                            this.props.navigation.navigate(NavigationRoutes.PROFILE);
-                        }}
-                    />
-
-                    <Button
-                        title='Set Ru'
-                        onPress={async () => {
-                            await i18nService.setLocale(Languages.RU);
-                        }}
-                    />
-
-                    <Button
-                        title='Set EN'
-                        onPress={async () => {
-                           await i18nService.setLocale(Languages.EN);
-                        }}
-                    />
                 </View>
             </SafeAreaView>
         );

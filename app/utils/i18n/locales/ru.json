@@ -3,6 +3,13 @@
   "navigation": {
     "home": "Главная",
     "profile": "Профиль",
+    "settings": "Настройки",
     "back": "Назад"
-  }
+  },
+  "language": "Язык",
+  "languages": {
+    "english": "Английский",
+    "russian" : "Русский"
+  },
+  "about_application": "О приложении"
 }

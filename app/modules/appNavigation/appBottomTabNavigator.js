@@ -1,6 +1,6 @@
 import React from 'react';
 import {Platform, Text} from 'react-native';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator } from 'react-navigation';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import mainNavigationScreens from "../appNavigation/mainNavigationScreens";
@@ -22,6 +22,8 @@ const bottomTabNavigator = createBottomTabNavigator(
                     case NavigationRoutes.PROFILE:
                         iconName = `${iconPrefix}-person`;
                         break;
+                    case NavigationRoutes.SETTINGS:
+                        iconName = `${iconPrefix}-cog`;
                 }
                 return <Icon type={'ionicon'} name={iconName} size={25} color={tintColor} />;
             },
@@ -34,6 +36,9 @@ const bottomTabNavigator = createBottomTabNavigator(
                         break;
                     case NavigationRoutes.PROFILE:
                         text = i18nService.t('navigation.profile');
+                        break;
+                    case NavigationRoutes.SETTINGS:
+                        text = i18nService.t('navigation.settings');
                         break;
                 }
                 return <Text style={{fontSize: 11, color: focused ? tintColor : '#555',  textAlign: 'center'}}>{text}</Text>;

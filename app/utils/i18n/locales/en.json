@@ -3,6 +3,13 @@
   "navigation": {
     "home": "Home",
     "profile": "Profile",
+    "settings": "Settings",
     "back": "Back"
-  }
+  },
+  "language": "Language",
+  "languages": {
+    "english": "English",
+    "russian" : "Russian"
+  },
+  "about_application": "About the application"
 }

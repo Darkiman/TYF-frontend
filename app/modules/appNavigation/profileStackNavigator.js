@@ -7,7 +7,6 @@ const ProfileStackNavigator = createStackNavigator({
     Profile: {
         screen: profileContainer,
         navigationOptions: () => ({
-            title: 'Profile Data',
             headerBackTitle: i18nService.t('navigation.back'),
         })
     },

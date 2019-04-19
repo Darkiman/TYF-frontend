@@ -8,33 +8,48 @@ import Languages from "../../constants/Languages";
 const userLanguageKey = 'userLanguage';
 
 class i18nSingleton {
+
+
     constructor() {
         i18n.defaultLocale = Languages.EN;
         i18n.locale = Languages.EN;
         i18n.fallbacks = true;
-        i18n.translations = { en, ru };
+        i18n.translations = {en, ru};
         this.initialize()
     }
 
     async initialize() {
         const savedLanguage = await AsyncStorage.getItem(userLanguageKey);
-        if(savedLanguage) {
+        if (savedLanguage) {
             i18n.locale = savedLanguage;
         } else {
-            i18n.locale = 'en';
+            i18n.locale = Languages.EN;
             await AsyncStorage.setItem(userLanguageKey, Languages.EN);
         }
     }
 
     async setLocale(language) {
-        if(i18n.locale !== language) {
+        if (i18n.locale !== language) {
             i18n.locale = language;
             await AsyncStorage.setItem(userLanguageKey, language);
         }
     }
 
-    t(text) {
-       return i18n.t(text);
+    t(text, params) {
+        return i18n.t(text, params);
+    }
+
+    getSupportedLanguages() {
+        return [
+            {
+                key: Languages.EN,
+                translationKey: 'languages.english'
+            },
+            {
+                key: Languages.RU,
+                translationKey: 'languages.russian'
+            }
+        ];
     }
 }
 
