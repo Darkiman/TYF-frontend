@@ -1,5 +1,6 @@
 import i18n from 'i18n-js';
 import {AsyncStorage} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 
 import en from './locales/en.json';
 import ru from './locales/ru.json';
@@ -23,6 +24,15 @@ class i18nSingleton {
         if (savedLanguage) {
             i18n.locale = savedLanguage;
         } else {
+            const deviceLocale = DeviceInfo.getDeviceLocale();
+            const supportedLanguages = this.getSupportedLanguages();
+            for(let language of supportedLanguages) {
+                if(language.key.includes(deviceLocale)) {
+                    i18n.locale = language.key;
+                    await AsyncStorage.setItem(userLanguageKey, language.key);
+                    return
+                }
+            }
             i18n.locale = Languages.EN;
             await AsyncStorage.setItem(userLanguageKey, Languages.EN);
         }
