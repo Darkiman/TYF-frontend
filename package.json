@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "lint:fix": "eslint . --ext .js --fix"
+    "lint:fix": "eslint . --ext .js --fix",
+    "postinstall": "./node_modules/react-native-maps/enable-google-maps 'ios/GoogleMaps/**'"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.3.3",
