@@ -39,7 +39,7 @@ export default class SettingsView extends Component {
                         <SettingsList.Item
                             title={i18nService.t('about_application')}
                             onPress={() => {
-                                this.props.navigation.navigate(NavigationRoutes.LANGUAGE_SETTINGS)
+                                this.props.navigation.navigate(NavigationRoutes.ABOUT_SETTINGS)
                             }}
                         />
                     </SettingsList>

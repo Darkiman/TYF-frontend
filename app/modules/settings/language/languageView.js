@@ -20,6 +20,7 @@ export default class LanguageView extends Component {
 
     setLocale = async (item) => {
         await i18nService.setLocale(item.key);
+        this.props.navigation.goBack();
         this.props.navigation.navigate(NavigationRoutes.HOME);
     };
 

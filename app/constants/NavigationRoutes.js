@@ -6,6 +6,7 @@ export default NavigationRoutes = {
     //
     SETTINGS: 'Settings',
     LANGUAGE_SETTINGS: 'LanguageSettings',
+    ABOUT_SETTINGS: 'AboutSettings',
     //
     MAPS: 'Maps'
 }

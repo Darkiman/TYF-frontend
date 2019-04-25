@@ -12,5 +12,6 @@
     "english": "English",
     "russian" : "Russian"
   },
-  "about_application": "About the application"
+  "about_application": "About the application",
+  "app_version": "Version: %{version}"
 }
