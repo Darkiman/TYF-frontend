@@ -12,12 +12,18 @@
 #import <React/RCTRootView.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import "RNSplashScreen.h"
+#import <Firebase.h> //Add This Line
+#import "RNFirebaseNotifications.h" //Add This Line
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [GMSServices provideAPIKey:@"AIzaSyB_jQXqc1YuOIDHFhK7R-zTVuJKJU2Dg-M"];
+  
+  [FIRApp configure]; //Add This Line
+  [RNFirebaseNotifications configure];  //Add This Line
+  
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"temp"
@@ -31,8 +37,8 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   
+  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self]; //Add This Line
   [RNSplashScreen show];  // here
-  
   return YES;
 }
 
