@@ -15,6 +15,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems:'center'
+    },
+    logo: {
+        width: 150,
+        height: 150
+    },
+    centredColumn: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems:'center'
     }
 });
 
@@ -31,8 +41,8 @@ export default class AboutView extends Component {
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={styles.centred}>
-                    <View>
-                        <Image/>
+                    <View style={styles.centredColumn}>
+                        <Image style={styles.logo} source={require('../../../assets/images/logo.jpg')}/>
                         <Text>{i18nService.t('app_version', {version: '1.0.0' })}</Text>
                     </View>
                 </View>
