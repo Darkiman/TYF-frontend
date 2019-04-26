@@ -30,7 +30,7 @@ export default class LanguageView extends Component {
             error
         } = this.props;
         return (
-            <SafeAreaView styles={sharedStyles.safeView}>
+            <SafeAreaView style={sharedStyles.safeView}>
                 <View>
                     {isLoading ? <ActivityIndicator/> : null}
                     {error ? <ErrorMessage/> : null}

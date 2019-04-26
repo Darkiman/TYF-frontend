@@ -25,7 +25,7 @@ export default class HomeView extends Component {
         } = this.props;
         console.log(this.props)
         return (
-            <SafeAreaView forceInset={{top:'always'}} styles={sharedStyles.safeView}>
+            <SafeAreaView forceInset={{top:'always'}} style={sharedStyles.safeView}>
                 <View>
                     {isLoading ? <ActivityIndicator /> : null}
                     {error ? <ErrorMessage/> : null}

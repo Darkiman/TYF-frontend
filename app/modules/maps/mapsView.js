@@ -114,7 +114,7 @@ export default class MapsView extends Component {
             data
         } = this.props;
         return (
-            <SafeAreaView styles={sharedStyles.safeView}>
+            <SafeAreaView style={sharedStyles.safeView}>
                 <View style={styles.mapContainer}>
                     {isLoading ? <ActivityIndicator /> : null}
                     {error ? <ErrorMessage/> : null}

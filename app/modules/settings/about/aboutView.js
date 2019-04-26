@@ -29,8 +29,8 @@ export default class AboutView extends Component {
             error
         } = this.props;
         return (
-            <SafeAreaView styles={sharedStyles.safeView}>
-                <View styles={styles.centred}>
+            <SafeAreaView style={sharedStyles.safeView}>
+                <View style={styles.centred}>
                     <View>
                         <Image/>
                         <Text>{i18nService.t('app_version', {version: '1.0.0' })}</Text>

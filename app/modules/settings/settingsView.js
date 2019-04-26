@@ -24,7 +24,7 @@ export default class SettingsView extends Component {
             data
         } = this.props;
         return (
-            <SafeAreaView styles={sharedStyles.safeView}>
+            <SafeAreaView style={sharedStyles.safeView}>
                 <View>
                     {isLoading ? <ActivityIndicator /> : null}
                     {error ? <ErrorMessage /> : null}

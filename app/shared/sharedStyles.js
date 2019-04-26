@@ -1,3 +1,6 @@
 export const sharedStyles = {
-    safeView: {flex: 1, backgroundColor: '#ccc'}
+    safeView: {
+        flex: 1,
+        backgroundColor: 'white'
+    }
 };
