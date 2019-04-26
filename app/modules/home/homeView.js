@@ -15,6 +15,22 @@ import Languages from "../../constants/Languages";
 export default class HomeView extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            location: null
+        };
+
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const location = JSON.stringify(position);
+
+                this.setState({ location });
+            },
+            error => {
+                // alert(error);
+            },
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        );
     }
 
     render() {
@@ -23,13 +39,13 @@ export default class HomeView extends Component {
             error,
             data
         } = this.props;
-        console.log(this.props)
         return (
             <SafeAreaView forceInset={{top:'always'}} style={sharedStyles.safeView}>
                 <View>
                     {isLoading ? <ActivityIndicator /> : null}
                     {error ? <ErrorMessage/> : null}
                     <Text>This is Home</Text>
+                    <Text>Location: {this.state.location}</Text>
                 </View>
             </SafeAreaView>
         );

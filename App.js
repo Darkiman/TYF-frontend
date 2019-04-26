@@ -12,10 +12,9 @@ export default class App extends Component {
     componentDidMount() {
         firebase.messaging().hasPermission()
             .then(enabled => {
-                alert()
                 if (enabled) {
                     firebase.messaging().getToken().then(token => {
-                        console.log("LOG: ", token);
+                        // console.log("LOG: ", token);
                     })
                     // user has permissions
                 } else {
@@ -24,7 +23,7 @@ export default class App extends Component {
                             alert("User Now Has Permission")
                         })
                         .catch(error => {
-                            alert("Error", error)
+                            // alert("Error", error)
                             // User has rejected permissions
                         }).finally(() => {
                         });
