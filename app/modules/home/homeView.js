@@ -10,7 +10,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import {sharedStyles} from "../../shared/sharedStyles";
 import i18nService from '../../utils/i18n/i18nService';
 import Languages from "../../constants/Languages";
-
+import {PermissionsAndroid} from 'react-native';
 
 export default class HomeView extends Component {
     constructor(props) {
@@ -23,14 +23,17 @@ export default class HomeView extends Component {
         navigator.geolocation.getCurrentPosition(
             position => {
                 const location = JSON.stringify(position);
-
                 this.setState({ location });
             },
             error => {
-                // alert(error);
+                 alert(error);
             },
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+            { enableHighAccuracy: false, timeout: 1000, maximumAge: 1000 }
         );
+    }
+
+    componentWillUnmount() {
+        // navigator.geolocation.clearWatch(this.watchId);
     }
 
     render() {

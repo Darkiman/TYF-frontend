@@ -151,7 +151,8 @@ dependencies {
     implementation project(':react-native-maps')
     implementation "com.google.firebase:firebase-core:16.0.8"
     implementation "com.google.firebase:firebase-firestore:18.2.0"
-    implementation "com.google.firebase:firebase-database:16.0.6"
+    implementation "com.google.firebase:firebase-database:16.1.0"
+    implementation "com.google.firebase:firebase-messaging:17.6.0"
     implementation 'com.android.support:multidex:1.0.3'
 }
 
@@ -161,3 +162,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'
