@@ -22,8 +22,11 @@ export default class AuthView extends Component {
         const {
             isLoading,
             error,
-            data
+            data,
+            login,
+            signup
         } = this.props;
+        console.log(this.props);
         return (
             <SafeAreaView forceInset={{top:'always'}} style={sharedStyles.safeView}>
                 <View>
@@ -40,7 +43,7 @@ export default class AuthView extends Component {
                         />
                         <Button title={i18nService.t('login')}
                                 onPress={() => {
-                                    this.props.navigation.navigate(NavigationRoutes.HOME)
+                                   login();
                                 }}
                         />
                     </View>
@@ -57,7 +60,7 @@ export default class AuthView extends Component {
                         />
                         <Button title={i18nService.t('sign_up')}
                                 onPress={() => {
-                                    this.props.navigation.navigate(NavigationRoutes.HOME)
+                                    signup();
                                 }}
                         />
                     </View>
