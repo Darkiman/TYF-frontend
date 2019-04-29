@@ -13,5 +13,10 @@
     "russian" : "Russian"
   },
   "about_application": "About the application",
-  "app_version": "Version: %{version}"
+  "app_version": "Version: %{version}",
+  "login": "Login",
+  "sign_up": "Sign up",
+  "email": "Email",
+  "password": "Password",
+  "confirm_password": "Confirm password"
 }

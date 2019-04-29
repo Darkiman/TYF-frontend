@@ -1,4 +1,6 @@
 export default NavigationRoutes = {
+    AUTH: 'Auth',
+    //
     HOME: 'Home',
     //
     PROFILE: 'Profile',

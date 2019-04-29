@@ -13,5 +13,10 @@
     "russian" : "Русский"
   },
   "about_application": "О приложении",
-  "app_version": "Версия: %{version}"
+  "app_version": "Версия: %{version}",
+  "login": "Войти",
+  "sign_up": "Зарегестирироваться",
+  "email": "Email",
+  "password": "Пароль",
+  "confirm_password": "Подтвердите пароль"
 }

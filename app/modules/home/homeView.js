@@ -5,12 +5,8 @@ import {
     Text,
     ActivityIndicator, SafeAreaView,
 } from 'react-native';
-import NavigationRoutes from "../../constants/NavigationRoutes";
 import ErrorMessage from "../../components/ErrorMessage";
 import {sharedStyles} from "../../shared/sharedStyles";
-import i18nService from '../../utils/i18n/i18nService';
-import Languages from "../../constants/Languages";
-import {PermissionsAndroid} from 'react-native';
 
 export default class HomeView extends Component {
     constructor(props) {

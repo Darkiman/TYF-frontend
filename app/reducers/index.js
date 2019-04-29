@@ -6,6 +6,7 @@ import profileDataState from '../modules/profile/data/profileDataState';
 import settingsState from '../modules/settings/settingsState';
 import languageState from '../modules/settings/language/languageState';
 import aboutState from '../modules/settings/about/aboutState';
+import authState from '../modules/auth/authState';
 
 // Root Reducer
 const rootReducer = combineReducers({
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   profileData: profileDataState,
   settings: settingsState,
   language: languageState,
-  about: aboutState
+  about: aboutState,
+  auth: authState
 });
 
 export default rootReducer;
