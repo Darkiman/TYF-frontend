@@ -78,12 +78,14 @@ export default class SignupView extends Component {
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={sharedStyles.centredColumn}>
                     <Text h2>{i18nService.t('sign_up')}</Text>
-                    <View style={{width: '94%'}}>
+                    <View style={{width: '90%'}}>
                         <Input name={'email'}
                                placeholder={i18nService.t('email')}
                                disabled={isLoading || user}
                                value={this.state.signup.email}
                                onChange={this.handleEmailChange}
+                               containerStyle={textInputStyle.containerStyle}
+                               inputContainerStyle={textInputStyle.inputContainerStyle}
                                leftIcon={
                                    {
                                        type: IconsType.Ionicon,
@@ -98,6 +100,8 @@ export default class SignupView extends Component {
                                disabled={isLoading || user}
                                value={this.state.signup.name}
                                onChange={this.handleNameChange}
+                               containerStyle={textInputStyle.containerStyle}
+                               inputContainerStyle={textInputStyle.inputContainerStyle}
                                leftIcon={
                                    {
                                        type: IconsType.Ionicon,
@@ -112,6 +116,8 @@ export default class SignupView extends Component {
                                disabled={isLoading || user}
                                value={this.state.signup.password}
                                onChange={this.handlePasswordChange}
+                               containerStyle={textInputStyle.containerStyle}
+                               inputContainerStyle={textInputStyle.inputContainerStyle}
                                leftIcon={
                                    {
                                        type: IconsType.Ionicon,
@@ -126,6 +132,8 @@ export default class SignupView extends Component {
                                disabled={isLoading || user}
                                value={this.state.signup.confirmPassword}
                                onChange={this.handleConfirmPasswordChange}
+                               containerStyle={textInputStyle.containerStyle}
+                               inputContainerStyle={textInputStyle.inputContainerStyle}
                                leftIcon={
                                    {
                                        type: IconsType.Ionicon,
