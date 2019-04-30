@@ -6,7 +6,7 @@ import {
     ActivityIndicator, SafeAreaView,
 } from 'react-native';
 import ErrorMessage from "../../components/ErrorMessage";
-import {sharedStyles} from "../../shared/sharedStyles";
+import {sharedStyles} from "../../shared/styles/sharedStyles";
 
 export default class HomeView extends Component {
     constructor(props) {

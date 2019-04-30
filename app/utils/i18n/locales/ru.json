@@ -1,5 +1,6 @@
 {
   "appName": "Мое приложение",
+  "welcome_to_app": "Welcome to TYF",
   "navigation": {
     "home": "Главная",
     "profile": "Профиль",
@@ -17,6 +18,7 @@
   "login": "Войти",
   "sign_up": "Зарегестирироваться",
   "email": "Email",
+  "name": "Имя",
   "password": "Пароль",
   "confirm_password": "Подтвердите пароль"
 }

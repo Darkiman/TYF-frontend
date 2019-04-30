@@ -1,5 +1,6 @@
 {
   "appName": "My app",
+  "welcome_to_app": "Welcome to TYF",
   "navigation": {
     "home": "Home",
     "profile": "Profile",
@@ -17,6 +18,7 @@
   "login": "Login",
   "sign_up": "Sign up",
   "email": "Email",
+  "name": "Name",
   "password": "Password",
   "confirm_password": "Confirm password"
 }

@@ -5,6 +5,8 @@ import { createBottomTabNavigator } from 'react-navigation';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import mainNavigationScreens from "../appNavigation/mainNavigationScreens";
 import i18nService from '../../utils/i18n/i18nService';
+import IconsType from "../../constants/IconsType";
+import iconsService from "../../utils/IconsService";
 
 const bottomTabNavigator = createBottomTabNavigator(
     mainNavigationScreens,
@@ -13,7 +15,7 @@ const bottomTabNavigator = createBottomTabNavigator(
             tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;
                 // const iconType = Platform.OS === 'ios' ? 'ionicon': 'material-community';
-                const iconPrefix = Platform.OS === 'ios' ? 'ios': 'md';
+                const iconPrefix = iconsService.getIconPrefix();
                 let iconName;
                 switch(routeName) {
                     case NavigationRoutes.HOME:
@@ -29,7 +31,7 @@ const bottomTabNavigator = createBottomTabNavigator(
                         iconName = `${iconPrefix}-map`;
                         break;
                 }
-                return <Icon type={'ionicon'} name={iconName} size={25} color={tintColor} />;
+                return <Icon type={IconsType.Ionicon} name={iconName} size={25} color={tintColor} />;
             },
             tabBarLabel: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;

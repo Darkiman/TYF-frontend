@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import NavigationRoutes from "../../../constants/NavigationRoutes";
 import ErrorMessage from "../../../components/ErrorMessage";
-import {sharedStyles} from "../../../shared/sharedStyles";
+import {sharedStyles} from "../../../shared/styles/sharedStyles";
 
 export default class ProfileDataView extends Component {
     constructor(props) {

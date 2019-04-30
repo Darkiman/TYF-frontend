@@ -1,15 +1,20 @@
 import { connect } from 'react-redux';
-import AuthView from './authView';
+import SignupView from './signupView';
 import { bindActionCreators } from 'redux';
+import {
+    signup,
+    login,
+} from './signupState';
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  signup: state.signup
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+    signup
 }, dispatch);
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(AuthView);
+)(SignupView);

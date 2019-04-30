@@ -24,7 +24,7 @@ const getWeatherInfo = (weatherInfo) => {
   const { summary, temperature } = weatherInfo;
   const info = temperature
     ? `${Math.floor(temperature)} deg, ${summary}`
-    : 'No Weather Info Available. Make sure you provided a valid API key in the `config.js` file.';
+    : 'No Weather Info Available. Make sure you provided a valid API key in the `apiConfig.js` file.';
 
   return (
     <Text style={styles.weatherInfoText}>

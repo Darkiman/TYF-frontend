@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import ErrorMessage from "../../components/ErrorMessage";
-import {sharedStyles} from "../../shared/sharedStyles";
+import {sharedStyles} from "../../shared/styles/sharedStyles";
 import SettingsList from 'react-native-settings-list';
 import i18nService from '../../utils/i18n/i18nService';
 

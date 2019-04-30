@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
 import {
     View,
-    ActivityIndicator, SafeAreaView,
+    SafeAreaView, StyleSheet,
 } from 'react-native';
-import ErrorMessage from "../../components/ErrorMessage";
-import {sharedStyles} from "../../shared/sharedStyles";
+import {sharedStyles} from "../../shared/styles/sharedStyles";
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import { Input, Icon, Button, Text } from 'react-native-elements';
 import i18nService from "../../utils/i18n/i18nService";
+import {largeButtonStyles} from "../../shared/styles/button/buttonStyle";
 
 export default class AuthView extends Component {
     constructor(props) {
         super(props);
-    }
-
-    componentWillUnmount() {
-        // navigator.geolocation.clearWatch(this.watchId);
     }
 
     render() {
@@ -23,47 +19,30 @@ export default class AuthView extends Component {
             isLoading,
             error,
             data,
-            login,
-            signup
         } = this.props;
-        console.log(this.props);
         return (
-            <SafeAreaView forceInset={{top:'always'}} style={sharedStyles.safeView}>
-                <View>
-                    {isLoading ? <ActivityIndicator /> : null}
-                    {error ? <ErrorMessage/> : null}
-
-                    <View>
-                        <Text h2>{i18nService.t('login')}</Text>
-                        <Input
-                            placeholder={i18nService.t('email')}
-                        />
-                        <Input
-                            placeholder={i18nService.t('password')}
-                        />
-                        <Button title={i18nService.t('login')}
-                                onPress={() => {
-                                   login();
-                                }}
-                        />
-                    </View>
-                    <View>
-                        <Text h2>{i18nService.t('sign_up')}</Text>
-                        <Input
-                            placeholder={i18nService.t('email')}
-                        />
-                        <Input
-                            placeholder={i18nService.t('password')}
-                        />
-                        <Input
-                            placeholder={i18nService.t('confirm_password')}
-                        />
-                        <Button title={i18nService.t('sign_up')}
-                                onPress={() => {
-                                    signup();
-                                }}
-                        />
-                    </View>
+            <SafeAreaView style={sharedStyles.safeView}>
+                <View style={sharedStyles.centredColumn}>
+                    <Text h2>{i18nService.t('welcome_to_app')}</Text>
+                    <Button title={i18nService.t('login')}
+                            containerViewStyle={largeButtonStyles.buttonStyle}
+                            buttonStyle={{
+                                ...largeButtonStyles.buttonStyle,
+                                marginTop: 10,
+                                marginBottom: 20
+                            }}
+                            titleStyle={largeButtonStyles.buttonText}
+                            onPress={() => {
+                                this.props.navigation.navigate(NavigationRoutes.AUTH_LOGIN)
+                            }}/>
+                    <Button type="outline"
+                            title={i18nService.t('sign_up')}
+                            containerViewStyle={largeButtonStyles.buttonStyle}
+                            buttonStyle={largeButtonStyles.buttonStyle}
+                            titleStyle={largeButtonStyles.buttonText}
+                            onPress={() => {
+                                this.props.navigation.navigate(NavigationRoutes.AUTH_SIGNUP)
+                            }}/>
                 </View>
             </SafeAreaView>
         );
