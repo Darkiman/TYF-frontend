@@ -6,10 +6,20 @@ export const textInputStyle = {
         marginBottom: 5,
         marginTop: 5
     },
+    containerStyleFocused: {
+        borderRadius: 30,
+        borderWidth: 1,
+        borderColor: '#2eb0fb',
+        marginBottom: 5,
+        marginTop: 5
+    },
     inputContainerStyle: {
         borderWidth: 0,
         borderBottomColor: 'rgba(255, 255, 255, 0)',
     },
     leftIconColor: '#bbb',
-    leftIconContainerStyle: {marginRight: 5}
+    leftIconColorFocused: '#2eb0fb',
+    leftIconContainerStyle: {
+        marginRight: 5
+    }
 };

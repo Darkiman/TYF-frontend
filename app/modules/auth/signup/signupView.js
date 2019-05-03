@@ -4,17 +4,15 @@ import {
     SafeAreaView, AsyncStorage,
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
-import {Input, Icon, Button, Text} from 'react-native-elements';
+import {Button, Text} from 'react-native-elements';
 import i18nService from "../../../utils/i18n/i18nService";
-import {largeButtonStyles} from "../../../shared/styles/button/buttonStyle";
-import IconsType from "../../../constants/IconsType";
-import iconsService from "../../../utils/IconsService";
-import {textInputStyle} from "../../../shared/styles/input/textInputStyle";
+import {largeButtonStyles} from "../../../components/largeButton/largeButtonStyle";
+import TextInput from "../../../components/textInput/textInput";
+import LargeButton from "../../../components/largeButton/largeButton";
 
 export default class SignupView extends Component {
     constructor(props) {
         super(props);
-        this.iconPrefix = iconsService.getIconPrefix();
         this.state = {
             signup: {
                 email: '',
@@ -79,84 +77,46 @@ export default class SignupView extends Component {
                 <View style={sharedStyles.centredColumn}>
                     <Text h2>{i18nService.t('sign_up')}</Text>
                     <View style={{width: '90%'}}>
-                        <Input name={'email'}
-                               placeholder={i18nService.t('email')}
-                               disabled={isLoading || user}
-                               value={this.state.signup.email}
-                               onChange={this.handleEmailChange}
-                               containerStyle={textInputStyle.containerStyle}
-                               inputContainerStyle={textInputStyle.inputContainerStyle}
-                               leftIcon={
-                                   {
-                                       type: IconsType.Ionicon,
-                                       name: `${this.iconPrefix}-mail`,
-                                       color: textInputStyle.leftIconColor
-                                   }
-                               }
-                               leftIconContainerStyle={textInputStyle.leftIconContainerStyle}
+                        <TextInput name={'email'}
+                                   placeholder={i18nService.t('email')}
+                                   disabled={isLoading || user}
+                                   icon={'mail'}
+                                   value={this.state.signup.email}
+                                   onChange={this.handleEmailChange}
                         />
-                        <Input name={'name'}
-                               placeholder={i18nService.t('name')}
-                               disabled={isLoading || user}
-                               value={this.state.signup.name}
-                               onChange={this.handleNameChange}
-                               containerStyle={textInputStyle.containerStyle}
-                               inputContainerStyle={textInputStyle.inputContainerStyle}
-                               leftIcon={
-                                   {
-                                       type: IconsType.Ionicon,
-                                       name: `${this.iconPrefix}-contact`,
-                                       color: textInputStyle.leftIconColor
-                                   }
-                               }
-                               leftIconContainerStyle={textInputStyle.leftIconContainerStyle}
+                        <TextInput name={'name'}
+                                   placeholder={i18nService.t('name')}
+                                   disabled={isLoading || user}
+                                   icon={'contact'}
+                                   value={this.state.signup.name}
+                                   onChange={this.handleNameChange}
                         />
-                        <Input name={'password'}
-                               placeholder={i18nService.t('password')}
-                               disabled={isLoading || user}
-                               value={this.state.signup.password}
-                               onChange={this.handlePasswordChange}
-                               containerStyle={textInputStyle.containerStyle}
-                               inputContainerStyle={textInputStyle.inputContainerStyle}
-                               leftIcon={
-                                   {
-                                       type: IconsType.Ionicon,
-                                       name: `${this.iconPrefix}-lock`,
-                                       color: textInputStyle.leftIconColor
-                                   }
-                               }
-                               leftIconContainerStyle={textInputStyle.leftIconContainerStyle}
+                        <TextInput name={'password'}
+                                   placeholder={i18nService.t('password')}
+                                   disabled={isLoading || user}
+                                   icon={'lock'}
+                                   secureTextEntry={true}
+                                   value={this.state.signup.password}
+                                   onChange={this.handlePasswordChange}
                         />
-                        <Input name={'confirmPassword'}
-                               placeholder={i18nService.t('confirm_password')}
-                               disabled={isLoading || user}
-                               value={this.state.signup.confirmPassword}
-                               onChange={this.handleConfirmPasswordChange}
-                               containerStyle={textInputStyle.containerStyle}
-                               inputContainerStyle={textInputStyle.inputContainerStyle}
-                               leftIcon={
-                                   {
-                                       type: IconsType.Ionicon,
-                                       name: `${this.iconPrefix}-lock`,
-                                       color: textInputStyle.leftIconColor
-                                   }
-                               }
-                               leftIconContainerStyle={textInputStyle.leftIconContainerStyle}
+                        <TextInput name={'confirmPassword'}
+                                   placeholder={i18nService.t('confirm_password')}
+                                   disabled={isLoading || user}
+                                   icon={'lock'}
+                                   secureTextEntry={true}
+                                   value={this.state.signup.confirmPassword}
+                                   onChange={this.handleConfirmPasswordChange}
                         />
                     </View>
-                    <Button title={i18nService.t('sign_up')}
-                            containerViewStyle={largeButtonStyles.buttonStyle}
-                            buttonStyle={{...largeButtonStyles.buttonStyle, marginTop: 20}}
-                            titleStyle={largeButtonStyles.buttonText}
-                            loadingStyle={largeButtonStyles.loadingStyle}
-                            loadingProps={largeButtonStyles.indicatorSize}
-                            loading={isLoading || user}
-                            onPress={() => {
-                                signup({
-                                    ...this.state.signup,
-                                    notificationToken: this.notificationToken
-                                });
-                            }}
+                    <LargeButton title={i18nService.t('sign_up')}
+                                 buttonStyle={{marginTop: 20}}
+                                 loading={isLoading || user}
+                                 onPress={() => {
+                                     signup({
+                                         ...this.state.signup,
+                                         notificationToken: this.notificationToken
+                                     });
+                                 }}
                     />
                 </View>
             </SafeAreaView>
