@@ -6,7 +6,7 @@ import NavigationRoutes from "../../constants/NavigationRoutes";
 import mainNavigationScreens from "../appNavigation/mainNavigationScreens";
 import i18nService from '../../utils/i18n/i18nService';
 import IconsType from "../../constants/IconsType";
-import iconsService from "../../utils/IconsService";
+import iconsService from "../../utils/iconsService";
 
 const bottomTabNavigator = createBottomTabNavigator(
     mainNavigationScreens,

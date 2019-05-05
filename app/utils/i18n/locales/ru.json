@@ -20,5 +20,18 @@
   "email": "Email",
   "name": "Имя",
   "password": "Пароль",
-  "confirm_password": "Подтвердите пароль"
+  "confirm_password": "Подтвердите пароль",
+  "validation_message": {
+    "email_is_not_valid": "Email is not valid",
+    "name_should_be_more_symbols": "Name must be more %{symbols} symbols",
+    "password_requirements": "Password should be more %{symbols} symbols. Contain at least one character and one symbol, one lower case and uppercase symbol",
+    "password_is_not_same": "Password is not same",
+    "email_cant_be_empty": "Email cant be empty",
+    "name_cant_be_empty": "Name cant be empty",
+    "password_cant_be_empty": "Password cant be empty",
+    "password_must_be_more_symbols": "Password must be more symbols",
+    "user_with_this_email_already_exist": "User with this email already exist",
+    "user_with_this_name_already_exist": "User with this name already exist",
+    "user_with_this_email_and_password_not_exist": "User with this email and password not exist"
+  }
 }
