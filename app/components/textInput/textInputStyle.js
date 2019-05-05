@@ -21,8 +21,5 @@ export const textInputStyle = {
     leftIconColorFocused: '#2eb0fb',
     leftIconContainerStyle: {
         marginRight: 5
-    },
-    rightIconContainerStyle: {
-        marginRight: 1
     }
 };

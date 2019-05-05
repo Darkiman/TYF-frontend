@@ -16,11 +16,7 @@ export const signup = (userData) => {
         dispatch({
             type: SIGNUP_LOADING,
         });
-        return axios.post(`${apiConfig.url}auth/signup`, userData, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
+        return axios.post(`${apiConfig.url}auth/signup`, userData)
             .then(({ data }) => {
                 dispatch({
                     type: SIGNUP_SUCCESS,

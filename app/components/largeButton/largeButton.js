@@ -11,7 +11,6 @@ export default class LargeButton extends Component {
         const {
             title,
             loading,
-            disabled,
             onPress,
             type
         } = this.props;
@@ -29,7 +28,6 @@ export default class LargeButton extends Component {
                     titleStyle={titleStyle}
                     loadingStyle={largeButtonStyles.loadingStyle}
                     loadingProps={largeButtonStyles.indicatorSize}
-                    disabled={disabled}
                     loading={loading}
                     onPress={onPress}
             />
