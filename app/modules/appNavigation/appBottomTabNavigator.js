@@ -21,8 +21,8 @@ const bottomTabNavigator = createBottomTabNavigator(
                     case NavigationRoutes.HOME:
                         iconName = `${iconPrefix}-home`;
                         break;
-                    case NavigationRoutes.PROFILE:
-                        iconName = `${iconPrefix}-person`;
+                    case NavigationRoutes.CONTACTS:
+                        iconName = `${iconPrefix}-contacts`;
                         break;
                     case NavigationRoutes.SETTINGS:
                         iconName = `${iconPrefix}-cog`;
@@ -40,8 +40,8 @@ const bottomTabNavigator = createBottomTabNavigator(
                     case NavigationRoutes.HOME:
                         text = i18nService.t('navigation.home');
                         break;
-                    case NavigationRoutes.PROFILE:
-                        text = i18nService.t('navigation.profile');
+                    case NavigationRoutes.CONTACTS:
+                        text = i18nService.t('navigation.contacts');
                         break;
                     case NavigationRoutes.SETTINGS:
                         text = i18nService.t('navigation.settings');

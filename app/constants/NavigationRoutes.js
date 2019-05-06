@@ -5,6 +5,8 @@ export default NavigationRoutes = {
     //
     HOME: 'Home',
     //
+    CONTACTS: 'Contacts',
+    //
     PROFILE: 'Profile',
     PROFILE_DATA: 'ProfileData',
     //
