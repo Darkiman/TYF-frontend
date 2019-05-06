@@ -32,13 +32,15 @@ export default class TextInput extends Component {
             secureTextEntry,
             rightIcon,
             rightIconContainerStyle,
-            valid
+            valid,
+            maxLength
         } = this.props;
         return (
             <Input name={name}
                    placeholder={placeholder}
                    disabled={disabled}
                    value={value}
+                   maxLength={maxLength ? maxLength : 40}
                    errorMessage={errorMessage}
                    errorStyle={{position: 'absolute', top: 25, left: 10}}
                    secureTextEntry={secureTextEntry}

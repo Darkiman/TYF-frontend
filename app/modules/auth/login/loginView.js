@@ -44,7 +44,7 @@ export default class LoginView extends Component {
     handlePasswordChange = (text) => {
         let login = this.state.login;
         login.password = text;
-        const isPasswordValid = text && text.length < 6 ? false : true;
+        const isPasswordValid = commonService.validatePassword(text);
         this.setState({
             login: login,
             passwordValid: isPasswordValid
@@ -69,6 +69,7 @@ export default class LoginView extends Component {
                                    disabled={isLoading || user}
                                    icon={'mail'}
                                    value={this.state.login.email}
+                                   maxLength={40}
                                    valid={this.state.emailValid}
                                    onChangeText={this.handleEmailChange}
                         />
@@ -78,6 +79,7 @@ export default class LoginView extends Component {
                                    icon={'lock'}
                                    secureTextEntry={true}
                                    value={this.state.login.password}
+                                   maxLength={40}
                                    valid={this.state.passwordValid}
                                    onChangeText={this.handlePasswordChange}
                         />

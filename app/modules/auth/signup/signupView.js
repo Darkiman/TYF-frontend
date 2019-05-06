@@ -80,7 +80,7 @@ export default class SignupView extends Component {
     handlePasswordChange = (text) => {
         let signup = this.state.signup;
         signup.password = text;
-        const isPasswordValid = text && text.length < 6 ? false : true;
+        const isPasswordValid = commonService.validatePassword(text);
         this.setState({
             signup: signup,
             passwordValid: isPasswordValid
@@ -115,6 +115,7 @@ export default class SignupView extends Component {
                                    disabled={isLoading || user}
                                    icon={'mail'}
                                    value={this.state.signup.email}
+                                   maxLength={40}
                                    valid={this.state.emailValid}
                                    onChangeText={this.handleEmailChange}
                         />
@@ -124,6 +125,7 @@ export default class SignupView extends Component {
                                    disabled={isLoading || user}
                                    icon={'contact'}
                                    value={this.state.signup.name}
+                                   maxLength={40}
                                    valid={this.state.nameValid}
                                    onChangeText={this.handleNameChange}
                                    rightIcon={
@@ -147,6 +149,7 @@ export default class SignupView extends Component {
                                    icon={'lock'}
                                    secureTextEntry={true}
                                    value={this.state.signup.password}
+                                   maxLength={40}
                                    valid={this.state.passwordValid}
                                    onChangeText={this.handlePasswordChange}
                                    rightIcon={
@@ -169,6 +172,7 @@ export default class SignupView extends Component {
                                    icon={'lock'}
                                    secureTextEntry={true}
                                    value={this.state.signup.confirmPassword}
+                                   maxLength={40}
                                    valid={this.state.confirmPasswordValid}
                                    onChangeText={this.handleConfirmPasswordChange}
                         />
