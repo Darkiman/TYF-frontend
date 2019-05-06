@@ -49,6 +49,10 @@ class i18nSingleton {
         return i18n.t(text, params);
     }
 
+    getCurrentLocale() {
+        return i18n.locale;
+    }
+
     getSupportedLanguages() {
         return [
             {

@@ -6,16 +6,19 @@ import {
     ActivityIndicator,
     SafeAreaView
 } from 'react-native';
-import NavigationRoutes from "../../../constants/NavigationRoutes";
 import ErrorMessage from "../../../components/ErrorMessage";
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
-import {ListItem} from 'react-native-elements';
+import {ListItem, Icon} from 'react-native-elements';
 import i18nService from "../../../utils/i18n/i18nService";
+import iconsService from "../../../utils/iconsService";
+import IconsType from "../../../constants/IconsType";
 
 export default class LanguageView extends Component {
     constructor(props) {
         super(props);
         this.supportedLanguages = i18nService.getSupportedLanguages();
+        this.currentLocale = i18nService.getCurrentLocale();
+        this.iconPrefix = iconsService.getIconPrefix();
         this.from = null;
         this.update = null;
     }
@@ -51,6 +54,11 @@ export default class LanguageView extends Component {
                                 onPress={async () => {
                                     this.setLocale(item)}
                                 }
+                                rightIcon={this.currentLocale === item.key ?
+                                    <Icon type={IconsType.Ionicon}
+                                          name={`${this.iconPrefix}-checkmark`}
+                                          size={40}
+                                    /> : {}}
                             />
                         }
                     })}
