@@ -10,13 +10,12 @@ const userLanguageKey = 'userLanguage';
 
 class i18nSingleton {
 
-
     constructor() {
         i18n.defaultLocale = Languages.EN;
         i18n.locale = Languages.EN;
         i18n.fallbacks = true;
         i18n.translations = {en, ru};
-        this.initialize()
+        this.initialized = false;
     }
 
     async initialize() {
@@ -36,6 +35,7 @@ class i18nSingleton {
             i18n.locale = Languages.EN;
             await asyncStorageService.setItem(userLanguageKey, Languages.EN);
         }
+        this.initialized = true;
     }
 
     async setLocale(language) {

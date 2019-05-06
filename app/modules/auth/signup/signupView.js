@@ -16,6 +16,8 @@ import FlashMessage from "react-native-flash-message";
 import messageService from "../../../utils/messageService";
 import commonService from "../../../services/commonService";
 import asyncStorageService from "../../../utils/asyncStorageService";
+import userService from "../../../utils/userService";
+import NavigationRoutes from "../../../constants/NavigationRoutes";
 
 export default class SignupView extends Component {
     constructor(props) {
@@ -107,7 +109,6 @@ export default class SignupView extends Component {
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={sharedStyles.centredColumn}>
-                    <Text h2>{i18nService.t('sign_up')}</Text>
                     <View style={{width: '90%'}}>
                         <TextInput name={'email'}
                                    placeholder={i18nService.t('email')}
@@ -178,13 +179,17 @@ export default class SignupView extends Component {
                                      loading={isLoading || user}
                                      disabled={!this.state.emailValid || !this.state.nameValid || !this.state.passwordValid || !this.state.confirmPasswordValid}
                                      onPress={async () => {
+                                         const password = this.state.login.password;
                                          const result = await signup({
                                              ...this.state.signup,
                                              notificationToken: this.notificationToken
                                          });
-                                         if(this.props.error) {
-                                             const errorText = i18nService.t(`validation_message.${this.props.data.data ? this.props.data.data : this.props.data}`);
+                                         if(result.error) {
+                                             const errorText = i18nService.t(`validation_message.${result.message}`);
                                              messageService.showError(errorText);
+                                         } else {
+                                             userService.setUser(result.source[0].key, result.source[0].data.email, password);
+                                             this.props.navigation.navigate(NavigationRoutes.HOME);
                                          }
                                      }}
                         />

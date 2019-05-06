@@ -16,8 +16,9 @@ export default class LargeButton extends Component {
             type
         } = this.props;
         const fromPropsButtonStyle = this.props.buttonStyle ? this.props.buttonStyle : {};
+        const fromPropsTitleStyle = this.props.buttonText ? this.props.buttonText : {};
         let buttonStyle = type === 'outline' ? largeButtonStyles.outlineButtonStyle : largeButtonStyles.buttonStyle;
-        let titleStyle = type === 'outline' ? largeButtonStyles.outlineButtonText : largeButtonStyles.buttonText ;
+        let titleStyle = type === 'outline' ? largeButtonStyles.outlineButtonText : largeButtonStyles.buttonText;
         return (
             <Button type={type}
                     title={title}
@@ -26,7 +27,10 @@ export default class LargeButton extends Component {
                         ...buttonStyle,
                         ...fromPropsButtonStyle
                     }}
-                    titleStyle={titleStyle}
+                    titleStyle={{
+                        ...titleStyle,
+                        ...fromPropsTitleStyle
+                    }}
                     loadingStyle={largeButtonStyles.loadingStyle}
                     loadingProps={largeButtonStyles.indicatorSize}
                     disabled={disabled}

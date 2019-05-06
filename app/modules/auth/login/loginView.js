@@ -63,7 +63,6 @@ export default class LoginView extends Component {
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={sharedStyles.centredColumn}>
-                    <Text h2>{i18nService.t('login')}</Text>
                     <View style={{width: '90%'}}>
                         <TextInput name={'email'}
                                    placeholder={i18nService.t('email')}

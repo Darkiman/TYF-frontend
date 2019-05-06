@@ -6,9 +6,12 @@
     "profile": "Profile",
     "settings": "Settings",
     "maps": "Maps",
-    "back": "Back"
+    "back": "Back",
+    "language": "Language",
+    "about": "About application"
   },
   "language": "Language",
+  "change_language": "Change language",
   "languages": {
     "english": "English",
     "russian" : "Russian"

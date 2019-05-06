@@ -18,11 +18,16 @@ export default class AuthView extends Component {
         super(props);
     }
 
+
     componentDidMount() {
         this.initialize();
     }
 
     async initialize() {
+        if(!i18nService.initialized) {
+            await i18nService.initialize();
+            this.forceUpdate();
+        }
         const user = await userService.getUser();
         if(user) {
             try {
@@ -44,13 +49,16 @@ export default class AuthView extends Component {
             error,
             data,
         } = this.props;
+        if(!i18nService.initialized) {
+            return null;
+        }
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={{...sharedStyles.centredColumn, width: '90%', marginLeft: '5%'}}>
-                    <Text h2>{i18nService.t('welcome_to_app')}</Text>
+                    <Text h4>{i18nService.t('welcome_to_app')}</Text>
                     <LargeButton title={i18nService.t('login')}
                                  buttonStyle={{
-                                     marginTop: 10,
+                                     marginTop: 30,
                                      marginBottom: 20
                                  }}
                                  onPress={() => {
@@ -63,6 +71,20 @@ export default class AuthView extends Component {
                                      this.props.navigation.navigate(NavigationRoutes.AUTH_SIGNUP)
                                  }}
                     />
+
+                    <LargeButton type={'clear'}
+                                 buttonStyle={{width: 200, backgroundColor: 'white', marginTop: 40}}
+                                 buttonText={{fontSize: 14}}
+                                 title={i18nService.t('change_language')}
+                                 onPress={() => {
+                                     this.props.navigation.navigate(NavigationRoutes.LANGUAGE_SETTINGS, {
+                                         from: NavigationRoutes.AUTH,
+                                         update: () => {
+                                             this.forceUpdate();
+                                         }
+                                     })
+                                 }}
+                                 />
                 </View>
             </SafeAreaView>
         );

@@ -26,17 +26,27 @@ export const signup = (userData) => {
         });
         return ax.post(`auth/signup`, userData)
             .then(({data}) => {
+                const result = {
+                    source: data,
+                    error: false
+                };
                 dispatch({
                     type: SIGNUP_SUCCESS,
                     payload: data
                 });
-                return data;
+                return result;
             }).catch(error => {
+                const text = networkService.getErrorText(error);
+                const result =  {
+                    source: error,
+                    error: true,
+                    message: text
+                };
                 dispatch({
                     type: SIGNUP_ERROR,
-                    payload: networkService.getErrorText(error)
+                    payload: result
                 });
-                return error;
+                return result;
             });
     };
 };

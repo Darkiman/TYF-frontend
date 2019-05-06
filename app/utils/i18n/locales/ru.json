@@ -1,14 +1,17 @@
 {
   "appName": "Мое приложение",
-  "welcome_to_app": "Welcome to TYF",
+  "welcome_to_app": "Добро пожаловать в TYF",
   "navigation": {
     "home": "Главная",
     "profile": "Профиль",
     "settings": "Настройки",
     "maps": "Карты",
-    "back": "Назад"
+    "back": "Назад",
+    "language": "Язык",
+    "about": "О приложении"
   },
   "language": "Язык",
+  "change_language": "Изменить язык",
   "languages": {
     "english": "Английский",
     "russian" : "Русский"
@@ -16,7 +19,7 @@
   "about_application": "О приложении",
   "app_version": "Версия: %{version}",
   "login": "Войти",
-  "sign_up": "Зарегестирироваться",
+  "sign_up": "Зарегистирироваться",
   "email": "Email",
   "name": "Имя",
   "password": "Пароль",
