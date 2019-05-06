@@ -20,7 +20,8 @@ export const textInputStyle = {
     leftIconColor: '#bbb',
     leftIconColorFocused: '#2eb0fb',
     leftIconContainerStyle: {
-        marginRight: 5
+        position: 'relative',
+        right: 10
     },
     rightIconContainerStyle: {
         marginRight: 1

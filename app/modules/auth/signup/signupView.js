@@ -36,9 +36,6 @@ export default class SignupView extends Component {
             showNameTooltip: false,
             showAlerts: false
         };
-        this.passwordRef = null;
-        this.nameRef = null;
-        this.viewRef = null;
     }
 
     componentDidMount() {
@@ -111,17 +108,11 @@ export default class SignupView extends Component {
             signup
         } = this.props;
 
-        if(error && this.showAlerts) {
-            this.showAlerts = false;
-            const errorText = i18nService.t(`validation_message.${data.data}`);
-            messageService.showError(errorText);
-        }
-
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={sharedStyles.centredColumn}>
                     <Text h2>{i18nService.t('sign_up')}</Text>
-                    <View style={{width: '90%'}} ref={(ref) => this.viewRef = ref}>
+                    <View style={{width: '90%'}}>
                         <TextInput name={'email'}
                                    placeholder={i18nService.t('email')}
                                    disabled={isLoading || user}
@@ -185,18 +176,23 @@ export default class SignupView extends Component {
                                    onChangeText={this.handleConfirmPasswordChange}
                         />
                     </View>
-                    <LargeButton title={i18nService.t('sign_up')}
-                                 buttonStyle={{marginTop: 20}}
-                                 loading={isLoading || user}
-                                 disabled={!this.state.emailValid || !this.state.nameValid || !this.state.passwordValid || !this.state.confirmPasswordValid}
-                                 onPress={() => {
-                                     this.showAlerts = true;
-                                     signup({
-                                         ...this.state.signup,
-                                         notificationToken: this.notificationToken
-                                     });
-                                 }}
-                    />
+                    <View style={{width: '90%'}}>
+                        <LargeButton title={i18nService.t('sign_up')}
+                                     buttonStyle={{marginTop: 20}}
+                                     loading={isLoading || user}
+                                     disabled={!this.state.emailValid || !this.state.nameValid || !this.state.passwordValid || !this.state.confirmPasswordValid}
+                                     onPress={async () => {
+                                         const result = await signup({
+                                             ...this.state.signup,
+                                             notificationToken: this.notificationToken
+                                         });
+                                         if(this.props.error) {
+                                             const errorText = i18nService.t(`validation_message.${this.props.data.data}`);
+                                             messageService.showError(errorText);
+                                         }
+                                     }}
+                        />
+                    </View>
 
                     <ModalOverlay
                         isVisible={this.state.showNameTooltip}

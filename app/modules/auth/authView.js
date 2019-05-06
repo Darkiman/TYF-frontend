@@ -23,7 +23,7 @@ export default class AuthView extends Component {
         } = this.props;
         return (
             <SafeAreaView style={sharedStyles.safeView}>
-                <View style={sharedStyles.centredColumn}>
+                <View style={{...sharedStyles.centredColumn, width: '90%', marginLeft: '5%'}}>
                     <Text h2>{i18nService.t('welcome_to_app')}</Text>
                     <LargeButton title={i18nService.t('login')}
                                  buttonStyle={{

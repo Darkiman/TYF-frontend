@@ -6,6 +6,7 @@ import firebase from 'react-native-firebase';
 import { AsyncStorage } from 'react-native';
 
 import configureStore from './app/store/configureStore';
+import networkService from './app/utils/networkService';
 
 const store = configureStore({});
 export default class App extends Component {
@@ -19,6 +20,7 @@ export default class App extends Component {
     componentWillUnmount() {
         this.notificationListener();
         this.notificationOpenedListener();
+        networkService.removeNetworkListen();
     }
 
     async checkPermission() {

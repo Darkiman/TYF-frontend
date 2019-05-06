@@ -11,16 +11,16 @@ export const largeButtonStyles = {
         fontSize: 21
     },
     containerViewStyle: {
-        width: "90%"
+        width: "100%",
     },
     outlineButtonStyle: {
-        width: "90%",
+        width: "100%",
         borderColor: '#2eb0fb',
         borderWidth: 1
     },
     buttonStyle: {
-        width: "90%",
-        backgroundColor: '#2eb0fb'
+        width: "100%",
+        backgroundColor: '#2eb0fb',
     },
     loadingStyle: {
         width: '100%',
