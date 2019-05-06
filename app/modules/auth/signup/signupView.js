@@ -187,7 +187,7 @@ export default class SignupView extends Component {
                                              notificationToken: this.notificationToken
                                          });
                                          if(this.props.error) {
-                                             const errorText = i18nService.t(`validation_message.${this.props.data.data}`);
+                                             const errorText = i18nService.t(`validation_message.${this.props.data.data ? this.props.data.data : this.props.data}`);
                                              messageService.showError(errorText);
                                          }
                                      }}

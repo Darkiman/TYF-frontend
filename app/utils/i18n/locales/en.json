@@ -23,6 +23,7 @@
   "confirm_password": "Confirm password",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
+    "server_is_not_available": "Server is not available. Please try later.",
     "email_is_not_valid": "Email is not valid",
     "name_should_be_more_symbols": "Name must be more %{symbols} symbols",
     "password_requirements": "Password should be more %{symbols} symbols. Contain at least one character and one symbol, one lower case and uppercase symbol",

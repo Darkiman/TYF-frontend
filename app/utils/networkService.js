@@ -1,4 +1,4 @@
-import NetInfo from "@react-native-community/netinfo";
+import { NetInfo } from 'react-native';
 
 
 const listener = data => {
@@ -16,6 +16,9 @@ const networkService = {
             subscription.remove();
         }
         NetInfo.removeEventListener('connectionChange', listener);
+    },
+    getErrorText: function(error) {
+        return error && error.response ? error.response : (error.message ? 'server_is_not_available' : error)
     }
 };
 

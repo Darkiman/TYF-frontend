@@ -1,7 +1,5 @@
 import ax from "../../../utils/axios";
-import NetInfo from "@react-native-community/netinfo";
-import networkService from "../../../utils/networkService";
-
+import networkService from './../../../utils/networkService';
 
 const initialState = {
     isLoading: false,
@@ -15,7 +13,7 @@ export const SIGNUP_ERROR = 'auth/SIGN_UP_ERROR';
 
 
 export const signup = (userData) => {
-    return async (dispatch) => {
+    return dispatch => {
         if(!networkService.isConnected) {
             dispatch({
                 type: SIGNUP_ERROR,
@@ -26,21 +24,20 @@ export const signup = (userData) => {
         dispatch({
             type: SIGNUP_LOADING,
         });
-        try {
-           const data = await ax.post(`auth/signup`, userData)
-            dispatch({
-                type: SIGNUP_SUCCESS,
-                payload: data
+        return ax.post(`auth/signup`, userData)
+            .then(({data}) => {
+                dispatch({
+                    type: SIGNUP_SUCCESS,
+                    payload: data
+                });
+                return data;
+            }).catch(error => {
+                dispatch({
+                    type: SIGNUP_ERROR,
+                    payload: networkService.getErrorText(error)
+                });
+                return error;
             });
-            return data;
-        }
-        catch (error) {
-            dispatch({
-                type: SIGNUP_ERROR,
-                payload: error && error.response ? error.response : error
-            });
-            return error;
-        }
     };
 };
 

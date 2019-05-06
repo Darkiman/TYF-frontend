@@ -6,4 +6,5 @@ let ax = axios.create({
 });
 
 ax.defaults.headers.post['Content-Type'] = 'application/json';
+ax.defaults.timeout = 15000;
 export default ax;
