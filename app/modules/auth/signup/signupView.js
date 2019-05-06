@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
     View,
-    SafeAreaView, AsyncStorage,
+    SafeAreaView,
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import {Button, Text, Icon} from 'react-native-elements';
@@ -12,9 +12,10 @@ import IconsType from "../../../constants/IconsType";
 import {textInputStyle} from "../../../components/textInput/textInputStyle";
 import iconsService from "../../../utils/iconsService";
 import ModalOverlay from "../../../components/overlay/overlay";
-import { showMessage, hideMessage } from "react-native-flash-message";
 import FlashMessage from "react-native-flash-message";
 import messageService from "../../../utils/messageService";
+import commonService from "../../../services/commonService";
+import asyncStorageService from "../../../utils/asyncStorageService";
 
 export default class SignupView extends Component {
     constructor(props) {
@@ -50,18 +51,13 @@ export default class SignupView extends Component {
     }
 
     async initialize() {
-        this.notificationToken = await AsyncStorage.getItem('fcmToken');
-    }
-
-    validateEmail(email) {
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
+        this.notificationToken = await asyncStorageService.getItem('fcmToken');
     }
 
     handleEmailChange = (text) => {
         let signup = this.state.signup;
         signup.email = text;
-        const isEmailValid = this.validateEmail(text);
+        const isEmailValid = commonService.validateEmail(text);
         console.log(isEmailValid);
         this.setState({
             signup: signup,

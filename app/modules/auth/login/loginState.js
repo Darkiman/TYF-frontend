@@ -1,9 +1,11 @@
-import axios from 'axios';
 import apiConfig from "../../../utils/apiConfig";
+import networkService from "../../../utils/networkService";
+import ax from "../../../utils/axios";
 
 const initialState = {
     isLoading: false,
     error: false,
+    data: {}
 };
 
 export const LOGIN_SUCCESS = 'auth/LOGIN';
@@ -12,20 +14,39 @@ export const LOGIN_ERROR = 'auth/LOGIN_ERROR';
 
 export const login = (userData) => {
     return dispatch => {
+        if(!networkService.isConnected) {
+            dispatch({
+                type: LOGIN_ERROR,
+                payload: { data: 'internet_connection_not_available' }
+            });
+            return;
+        }
         dispatch({
             type: LOGIN_LOADING,
         });
-        return axios.post(`${apiConfig.url}auth/login`, userData)
-            .then(({ data }) => {
+        return ax.post(`${apiConfig.url}auth/login`, userData)
+            .then(({data}) => {
+                const result = {
+                    source: data,
+                    error: false
+                };
                 dispatch({
                     type: LOGIN_SUCCESS,
-                    payload: data
+                    payload: result
                 });
+                return result;
             }).catch(error => {
+                const text = networkService.getErrorText(error);
+                const result =  {
+                    source: error,
+                    error: true,
+                    message: text
+                };
                 dispatch({
                     type: LOGIN_ERROR,
-                    payload: error
+                    payload: result
                 });
+                return result;
             });
     };
 };
@@ -34,8 +55,8 @@ const loginState = (state: Object = initialState, action: Object) => {
     switch (action.type) {
         case LOGIN_SUCCESS:
             return {
-                ...state,
-                user: action.payload
+                isLoading: false,
+                data: action.payload
             };
         case LOGIN_LOADING:
             return {
@@ -44,8 +65,8 @@ const loginState = (state: Object = initialState, action: Object) => {
             };
         case LOGIN_ERROR:
             return {
-                ...state,
-                error: action.payload
+                isLoading: false,
+                data: action.payload
             };
         default: {
             return state;

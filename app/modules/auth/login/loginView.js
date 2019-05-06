@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import {
     View,
-    ActivityIndicator, SafeAreaView,
+    SafeAreaView,
+    AsyncStorage
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
-import { Input, Icon, Button, Text } from 'react-native-elements';
+import { Icon, Text } from 'react-native-elements';
 import i18nService from "../../../utils/i18n/i18nService";
+import TextInput from "../../../components/textInput/textInput";
+import IconsType from "../../../constants/IconsType";
+import {textInputStyle} from "../../../components/textInput/textInputStyle";
+import LargeButton from "../../../components/largeButton/largeButton";
+import messageService from "../../../utils/messageService";
+import FlashMessage from "react-native-flash-message";
+import commonService from "../../../services/commonService";
+import NavigationRoutes from "../../../constants/NavigationRoutes";
+import userService from "../../../utils/userService";
 
 export default class LoginView extends Component {
     constructor(props) {
@@ -14,39 +24,30 @@ export default class LoginView extends Component {
         this.state = {
             login: {
                 email: '',
-                name: '',
                 password: ''
-            },
-            signup: {
-                email: '',
-                name: '',
-                password: '',
-                confirm: 'password'
             }
         }
     }
 
-    componentWillUnmount() {
-        // navigator.geolocation.clearWatch(this.watchId);
-    }
 
-    handleLoginChange = (event = {}) => {
-        const name = event.target && event.target.name;
-        const value = event.target && event.target.value;
+    handleEmailChange = (text) => {
         let login = this.state.login;
-        login[name] = value;
+        login.email = text;
+        const isEmailValid = commonService.validateEmail(text);
+        console.log(isEmailValid);
         this.setState({
-            login: login
+            login: login,
+            emailValid: isEmailValid
         });
     };
 
-    handleSignUpChange = (event = {}) => {
-        const name = event.target && event.target.name;
-        const value = event.target && event.target.value;
+    handlePasswordChange = (text) => {
         let login = this.state.login;
-        login[name] = value;
+        login.password = text;
+        const isPasswordValid = text && text.length < 6 ? false : true;
         this.setState({
-            login: login
+            login: login,
+            passwordValid: isPasswordValid
         });
     };
 
@@ -55,29 +56,53 @@ export default class LoginView extends Component {
             isLoading,
             error,
             data,
-            login,
-            signup
+            user,
+            login
         } = this.props;
-        console.log(this.props);
+
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={sharedStyles.centredColumn}>
                     <Text h2>{i18nService.t('login')}</Text>
-                    <Input name={'email'}
-                           placeholder={i18nService.t('email')}
-                           value={this.state.login.email}
-                           onChangeText={this.handleLoginChange}
-                    />
-                    <Input name={'email'}
-                           placeholder={i18nService.t('password')}
-                           value={this.state.login.password}
-                           onChangeText={this.handleLoginChange}
-                    />
-                    <Button title={i18nService.t('login')}
-                            onPress={() => {
-                                login();
-                            }}
-                    />
+                    <View style={{width: '90%'}}>
+                        <TextInput name={'email'}
+                                   placeholder={i18nService.t('email')}
+                                   disabled={isLoading || user}
+                                   icon={'mail'}
+                                   value={this.state.login.email}
+                                   valid={this.state.emailValid}
+                                   onChangeText={this.handleEmailChange}
+                        />
+                        <TextInput name={'password'}
+                                   placeholder={i18nService.t('password')}
+                                   disabled={isLoading || user}
+                                   icon={'lock'}
+                                   secureTextEntry={true}
+                                   value={this.state.login.password}
+                                   valid={this.state.passwordValid}
+                                   onChangeText={this.handlePasswordChange}
+                        />
+                    </View>
+                    <View style={{width: '90%'}}>
+                        <LargeButton title={i18nService.t('login')}
+                                     buttonStyle={{marginTop: 20}}
+                                     loading={isLoading || user}
+                                     disabled={!this.state.emailValid || !this.state.passwordValid}
+                                     onPress={async () => {
+                                         const password = this.state.login.password;
+                                         const result = await login(this.state.login);
+                                         if(result.error) {
+                                             const errorText = i18nService.t(`validation_message.${result.message}`);
+                                             messageService.showError(errorText);
+                                         } else {
+                                             userService.setUser(result.source[0].key, result.source[0].data.email, password);
+                                             this.props.navigation.navigate(NavigationRoutes.HOME);
+                                         }
+                                     }}
+                        />
+                    </View>
+
+                    <FlashMessage position="top" />
                 </View>
             </SafeAreaView>
         );

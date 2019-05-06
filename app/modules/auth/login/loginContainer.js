@@ -2,12 +2,13 @@ import { connect } from 'react-redux';
 import LoginView from './loginView';
 import { bindActionCreators } from 'redux';
 import {
-    signup,
     login,
 } from './loginState';
 
 const mapStateToProps = state => ({
-  login: state.login
+    data: state.signupState.data,
+    isLoading: state.signupState.isLoading,
+    error: state.signupState.error
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -9,8 +9,9 @@ import {
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import ErrorMessage from "../../components/ErrorMessage";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-import SettingsList from 'react-native-settings-list';
+import { ListItem } from 'react-native-elements'
 import i18nService from '../../utils/i18n/i18nService';
+import userService from "../../utils/userService";
 
 export default class SettingsView extends Component {
     constructor(props) {
@@ -28,21 +29,25 @@ export default class SettingsView extends Component {
                 <View>
                     {isLoading ? <ActivityIndicator /> : null}
                     {error ? <ErrorMessage /> : null}
-                    <SettingsList borderColor='#c8c7cc'>
-                        <SettingsList.Header headerStyle={{color:'white'}}/>
-                        <SettingsList.Item
-                            title={i18nService.t('language')}
-                            onPress={() => {
-                                this.props.navigation.navigate(NavigationRoutes.LANGUAGE_SETTINGS)
-                            }}
-                        />
-                        <SettingsList.Item
-                            title={i18nService.t('about_application')}
-                            onPress={() => {
-                                this.props.navigation.navigate(NavigationRoutes.ABOUT_SETTINGS)
-                            }}
-                        />
-                    </SettingsList>
+                    <ListItem
+                        title={i18nService.t('language')}
+                        onPress={() => {
+                            this.props.navigation.navigate(NavigationRoutes.LANGUAGE_SETTINGS)
+                        }}
+                    />
+                    <ListItem
+                        title={i18nService.t('about_application')}
+                        onPress={() => {
+                            this.props.navigation.navigate(NavigationRoutes.ABOUT_SETTINGS)
+                        }}
+                    />
+                    <ListItem
+                        title={i18nService.t('exit')}
+                        onPress={async () => {
+                            userService.deleteCurrentUser();
+                            this.props.navigation.navigate(NavigationRoutes.AUTH);
+                        }}
+                    />
                 </View>
             </SafeAreaView>
         );

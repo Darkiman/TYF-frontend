@@ -1,20 +1,21 @@
 import React, {Component} from 'react';
 import {Provider} from 'react-redux';
 import AppNavigation from './app/modules/appNavigation/appNavigation';
-import SplashScreen from 'react-native-splash-screen';
 import firebase from 'react-native-firebase';
-import { AsyncStorage } from 'react-native';
 
 import configureStore from './app/store/configureStore';
 import networkService from './app/utils/networkService';
+import asyncStorageService from "./app/utils/asyncStorageService";
+import SplashScreen from "react-native-splash-screen";
 
 const store = configureStore({});
 export default class App extends Component {
 
     componentDidMount() {
+        //SplashScreen.hide();
         this.checkPermission();
-        this.createNotificationListeners(); //add this line
-        SplashScreen.hide();
+        this.createNotificationListeners();
+        // this.initialize()
     }
 
     componentWillUnmount() {
@@ -33,11 +34,11 @@ export default class App extends Component {
     }
 
     async getToken() {
-        let fcmToken = await AsyncStorage.getItem('fcmToken');
+        let fcmToken = await asyncStorageService.getItem('fcmToken');
         if (!fcmToken) {
             fcmToken = await firebase.messaging().getToken();
             if (fcmToken) {
-                await AsyncStorage.setItem('fcmToken', fcmToken);
+                await asyncStorageService.setItem('fcmToken', fcmToken);
             }
         }
         console.log(fcmToken);

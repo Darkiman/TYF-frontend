@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import ErrorMessage from "../../components/ErrorMessage";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
+import SplashScreen from "react-native-splash-screen";
 
 export default class HomeView extends Component {
     constructor(props) {
@@ -26,6 +27,10 @@ export default class HomeView extends Component {
             },
             { enableHighAccuracy: false, timeout: 1000, maximumAge: 1000 }
         );
+    }
+
+    componentDidMount() {
+        SplashScreen.hide();
     }
 
     componentWillUnmount() {

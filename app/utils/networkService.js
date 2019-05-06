@@ -18,7 +18,7 @@ const networkService = {
         NetInfo.removeEventListener('connectionChange', listener);
     },
     getErrorText: function(error) {
-        return error && error.response ? error.response : (error.message ? 'server_is_not_available' : error)
+        return error && error.response ? error.response.data : (error.message ? 'server_is_not_available' : error)
     }
 };
 

@@ -1,18 +1,41 @@
 import React, {Component} from 'react';
 import {
     View,
-    SafeAreaView, StyleSheet,
+    SafeAreaView,
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import NavigationRoutes from "../../constants/NavigationRoutes";
-import {Input, Icon, Button, Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import i18nService from "../../utils/i18n/i18nService";
-import {largeButtonStyles} from "../../components/largeButton/largeButtonStyle";
 import LargeButton from "../../components/largeButton/largeButton";
+import userService from "../../utils/userService";
+import ax from "../../utils/axios";
+import apiConfig from "../../utils/apiConfig";
+import SplashScreen from "react-native-splash-screen";
 
 export default class AuthView extends Component {
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        this.initialize();
+    }
+
+    async initialize() {
+        const user = await userService.getUser();
+        if(user) {
+            try {
+                const response = await ax.post(`${apiConfig.url}auth/login`, {email : user.email, password: user.password});
+                if(response && response.data[0].key) {
+                    this.props.navigation.navigate(NavigationRoutes.HOME);
+                } else {
+                    SplashScreen.hide()
+                }
+            } catch (error) {
+                SplashScreen.hide();
+            }
+        }
     }
 
     render() {

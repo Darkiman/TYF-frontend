@@ -1,10 +1,10 @@
 import i18n from 'i18n-js';
-import {AsyncStorage} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
 import en from './locales/en.json';
 import ru from './locales/ru.json';
 import Languages from "../../constants/Languages";
+import asyncStorageService from "../asyncStorageService";
 
 const userLanguageKey = 'userLanguage';
 
@@ -20,7 +20,7 @@ class i18nSingleton {
     }
 
     async initialize() {
-        const savedLanguage = await AsyncStorage.getItem(userLanguageKey);
+        const savedLanguage = await asyncStorageService.getItem(userLanguageKey);
         if (savedLanguage) {
             i18n.locale = savedLanguage;
         } else {
@@ -29,19 +29,19 @@ class i18nSingleton {
             for(let language of supportedLanguages) {
                 if(language.key.includes(deviceLocale)) {
                     i18n.locale = language.key;
-                    await AsyncStorage.setItem(userLanguageKey, language.key);
+                    await asyncStorageService.setItem(userLanguageKey, language.key);
                     return
                 }
             }
             i18n.locale = Languages.EN;
-            await AsyncStorage.setItem(userLanguageKey, Languages.EN);
+            await asyncStorageService.setItem(userLanguageKey, Languages.EN);
         }
     }
 
     async setLocale(language) {
         if (i18n.locale !== language) {
             i18n.locale = language;
-            await AsyncStorage.setItem(userLanguageKey, language);
+            await asyncStorageService.setItem(userLanguageKey, language);
         }
     }
 
