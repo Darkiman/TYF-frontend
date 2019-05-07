@@ -5,14 +5,19 @@ import {
     Text,
     ActivityIndicator,
     SafeAreaView,
-    StyleSheet
+    StyleSheet,
+    ScrollView,
+    RefreshControl
 } from 'react-native';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-import {Header, Icon, SearchBar} from "react-native-elements";
+import {ListItem, Icon, SearchBar} from "react-native-elements";
 import IconsType from "../../constants/IconsType";
 import iconsService from "../../utils/iconsService";
 import themeService from "../../utils/themeService";
+import i18nService from "../../utils/i18n/i18nService";
+import userService from "../../utils/userService";
+import messageService from "../../utils/messageService";
 
 const colors = themeService.currentThemeColors;
 
@@ -60,7 +65,28 @@ export default class ContactsView extends Component {
         this.iconPrefix = iconsService.getIconPrefix();
 
         this.state = {
-            search: ''
+            search: '',
+            refreshing: false,
+
+            contacts: []
+        }
+    }
+
+    componentDidMount() {
+        if(this.props.getContacts) {
+             userService.getUser().then(user => {
+                 this.user = user;
+                 this.props.getContacts(user.id).then(result => {
+                     if(result.error) {
+                         const errorText = i18nService.t(`validation_message.${result.message}`);
+                         messageService.showError(errorText);
+                     } else {
+                         this.setState({
+                             contacts: result.source.data
+                         });
+                     }
+                 })
+             });
         }
     }
 
@@ -68,6 +94,20 @@ export default class ContactsView extends Component {
         this.setState({
             search: text
         });
+    };
+
+    onRefresh = async () => {
+        this.setState({refreshing: true});
+        const result = await this.props.getContacts(this.user.id);
+        if(result.error) {
+            const errorText = i18nService.t(`validation_message.${result.message}`);
+            messageService.showError(errorText);
+        } else {
+            this.setState({
+                contacts: result.source.data,
+                refreshing: false
+            });
+        }
     };
 
     render() {
@@ -80,7 +120,7 @@ export default class ContactsView extends Component {
                 <View style={styles.mainView}>
                     <View style={styles.header}>
                         <SearchBar
-                            placeholder="Type Here..."
+                            placeholder={i18nService.t('search')}
                             onChangeText={this.handleSearchChange}
                             value={this.state.search}
                             platform={'default'}
@@ -102,6 +142,21 @@ export default class ContactsView extends Component {
                               containerStyle={styles.personIconContainer}
                         />
                     </View>
+                    <ScrollView refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh}
+                        />}
+                    >
+                        {
+                            this.state.contacts.map(contact => {
+                               return <ListItem key={contact}
+                                                title={contact}
+                                                leftAva>
+                                </ListItem>
+                            })
+                        }
+                    </ScrollView>
                 </View>
             </SafeAreaView>
         );

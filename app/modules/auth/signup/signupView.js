@@ -183,7 +183,7 @@ export default class SignupView extends Component {
                                      loading={isLoading || user}
                                      disabled={!this.state.emailValid || !this.state.nameValid || !this.state.passwordValid || !this.state.confirmPasswordValid}
                                      onPress={async () => {
-                                         const password = this.state.login.password;
+                                         const password = this.state.signup.password;
                                          const result = await signup({
                                              ...this.state.signup,
                                              notificationToken: this.notificationToken
@@ -192,7 +192,8 @@ export default class SignupView extends Component {
                                              const errorText = i18nService.t(`validation_message.${result.message}`);
                                              messageService.showError(errorText);
                                          } else {
-                                             userService.setUser(result.source[0].key, result.source[0].data.email, password);
+                                             console.log(result);
+                                             userService.setUser(result.source.key, result.source.data.email, password);
                                              this.props.navigation.navigate(NavigationRoutes.HOME);
                                          }
                                      }}
