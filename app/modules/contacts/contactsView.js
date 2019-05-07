@@ -82,7 +82,7 @@ export default class ContactsView extends Component {
                          messageService.showError(errorText);
                      } else {
                          this.setState({
-                             contacts: result.source.data
+                             contacts: result.source.contacts
                          });
                      }
                  })
@@ -104,7 +104,7 @@ export default class ContactsView extends Component {
             messageService.showError(errorText);
         } else {
             this.setState({
-                contacts: result.source.data,
+                contacts: result.source.contacts,
                 refreshing: false
             });
         }
@@ -150,9 +150,8 @@ export default class ContactsView extends Component {
                     >
                         {
                             this.state.contacts.map(contact => {
-                               return <ListItem key={contact}
-                                                title={contact}
-                                                leftAva>
+                               return <ListItem key={contact.key}
+                                                title={contact.data.name}>
                                 </ListItem>
                             })
                         }
