@@ -35,12 +35,12 @@ const styles = {
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-        height: 45,
+        height: 60,
         width: '100%'
     },
     searchBarContainer: {
         flex: 1,
-        height: 30,
+        height: 45,
         backgroundColor: 'transparent',
         borderWidth: 0,
         padding: 0,
@@ -51,12 +51,13 @@ const styles = {
         marginBottom: 2
     },
     searchBarInput: {
-        height: 30,
+        height: 45,
         backgroundColor: 'white',
         borderRadius: 50,
+        alignItems: 'center'
     },
     personIconContainer: {marginRight: 10, marginTop: 2},
-    searchIconContainer: { marginTop: 1}
+    searchIconContainer: { marginTop: 1, marginLeft: 4}
 };
 
 export default class ContactsView extends Component {
@@ -129,7 +130,7 @@ export default class ContactsView extends Component {
                             searchIcon={
                                 <Icon type={IconsType.Ionicon}
                                       name={`${this.iconPrefix}-search`}
-                                      size={25}
+                                      size={30}
                                       color={'#86939e'}
                                       containerStyle={styles.searchIconContainer}
                                 />
