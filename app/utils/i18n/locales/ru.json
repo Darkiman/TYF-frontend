@@ -27,6 +27,7 @@
   "confirm_password": "Подтвердите пароль",
   "exit": "Выход",
   "search" : "Поиск",
+  "search_friends": "Поиск друзей",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "email_is_not_valid": "Email is not valid",

@@ -1,3 +1,5 @@
-export default IconsType = {
-    Ionicon: 'ionicon'
-}
+const IconsType = {
+    Ionicon: 'ionicon',
+    Evilicon: 'evilicon'
+};
+export default IconsType;

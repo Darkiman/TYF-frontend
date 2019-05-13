@@ -1,26 +1,23 @@
 import React, {Component} from 'react';
 import {
     View,
-    Button,
-    Text,
-    ActivityIndicator,
     SafeAreaView,
     StyleSheet,
     ScrollView,
     RefreshControl
 } from 'react-native';
-import NavigationRoutes from "../../constants/NavigationRoutes";
-import {sharedStyles} from "../../shared/styles/sharedStyles";
+import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import {ListItem, Icon, SearchBar} from "react-native-elements";
-import IconsType from "../../constants/IconsType";
-import iconsService from "../../utils/iconsService";
-import themeService from "../../utils/themeService";
-import i18nService from "../../utils/i18n/i18nService";
-import userService from "../../utils/userService";
-import messageService from "../../utils/messageService";
+import IconsType from "../../../constants/IconsType";
+import iconsService from "../../../utils/iconsService";
+import themeService from "../../../utils/themeService";
+import i18nService from "../../../utils/i18n/i18nService";
+import messageService from "../../../utils/messageService";
 import _ from 'lodash';
+import NavigationRoutes from "../../../constants/NavigationRoutes";
 import FlashMessage from "react-native-flash-message";
-import ContactItem from "../../components/contacItem/contactItem";
+import userService from "../../../utils/userService";
+import ContactItem from "../../../components/contacItem/contactItem";
 
 const colors = themeService.currentThemeColors;
 
@@ -58,11 +55,11 @@ const styles = {
         backgroundColor: 'white',
         borderRadius: 50,
     },
-    personIconContainer: {marginRight: 10, marginTop: 2},
+    backContainerStyle: {marginTop: 3, width: 35},
     searchIconContainer: {marginTop: 1}
 };
 
-export default class ContactsView extends Component {
+export default class SearchContactsView extends Component {
     constructor(props) {
         super(props);
         this.iconPrefix = iconsService.getIconPrefix();
@@ -72,29 +69,15 @@ export default class ContactsView extends Component {
             refreshing: false,
 
             contacts: [],
-            contactsToShow: []
         };
 
         this.debounceSearch = _.debounce(this.searchContacts, 300);
     }
 
     componentDidMount() {
-        if (this.props.getContacts) {
-            userService.getUser().then(user => {
-                this.user = user;
-                this.props.getContacts(user.id).then(result => {
-                    if (result.error) {
-                        const errorText = i18nService.t(`validation_message.${result.message}`);
-                        messageService.showError(errorText);
-                    } else {
-                        this.setState({
-                            contacts: result.source.contacts,
-                            contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts)
-                        });
-                    }
-                })
-            });
-        }
+        userService.getUser().then(user => {
+            this.user = user;
+        });
     }
 
     handleSearchChange = (text) => {
@@ -104,43 +87,34 @@ export default class ContactsView extends Component {
         this.debounceSearch();
     };
 
-    handleClearClick = () => {
-        this.setState({
-            contactsToShow: this.state.contacts
-        })
-    };
-
-    searchContacts() {
-        const contacts = this.getContactsToShow(this.state.search, this.state.contacts);
-        this.setState({
-            contactsToShow: contacts
-        })
-    }
-
-    getContactsToShow(search, contacts) {
-        const result = [];
-        if (search) {
-            for (let contact of contacts) {
-                if (contact.data.name[0].toLowerCase().includes(search.toLowerCase())) {
-                    result.push(contact);
-                }
-            }
-            return result
-        } else {
-            return contacts;
+    async searchContacts() {
+        if(this.state.search.length < 5) {
+            return;
         }
-    }
-
-    onRefresh = async () => {
-        this.setState({refreshing: true});
-        const result = await this.props.getContacts(this.user.id);
+        const result = await this.props.searchContacts(this.user.id, this.state.search);
         if (result.error) {
             const errorText = i18nService.t(`validation_message.${result.message}`);
             messageService.showError(errorText);
         } else {
             this.setState({
                 contacts: result.source.contacts,
-                contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts),
+            });
+        }
+    }
+
+    onRefresh = async () => {
+        this.setState({refreshing: true});
+        const result = await this.props.searchContacts(this.user.id, this.state.search);
+        if (result.error) {
+            const errorText = i18nService.t(`validation_message.${result.message}`);
+            messageService.showError(errorText);
+            this.setState({
+                contacts: [],
+                refreshing: false
+            });
+        } else {
+            this.setState({
+                contacts: result.source.contacts,
                 refreshing: false
             });
         }
@@ -155,8 +129,16 @@ export default class ContactsView extends Component {
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.mainView}>
                     <View style={styles.header}>
+                        <Icon type={IconsType.Evilicon}
+                              name={`chevron-left`}
+                              size={45}
+                              color={'white'}
+                              containerStyle={styles.backContainerStyle}
+                              onPress={()=> {
+                                  this.props.navigation.navigate(NavigationRoutes.CONTACTS);
+                              }}/>
                         <SearchBar
-                            placeholder={i18nService.t('search')}
+                            placeholder={i18nService.t('search_friends')}
                             onChangeText={this.handleSearchChange}
                             onClear={this.handleClearClick}
                             value={this.state.search}
@@ -172,15 +154,6 @@ export default class ContactsView extends Component {
                                 />
                             }
                         />
-                        <Icon type={IconsType.Ionicon}
-                              name={`${this.iconPrefix}-person-add`}
-                              size={30}
-                              color={'white'}
-                              containerStyle={styles.personIconContainer}
-                              onPress={() => {
-                                  this.props.navigation.navigate(NavigationRoutes.SEARCH_CONTACTS)
-                              }}
-                        />
                     </View>
                     <ScrollView refreshControl={
                         <RefreshControl
@@ -189,13 +162,13 @@ export default class ContactsView extends Component {
                         />}
                     >
                         {
-                            this.state.contactsToShow.map(contact => {
-                                return <ContactItem
-                                    key={contact.key}
-                                    title={contact.data.name[0]}>
+                            this.state.contacts.map(contact => {
+                                return <ContactItem key={contact.key}
+                                                 title={contact.data.name[0]}>
                                 </ContactItem>
                             })
                         }
+                        <FlashMessage position="top" />
                     </ScrollView>
                 </View>
             </SafeAreaView>
