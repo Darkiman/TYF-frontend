@@ -1,23 +1,25 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import ContactsView from './contactsView';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import {
-  getContacts,
-    deleteContact
+    getContacts,
+    deleteContact,
+    addContact
 } from './contactsState';
 
 const mapStateToProps = state => ({
-  data: state.contactsState.data,
-  isLoading: state.contactsState.isLoading,
-  error: state.contactsState.error
+    data: state.contactsState.data,
+    isLoading: state.contactsState.isLoading,
+    error: state.contactsState.error
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getContacts,
-  deleteContact
+    getContacts,
+    deleteContact,
+    addContact
 }, dispatch);
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+    mapStateToProps,
+    mapDispatchToProps,
 )(ContactsView);

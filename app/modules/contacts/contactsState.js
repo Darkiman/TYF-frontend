@@ -17,6 +17,10 @@ export const DELETE_CONTACT_SUCCESS = 'contracts/DELETE_CONTACT_SUCCESS';
 export const DELETE_CONTACT_LOADING = 'contracts/DELETE_CONTACT_LOADING';
 export const DELETE_CONTACT_ERROR = 'contracts/DELETE_CONTACT_ERROR';
 
+export const ADD_CONTACT_SUCCESS = 'contracts/ADD_CONTACT_SUCCESS';
+export const ADD_CONTACT_LOADING = 'contracts/ADD_CONTACT_LOADING';
+export const ADD_CONTACT_ERROR = 'contracts/ADD_CONTACT_ERROR';
+
 export const getContacts = (id) => {
   return dispatch => {
     if(!networkService.isConnected) {
@@ -56,6 +60,45 @@ export const getContacts = (id) => {
   };
 };
 
+export const addContact = (id, idToAdd ) => {
+  return dispatch => {
+    if(!networkService.isConnected) {
+      dispatch({
+        type: ADD_CONTACT_ERROR,
+        payload: { data: 'internet_connection_not_available' }
+      });
+      return;
+    }
+    dispatch({
+      type: ADD_CONTACT_LOADING,
+    });
+    return ax.post(`contacts/?id=${id}&idToAdd=${idToAdd}`)
+        .then(({data}) => {
+          const result = {
+            source: data,
+            error: false
+          };
+          dispatch({
+            type: ADD_CONTACT_SUCCESS,
+            payload: data
+          });
+          return result;
+        }).catch(error => {
+          const text = networkService.getErrorText(error);
+          const result =  {
+            source: error,
+            error: true,
+            message: text
+          };
+          dispatch({
+            type: ADD_CONTACT_ERROR,
+            payload: result
+          });
+          return result;
+        });
+  };
+};
+
 
 export const deleteContact = (id, idToDelete ) => {
   return dispatch => {
@@ -69,7 +112,7 @@ export const deleteContact = (id, idToDelete ) => {
     dispatch({
       type: DELETE_CONTACT_LOADING,
     });
-    return ax.post(`contacts/?id=${id}&idToDelete=${idToDelete}`)
+    return ax.delete(`contacts/?id=${id}&idToDelete=${idToDelete}`)
         .then(({data}) => {
           const result = {
             source: data,
@@ -129,6 +172,24 @@ const contactsState = (state: Object = initialState, action: Object) => {
         isLoading: true
       };
     case DELETE_CONTACT_ERROR:
+      return {
+        isLoading: false,
+        error: true,
+        data: action.payload
+      };
+    case ADD_CONTACT_SUCCESS:
+      return {
+        isLoading: false,
+        error: false,
+        data: action.payload
+      };
+    case ADD_CONTACT_LOADING:
+      return {
+        ...state,
+        error: false,
+        isLoading: true
+      };
+    case ADD_CONTACT_ERROR:
       return {
         isLoading: false,
         error: true,

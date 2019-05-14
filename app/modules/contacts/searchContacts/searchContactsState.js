@@ -1,5 +1,13 @@
 import networkService from "../../../utils/networkService";
 import ax from "../../../utils/axios";
+import {
+  ADD_CONTACT_ERROR,
+  ADD_CONTACT_LOADING,
+  ADD_CONTACT_SUCCESS,
+  DELETE_CONTACT_ERROR,
+  DELETE_CONTACT_LOADING,
+  DELETE_CONTACT_SUCCESS
+} from "../contactsState";
 
 const initialState = {
   data: {},
@@ -67,6 +75,42 @@ const searchContactsState = (state: Object = initialState, action: Object) => {
         isLoading: true
       };
     case SEARCH_CONTACTS_ERROR:
+      return {
+        isLoading: false,
+        error: true,
+        data: action.payload
+      };
+    case DELETE_CONTACT_SUCCESS:
+      return {
+        isLoading: false,
+        error: false,
+        data: action.payload
+      };
+    case DELETE_CONTACT_LOADING:
+      return {
+        ...state,
+        error: false,
+        isLoading: true
+      };
+    case DELETE_CONTACT_ERROR:
+      return {
+        isLoading: false,
+        error: true,
+        data: action.payload
+      };
+    case ADD_CONTACT_SUCCESS:
+      return {
+        isLoading: false,
+        error: false,
+        data: action.payload
+      };
+    case ADD_CONTACT_LOADING:
+      return {
+        ...state,
+        error: false,
+        isLoading: true
+      };
+    case ADD_CONTACT_ERROR:
       return {
         isLoading: false,
         error: true,

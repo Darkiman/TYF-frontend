@@ -1,36 +1,42 @@
-import {AsyncStorage} from "react-native";
 import asyncStorageService from "./asyncStorageService";
 import ax from '../utils/axios';
 
+const USER_KEY = 'user';
+const MAIL_KEY = 'email';
+const PASSWORD_KEY = 'password';
+const TOKEN_KEY = 'token';
+
 const userService = {
-    setUser: function(id, email, password, token) {
+    setUser: function(id, email, password, token, contacts) {
         ax.defaults.headers.common['Authorization'] = `Token ${token}`;
         return Promise.all([
-            asyncStorageService.setItem('user', id),
-            asyncStorageService.setItem('email', email),
-            asyncStorageService.setItem('password', password),
-            asyncStorageService.setItem('password', token)
+            asyncStorageService.setItem(USER_KEY, id),
+            asyncStorageService.setItem(MAIL_KEY, email),
+            asyncStorageService.setItem(PASSWORD_KEY, password),
+            asyncStorageService.setItem(TOKEN_KEY, token),
         ]);
     },
     getUser: async function() {
         const result = await Promise.all([
-            asyncStorageService.getItem('user'),
-            asyncStorageService.getItem('email'),
-            asyncStorageService.getItem('password'),
-            asyncStorageService.getItem('token')
+            asyncStorageService.getItem(USER_KEY),
+            asyncStorageService.getItem(MAIL_KEY),
+            asyncStorageService.getItem(PASSWORD_KEY),
+            asyncStorageService.getItem(TOKEN_KEY),
         ]);
         return {
             id: result[0],
             email: result[1],
-            password: result[2]
+            password: result[2],
+            token: result[3]
         }
     },
     deleteCurrentUser: function() {
        ax.defaults.headers.common['Authorization'] = '';
        return Promise.all([
-           asyncStorageService.removeItem('user'),
-           asyncStorageService.removeItem('email'),
-           asyncStorageService.removeItem('password')
+           asyncStorageService.removeItem(USER_KEY),
+           asyncStorageService.removeItem(MAIL_KEY),
+           asyncStorageService.removeItem(PASSWORD_KEY),
+           asyncStorageService.removeItem(TOKEN_KEY),
        ])
             .then(() => {
                 console.log(`user deleted`)

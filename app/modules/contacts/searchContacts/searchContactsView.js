@@ -104,6 +104,10 @@ export default class SearchContactsView extends Component {
 
     onRefresh = async () => {
         this.setState({refreshing: true});
+        if (this.state.search.length < 5) {
+            this.setState({refreshing: false});
+            return;
+        }
         const result = await this.props.searchContacts(this.user.id, this.state.search);
         if (result.error) {
             const errorText = i18nService.t(`validation_message.${result.message}`);
@@ -165,7 +169,37 @@ export default class SearchContactsView extends Component {
                             this.state.contacts.map(contact => {
                                 return <ContactItem key={contact.key}
                                                     title={contact.data.name[0]}
-                                                    showAdd={true}>
+                                                    showDelete={contact.data.added && !contact.data.loading}
+                                                    showAdd={!contact.data.added && !contact.data.loading}
+                                                    loading={contact.data.loading}
+                                                    onDelete={async () => {
+                                                        contact.data.loading = true;
+                                                        this.forceUpdate();
+                                                        const result = await this.props.deleteContact(this.user.id, contact.key);
+                                                        if (result.error) {
+                                                            contact.data.loading = false;
+                                                            const errorText = i18nService.t(`validation_message.${result.message}`);
+                                                            messageService.showError(errorText);
+                                                        } else {
+                                                            contact.data.loading = false;
+                                                            contact.data.added = true;
+                                                        }
+                                                        this.forceUpdate();
+                                                    }}
+                                                    onAdd={async () => {
+                                                        contact.data.loading = true;
+                                                        this.forceUpdate();
+                                                        const result = await this.props.addContact(this.user.id, contact.key);
+                                                        if (result.error) {
+                                                            contact.data.loading = false;
+                                                            const errorText = i18nService.t(`validation_message.${result.message}`);
+                                                            messageService.showError(errorText);
+                                                        } else {
+                                                            contact.data.loading = false;
+                                                            contact.data.added = true;
+                                                        }
+                                                        this.forceUpdate();
+                                                    }}>
                                 </ContactItem>
                             })
                         }

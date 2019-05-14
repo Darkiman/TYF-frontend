@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     View,
     SafeAreaView,
     AsyncStorage
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
-import { Icon, Text } from 'react-native-elements';
+import {Icon, Text} from 'react-native-elements';
 import i18nService from "../../../utils/i18n/i18nService";
 import TextInput from "../../../components/textInput/textInput";
 import IconsType from "../../../constants/IconsType";
@@ -92,18 +92,18 @@ export default class LoginView extends Component {
                                      onPress={async () => {
                                          const password = this.state.login.password;
                                          const result = await login(this.state.login);
-                                         if(result.error) {
+                                         if (result.error) {
                                              const errorText = i18nService.t(`validation_message.${result.message}`);
                                              messageService.showError(errorText);
                                          } else {
-                                             userService.setUser(result.source[0].key, result.source[0].data.email, password, result.source[0].data.token);
+                                             userService.setUser(result.source[0].key, result.source[0].data.email, password, result.source[0].data.token, result.source[0].data.contacts);
                                              this.props.navigation.navigate(NavigationRoutes.HOME);
                                          }
                                      }}
                         />
                     </View>
 
-                    <FlashMessage position="top" />
+                    <FlashMessage position="top"/>
                 </View>
             </SafeAreaView>
         );

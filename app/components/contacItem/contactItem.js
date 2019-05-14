@@ -1,10 +1,13 @@
 import React, {Component} from "react";
 import {Icon, ListItem} from 'react-native-elements';
-import {View} from 'react-native';
+import {ActivityIndicator, View} from 'react-native';
 import iconsService from "../../utils/iconsService";
 import IconsType from "../../constants/IconsType";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import NavigationRoutes from "../../constants/NavigationRoutes";
+import themeService from "../../utils/themeService";
+
+const colors = themeService.currentThemeColors;
 
 export default class ContactItem extends Component {
     constructor(props) {
@@ -18,6 +21,7 @@ export default class ContactItem extends Component {
             title,
             showAdd,
             showDelete,
+            loading,
             onAdd,
             onDelete,
             data
@@ -34,6 +38,7 @@ export default class ContactItem extends Component {
                                   showAdd ? <Icon type={IconsType.Ionicon}
                                                   name={`${this.iconPrefix}-add`}
                                                   size={30}
+                                                  color={colors.color}
                                                   onPress={() => {
                                                       if(onAdd) {
                                                           onAdd(data);
@@ -41,10 +46,12 @@ export default class ContactItem extends Component {
                                                   }}
                                   /> : null
                               }
+                              { loading ? <ActivityIndicator /> : null}
                               {
                                  showDelete ? <Icon type={IconsType.Ionicon}
                                         name={`${this.iconPrefix}-trash`}
                                         size={30}
+                                        color={colors.color}
                                         onPress={() => {
                                             if(onDelete) {
                                                 onDelete(data);

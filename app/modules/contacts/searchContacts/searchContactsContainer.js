@@ -4,6 +4,10 @@ import { bindActionCreators } from 'redux';
 import {
   searchContacts
 } from './searchContactsState';
+import {
+  deleteContact,
+  addContact
+} from './../contactsState';
 
 const mapStateToProps = state => ({
   data: state.contactsState.data,
@@ -12,7 +16,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  searchContacts
+  searchContacts,
+  deleteContact,
+  addContact
 }, dispatch);
 
 export default connect(

@@ -188,25 +188,36 @@ export default class ContactsView extends Component {
                                 return <ContactItem key={contact.key}
                                                     title={contact.data.name[0]}
                                                     data={contact}
-                                                    showDelete={!contact.data.deleted}
-                                                    showAdd={contact.data.deleted}
+                                                    showDelete={!contact.data.deleted && !contact.data.loading}
+                                                    showAdd={contact.data.deleted && !contact.data.loading}
+                                                    loading={contact.data.loading}
                                                     onDelete={async () => {
+                                                        contact.data.loading = true;
+                                                        this.forceUpdate();
                                                         const result = await this.props.deleteContact(this.user.id, contact.key);
                                                         if (result.error) {
+                                                            contact.data.loading = false;
                                                             const errorText = i18nService.t(`validation_message.${result.message}`);
                                                             messageService.showError(errorText);
                                                         } else {
+                                                            contact.data.loading = false;
                                                             contact.data.deleted = true;
                                                         }
+                                                        this.forceUpdate();
                                                     }}
                                                     onAdd={async () => {
-                                                        const result = await this.props.deleteContact(this.user.id, contact.key);
+                                                        contact.data.loading = true;
+                                                        this.forceUpdate();
+                                                        const result = await this.props.addContact(this.user.id, contact.key);
                                                         if (result.error) {
+                                                            contact.data.loading = false;
                                                             const errorText = i18nService.t(`validation_message.${result.message}`);
                                                             messageService.showError(errorText);
                                                         } else {
-                                                            contact.data.false = true;
+                                                            contact.data.loading = false;
+                                                            contact.data.deleted = false;
                                                         }
+                                                        this.forceUpdate();
                                                     }}>
                                 </ContactItem>
                             })

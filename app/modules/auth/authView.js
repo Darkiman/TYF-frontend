@@ -29,6 +29,9 @@ export default class AuthView extends Component {
             this.forceUpdate();
         }
         const user = await userService.getUser();
+        if(user && user.token) {
+            ax.defaults.headers.common['Authorization'] = `Token ${user.token}`;
+        }
         if(user) {
             try {
                 const response = await ax.post(`${apiConfig.url}auth/login`, {email : user.email, password: user.password});
