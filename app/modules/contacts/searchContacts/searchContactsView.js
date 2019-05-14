@@ -7,7 +7,7 @@ import {
     RefreshControl
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
-import {ListItem, Icon, SearchBar} from "react-native-elements";
+import {Icon, SearchBar} from "react-native-elements";
 import IconsType from "../../../constants/IconsType";
 import iconsService from "../../../utils/iconsService";
 import themeService from "../../../utils/themeService";
@@ -32,7 +32,7 @@ const styles = {
     },
     header: {
         backgroundColor: '#2eb0fb',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
         height: 45,
@@ -88,7 +88,7 @@ export default class SearchContactsView extends Component {
     };
 
     async searchContacts() {
-        if(this.state.search.length < 5) {
+        if (this.state.search.length < 5) {
             return;
         }
         const result = await this.props.searchContacts(this.user.id, this.state.search);
@@ -134,7 +134,7 @@ export default class SearchContactsView extends Component {
                               size={45}
                               color={'white'}
                               containerStyle={styles.backContainerStyle}
-                              onPress={()=> {
+                              onPress={() => {
                                   this.props.navigation.navigate(NavigationRoutes.CONTACTS);
                               }}/>
                         <SearchBar
@@ -164,11 +164,12 @@ export default class SearchContactsView extends Component {
                         {
                             this.state.contacts.map(contact => {
                                 return <ContactItem key={contact.key}
-                                                 title={contact.data.name[0]}>
+                                                    title={contact.data.name[0]}
+                                                    showAdd={true}>
                                 </ContactItem>
                             })
                         }
-                        <FlashMessage position="top" />
+                        <FlashMessage position="top"/>
                     </ScrollView>
                 </View>
             </SafeAreaView>

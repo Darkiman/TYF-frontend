@@ -96,7 +96,7 @@ export default class LoginView extends Component {
                                              const errorText = i18nService.t(`validation_message.${result.message}`);
                                              messageService.showError(errorText);
                                          } else {
-                                             userService.setUser(result.source[0].key, result.source[0].data.email, password);
+                                             userService.setUser(result.source[0].key, result.source[0].data.email, password, result.source[0].data.token);
                                              this.props.navigation.navigate(NavigationRoutes.HOME);
                                          }
                                      }}

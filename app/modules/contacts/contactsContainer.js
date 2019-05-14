@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import ContactsView from './contactsView';
 import { bindActionCreators } from 'redux';
 import {
-  getContacts
+  getContacts,
+    deleteContact
 } from './contactsState';
 
 const mapStateToProps = state => ({
@@ -12,7 +13,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  getContacts
+  getContacts,
+  deleteContact
 }, dispatch);
 
 export default connect(
