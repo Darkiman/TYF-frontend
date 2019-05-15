@@ -1,5 +1,6 @@
 import Themes from "../constants/Themes";
-import colors from "../theme/blue/colors";
+import blueColors from "../theme/blue/colors";
+import redColors from "../theme/red/colors";
 import asyncStorageService from "./asyncStorageService";
 
 const themeKey = 'theme';
@@ -8,7 +9,7 @@ class ThemeServiceSingleton {
 
     constructor() {
         this.currentTheme = Themes.BLUE;
-        this.currentThemeColors = colors;
+        this.currentThemeColors = blueColors;
         this.initialized = false;
     }
 
@@ -16,12 +17,12 @@ class ThemeServiceSingleton {
         const theme = await asyncStorageService.getItem(themeKey);
         switch (theme) {
             case Themes.BLUE:
-                this.currentTheme = Themes.BLUE;
-                this.currentThemeColors = colors;
+                this.currentTheme = Themes.RED;
+                this.currentThemeColors = blueColors;
                 break;
             default: {
-                this.currentTheme = Themes.BLUE;
-                this.currentThemeColors = colors;
+                this.currentTheme = Themes.RED;
+                this.currentThemeColors = blueColors;
                 return state;
             }
         }

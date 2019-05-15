@@ -7,6 +7,9 @@ import mainNavigationScreens from "../appNavigation/mainNavigationScreens";
 import i18nService from '../../utils/i18n/i18nService';
 import IconsType from "../../constants/IconsType";
 import iconsService from "../../utils/iconsService";
+import themeService from "../../utils/themeService";
+
+const colors = themeService.currentThemeColors;
 
 const bottomTabNavigator = createBottomTabNavigator(
     mainNavigationScreens,
@@ -14,7 +17,6 @@ const bottomTabNavigator = createBottomTabNavigator(
         defaultNavigationOptions: ({ navigation }) => ({
             tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;
-                // const iconType = Platform.OS === 'ios' ? 'ionicon': 'material-community';
                 const iconPrefix = iconsService.getIconPrefix();
                 let iconName;
                 switch(routeName) {
@@ -31,7 +33,7 @@ const bottomTabNavigator = createBottomTabNavigator(
                         iconName = `${iconPrefix}-map`;
                         break;
                 }
-                return <Icon type={IconsType.Ionicon} name={iconName} size={25} color={tintColor} />;
+                return <Icon type={IconsType.Ionicon} name={iconName} size={25} color={ focused ? colors.color : colors.textLightColor} />;
             },
             tabBarLabel: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;
@@ -50,7 +52,7 @@ const bottomTabNavigator = createBottomTabNavigator(
                         text = i18nService.t('navigation.maps');
                         break;
                 }
-                return <Text style={{fontSize: 11, color: focused ? tintColor : '#555',  textAlign: 'center'}}>{text}</Text>;
+                return <Text style={{fontSize: 11, color: focused ? colors.color : colors.textColor,  textAlign: 'center'}}>{text}</Text>;
             }
         }),
         tabBarOptions: {

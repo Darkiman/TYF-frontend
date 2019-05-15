@@ -31,7 +31,7 @@ const styles = {
         flex: 1
     },
     header: {
-        backgroundColor: '#2eb0fb',
+        backgroundColor: colors.backgroundColor,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
