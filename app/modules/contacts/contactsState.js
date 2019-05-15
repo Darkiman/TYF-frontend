@@ -5,6 +5,7 @@ const initialState = {
   data: {},
   isLoading: false,
   error: false,
+  contacts: []
 };
 
 
@@ -145,55 +146,66 @@ const contactsState = (state: Object = initialState, action: Object) => {
       return {
         isLoading: false,
         error: false,
-        data: action.payload
+        contacts: action.payload.contacts
       };
     case GET_CONTACTS_LOADING:
       return {
         ...state,
         error: false,
-        isLoading: true
+        isLoading: true,
+        contacts: state.contacts
       };
     case GET_CONTACTS_ERROR:
       return {
         isLoading: false,
         error: true,
-        data: action.payload
+        contacts: action.payload
       };
     case DELETE_CONTACT_SUCCESS:
+      const item = state.contacts.find(item => item.key === action.payload.contact);
+      const index = state.contacts.indexOf(item);
+      state.contacts.splice(index, 1);
       return {
         isLoading: false,
         error: false,
-        data: action.payload
+        data: action.payload,
+        contacts: state.contacts
       };
     case DELETE_CONTACT_LOADING:
       return {
         ...state,
         error: false,
-        isLoading: true
+        isLoading: true,
+        contacts: state.contacts
       };
     case DELETE_CONTACT_ERROR:
       return {
         isLoading: false,
         error: true,
-        data: action.payload
+        data: action.payload,
+        contacts: state.contacts
       };
     case ADD_CONTACT_SUCCESS:
+      state.contacts.push(action.payload.contact);
       return {
         isLoading: false,
         error: false,
-        data: action.payload
+        data: action.payload,
+        contacts: state.contacts
       };
     case ADD_CONTACT_LOADING:
       return {
         ...state,
         error: false,
-        isLoading: true
+        isLoading: true,
+        contacts: state.contacts
       };
     case ADD_CONTACT_ERROR:
       return {
         isLoading: false,
         error: true,
-        data: action.payload
+        data: action.payload,
+        contacts: state.contacts
       };
     default: {
       return state;

@@ -16,7 +16,7 @@ import userService from "../../utils/userService";
 import messageService from "../../utils/messageService";
 import _ from 'lodash';
 import ContactItem from "../../components/contacItem/contactItem";
-
+import { NavigationEvents } from 'react-navigation';
 const colors = themeService.currentThemeColors;
 
 const styles = {
@@ -84,7 +84,7 @@ export default class ContactsView extends Component {
                     } else {
                         this.setState({
                             contacts: result.source.contacts,
-                            contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts)
+                            contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts).slice()
                         });
                     }
                 })
@@ -101,14 +101,15 @@ export default class ContactsView extends Component {
 
     handleClearClick = () => {
         this.setState({
-            contactsToShow: this.state.contacts
+            contactsToShow: this.state.contacts,
+            search: ''
         })
     };
 
     searchContacts() {
         const contacts = this.getContactsToShow(this.state.search, this.state.contacts);
         this.setState({
-            contactsToShow: contacts
+            contactsToShow: contacts.slice()
         })
     }
 
@@ -134,8 +135,8 @@ export default class ContactsView extends Component {
             messageService.showError(errorText);
         } else {
             this.setState({
-                contacts: result.source.contacts,
-                contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts),
+                contacts: result.source.contacts.slice(),
+                contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts).slice(),
                 refreshing: false
             });
         }
@@ -144,11 +145,20 @@ export default class ContactsView extends Component {
     render() {
         const {
             isLoading,
-            error
+            error,
+            contacts
         } = this.props;
         return (
             <SafeAreaView style={styles.safeArea}>
                 <View style={styles.mainView}>
+                    <NavigationEvents
+                        onWillFocus={payload => {
+                            this.setState({
+                                contacts: this.props.contacts,
+                                contactsToShow: this.getContactsToShow(this.state.search, this.props.contacts)
+                            })
+                        }}
+                    />
                     <View style={styles.header}>
                         <SearchBar
                             placeholder={i18nService.t('search')}
@@ -173,7 +183,13 @@ export default class ContactsView extends Component {
                               color={'white'}
                               containerStyle={styles.personIconContainer}
                               onPress={() => {
-                                  this.props.navigation.navigate(NavigationRoutes.SEARCH_CONTACTS)
+                                  this.props.navigation.navigate(NavigationRoutes.SEARCH_CONTACTS);
+                                  setTimeout(() => {
+                                      this.setState({
+                                          contactsToShow: this.state.contacts.slice(),
+                                          search: ''
+                                      });
+                                  }, 500)
                               }}
                         />
                     </View>
@@ -185,11 +201,12 @@ export default class ContactsView extends Component {
                     >
                         {
                             this.state.contactsToShow.map(contact => {
+                                const isInContacts = contacts && contacts.find(item => item.key === contact.key);
                                 return <ContactItem key={contact.key}
                                                     title={contact.data.name[0]}
                                                     data={contact}
-                                                    showDelete={!contact.data.deleted && !contact.data.loading}
-                                                    showAdd={contact.data.deleted && !contact.data.loading}
+                                                    showDelete={isInContacts && !contact.data.loading}
+                                                    showAdd={!isInContacts && !contact.data.loading}
                                                     loading={contact.data.loading}
                                                     onDelete={async () => {
                                                         contact.data.loading = true;
@@ -201,7 +218,6 @@ export default class ContactsView extends Component {
                                                             messageService.showError(errorText);
                                                         } else {
                                                             contact.data.loading = false;
-                                                            contact.data.deleted = true;
                                                         }
                                                         this.forceUpdate();
                                                     }}
@@ -215,7 +231,6 @@ export default class ContactsView extends Component {
                                                             messageService.showError(errorText);
                                                         } else {
                                                             contact.data.loading = false;
-                                                            contact.data.deleted = false;
                                                         }
                                                         this.forceUpdate();
                                                     }}>

@@ -12,7 +12,8 @@ import {
 const mapStateToProps = state => ({
   data: state.contactsState.data,
   isLoading: state.contactsState.isLoading,
-  error: state.contactsState.error
+  error: state.contactsState.error,
+  contacts: state.contactsState.contacts
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -68,7 +68,7 @@ export default class SearchContactsView extends Component {
             search: '',
             refreshing: false,
 
-            contacts: [],
+            searchResult: [],
         };
 
         this.debounceSearch = _.debounce(this.searchContacts, 300);
@@ -97,7 +97,7 @@ export default class SearchContactsView extends Component {
             messageService.showError(errorText);
         } else {
             this.setState({
-                contacts: result.source.contacts,
+                searchResult: result.source.contacts,
             });
         }
     }
@@ -113,12 +113,12 @@ export default class SearchContactsView extends Component {
             const errorText = i18nService.t(`validation_message.${result.message}`);
             messageService.showError(errorText);
             this.setState({
-                contacts: [],
+                searchResult: [],
                 refreshing: false
             });
         } else {
             this.setState({
-                contacts: result.source.contacts,
+                searchResult: result.source.contacts,
                 refreshing: false
             });
         }
@@ -127,7 +127,8 @@ export default class SearchContactsView extends Component {
     render() {
         const {
             isLoading,
-            error
+            error,
+            contacts
         } = this.props;
         return (
             <SafeAreaView style={styles.safeArea}>
@@ -166,11 +167,12 @@ export default class SearchContactsView extends Component {
                         />}
                     >
                         {
-                            this.state.contacts.map(contact => {
+                            this.state.searchResult.map(contact => {
+                                const isInContacts = contacts && contacts.find(item => item.key === contact.key);
                                 return <ContactItem key={contact.key}
                                                     title={contact.data.name[0]}
-                                                    showDelete={contact.data.added && !contact.data.loading}
-                                                    showAdd={!contact.data.added && !contact.data.loading}
+                                                    showDelete={isInContacts && !contact.data.loading}
+                                                    showAdd={!isInContacts && !contact.data.loading}
                                                     loading={contact.data.loading}
                                                     onDelete={async () => {
                                                         contact.data.loading = true;
@@ -182,7 +184,6 @@ export default class SearchContactsView extends Component {
                                                             messageService.showError(errorText);
                                                         } else {
                                                             contact.data.loading = false;
-                                                            contact.data.added = true;
                                                         }
                                                         this.forceUpdate();
                                                     }}
@@ -196,7 +197,6 @@ export default class SearchContactsView extends Component {
                                                             messageService.showError(errorText);
                                                         } else {
                                                             contact.data.loading = false;
-                                                            contact.data.added = true;
                                                         }
                                                         this.forceUpdate();
                                                     }}>
