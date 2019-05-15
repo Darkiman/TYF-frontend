@@ -101,7 +101,7 @@ export default class ContactsView extends Component {
 
     handleClearClick = () => {
         this.setState({
-            contactsToShow: this.state.contacts,
+            contactsToShow: this.state.contacts.slice(),
             search: ''
         })
     };
@@ -155,7 +155,7 @@ export default class ContactsView extends Component {
                         onWillFocus={payload => {
                             this.setState({
                                 contacts: this.props.contacts,
-                                contactsToShow: this.getContactsToShow(this.state.search, this.props.contacts)
+                                contactsToShow: this.getContactsToShow(this.state.search, this.props.contacts).slice()
                             })
                         }}
                     />

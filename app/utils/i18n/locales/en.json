@@ -28,6 +28,8 @@
   "exit": "Exit",
   "search" : "Search",
   "search_friends": "Search friends",
+  "start_tracking": "Start tracking",
+  "stop_tracking": "Stop tracking",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",
