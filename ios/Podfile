@@ -10,4 +10,8 @@ target 'temp' do
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
   
+  pod 'RNBackgroundGeolocation', :path => '../node_modules/react-native-background-geolocation'
+
+  pod 'RNBackgroundFetch', :path => '../node_modules/react-native-background-fetch'
+
 end
