@@ -84,7 +84,7 @@ export default class LoginView extends Component {
                                    onChangeText={this.handlePasswordChange}
                         />
                     </View>
-                    <View style={{width: '90%'}}>
+                    <View style={{width: '90%', alignItems: 'center'}}>
                         <LargeButton title={i18nService.t('login')}
                                      buttonStyle={{marginTop: 20}}
                                      loading={isLoading || user}
@@ -94,16 +94,24 @@ export default class LoginView extends Component {
                                          const result = await login(this.state.login);
                                          if (result.error) {
                                              const errorText = i18nService.t(`validation_message.${result.message}`);
-                                             messageService.showError(errorText);
+                                             messageService.showError(this.refs.flashMessage, errorText);
                                          } else {
                                              userService.setUser(result.source[0].key, result.source[0].data.email, password, result.source[0].data.token, result.source[0].data.contacts);
                                              this.props.navigation.navigate(NavigationRoutes.HOME);
                                          }
                                      }}
                         />
+                        <LargeButton type={'clear'}
+                                     buttonStyle={{width: 200, backgroundColor: 'white', marginTop: 40}}
+                                     buttonText={{fontSize: 14}}
+                                     title={i18nService.t('forgot_password')}
+                                     onPress={() => {
+                                         this.props.navigation.navigate(NavigationRoutes.AUTH_RECOVER)
+                                     }}
+                        />
                     </View>
 
-                    <FlashMessage position="top"/>
+                    <FlashMessage position="top" ref={'flashMessage'}/>
                 </View>
             </SafeAreaView>
         );

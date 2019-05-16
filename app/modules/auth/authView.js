@@ -24,18 +24,21 @@ export default class AuthView extends Component {
     }
 
     async initialize() {
-        if(!i18nService.initialized) {
+        if (!i18nService.initialized) {
             await i18nService.initialize();
             this.forceUpdate();
         }
         const user = await userService.getUser();
-        if(user && user.token) {
+        if (user && user.token) {
             ax.defaults.headers.common['Authorization'] = `Token ${user.token}`;
         }
-        if(user) {
+        if (user) {
             try {
-                const response = await ax.post(`${apiConfig.url}auth/login`, {email : user.email, password: user.password});
-                if(response && response.data[0].key) {
+                const response = await ax.post(`${apiConfig.url}auth/login`, {
+                    email: user.email,
+                    password: user.password
+                });
+                if (response && response.data[0].key) {
                     this.props.navigation.navigate(NavigationRoutes.HOME);
                 } else {
                     SplashScreen.hide()
@@ -52,7 +55,7 @@ export default class AuthView extends Component {
             error,
             data,
         } = this.props;
-        if(!i18nService.initialized) {
+        if (!i18nService.initialized) {
             return null;
         }
         return (
@@ -87,7 +90,7 @@ export default class AuthView extends Component {
                                          }
                                      })
                                  }}
-                                 />
+                    />
                 </View>
             </SafeAreaView>
         );

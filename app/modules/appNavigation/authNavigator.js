@@ -4,6 +4,7 @@ import loginContainer from "../auth/login/loginContainer";
 import signupContainer from "../auth/signup/signupContainer";
 import languageContainer from "../settings/language/languageContainer";
 import i18nService from "../../utils/i18n/i18nService";
+import recoverContainer from "../auth/recover/recoverContainer";
 
 const AuthStack = createStackNavigator({
     Auth:  {
@@ -21,6 +22,12 @@ const AuthStack = createStackNavigator({
     },
     Signup: {
         screen: signupContainer,
+        navigationOptions: () => ({
+            headerBackTitle: i18nService.t('navigation.back'),
+        })
+    },
+    Recover: {
+        screen: recoverContainer,
         navigationOptions: () => ({
             headerBackTitle: i18nService.t('navigation.back'),
         })

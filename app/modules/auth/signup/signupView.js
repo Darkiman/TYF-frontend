@@ -190,7 +190,7 @@ export default class SignupView extends Component {
                                          });
                                          if(result.error) {
                                              const errorText = i18nService.t(`validation_message.${result.message}`);
-                                             messageService.showError(errorText);
+                                             messageService.showError(this.refs.flashMessage, errorText);
                                          } else {
                                              console.log(result);
                                              userService.setUser(result.source.key, result.source.data.email, password);
@@ -227,7 +227,7 @@ export default class SignupView extends Component {
                         <Text style={{fontSize: 16}}>{i18nService.t('validation_message.password_requirements', {symbols: 8})}</Text>
                     </ModalOverlay>
 
-                    <FlashMessage position="top" />
+                    <FlashMessage position="top" ref={'flashMessage'}/>
                 </View>
             </SafeAreaView>
         );

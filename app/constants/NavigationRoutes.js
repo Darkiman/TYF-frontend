@@ -2,6 +2,7 @@ export default NavigationRoutes = {
     AUTH: 'Auth',
     AUTH_LOGIN: 'Login',
     AUTH_SIGNUP: 'Signup',
+    AUTH_RECOVER: 'Recover',
     //
     HOME: 'Home',
     //
