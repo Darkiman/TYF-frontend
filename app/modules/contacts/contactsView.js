@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-import {Icon, SearchBar} from "react-native-elements";
+import {Icon } from "react-native-elements";
 import IconsType from "../../constants/IconsType";
 import iconsService from "../../utils/iconsService";
 import themeService from "../../utils/themeService";
@@ -17,6 +17,7 @@ import messageService from "../../utils/messageService";
 import _ from 'lodash';
 import ContactItem from "../../components/contacItem/contactItem";
 import { NavigationEvents } from 'react-navigation';
+import CustomSearchBar from "../../components/searchBar/searchBar";
 const colors = themeService.currentThemeColors;
 
 const styles = {
@@ -33,28 +34,10 @@ const styles = {
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-        height: 45,
+        height: 55,
         width: '100%'
     },
-    searchBarContainer: {
-        flex: 1,
-        height: 30,
-        backgroundColor: 'transparent',
-        borderWidth: 0,
-        padding: 0,
-        borderBottomColor: 'transparent',
-        borderTopColor: 'transparent',
-        marginLeft: 5,
-        marginRight: 10,
-        marginBottom: 2
-    },
-    searchBarInput: {
-        height: 30,
-        backgroundColor: 'white',
-        borderRadius: 50,
-    },
     personIconContainer: {marginRight: 10, marginTop: 2},
-    searchIconContainer: {marginTop: 1}
 };
 
 export default class ContactsView extends Component {
@@ -160,22 +143,11 @@ export default class ContactsView extends Component {
                         }}
                     />
                     <View style={styles.header}>
-                        <SearchBar
+                        <CustomSearchBar
                             placeholder={i18nService.t('search')}
                             onChangeText={this.handleSearchChange}
                             onClear={this.handleClearClick}
                             value={this.state.search}
-                            platform={'default'}
-                            containerStyle={styles.searchBarContainer}
-                            inputContainerStyle={styles.searchBarInput}
-                            searchIcon={
-                                <Icon type={IconsType.Ionicon}
-                                      name={`${this.iconPrefix}-search`}
-                                      size={25}
-                                      color={'#86939e'}
-                                      containerStyle={styles.searchIconContainer}
-                                />
-                            }
                         />
                         <Icon type={IconsType.Ionicon}
                               name={`${this.iconPrefix}-person-add`}

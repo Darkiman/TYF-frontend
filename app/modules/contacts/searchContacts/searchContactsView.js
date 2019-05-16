@@ -18,6 +18,7 @@ import NavigationRoutes from "../../../constants/NavigationRoutes";
 import FlashMessage from "react-native-flash-message";
 import userService from "../../../utils/userService";
 import ContactItem from "../../../components/contacItem/contactItem";
+import CustomSearchBar from "../../../components/searchBar/searchBar";
 
 const colors = themeService.currentThemeColors;
 
@@ -35,28 +36,10 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
-        height: 45,
+        height: 55,
         width: '100%'
     },
-    searchBarContainer: {
-        flex: 1,
-        height: 30,
-        backgroundColor: 'transparent',
-        borderWidth: 0,
-        padding: 0,
-        borderBottomColor: 'transparent',
-        borderTopColor: 'transparent',
-        marginLeft: 5,
-        marginRight: 10,
-        marginBottom: 2
-    },
-    searchBarInput: {
-        height: 30,
-        backgroundColor: 'white',
-        borderRadius: 50,
-    },
     backContainerStyle: {marginTop: 3, width: 35},
-    searchIconContainer: {marginTop: 1}
 };
 
 export default class SearchContactsView extends Component {
@@ -142,22 +125,11 @@ export default class SearchContactsView extends Component {
                               onPress={() => {
                                   this.props.navigation.navigate(NavigationRoutes.CONTACTS);
                               }}/>
-                        <SearchBar
+                        <CustomSearchBar
                             placeholder={i18nService.t('search_friends')}
                             onChangeText={this.handleSearchChange}
                             onClear={this.handleClearClick}
                             value={this.state.search}
-                            platform={'default'}
-                            containerStyle={styles.searchBarContainer}
-                            inputContainerStyle={styles.searchBarInput}
-                            searchIcon={
-                                <Icon type={IconsType.Ionicon}
-                                      name={`${this.iconPrefix}-search`}
-                                      size={25}
-                                      color={'#86939e'}
-                                      containerStyle={styles.searchIconContainer}
-                                />
-                            }
                         />
                     </View>
                     <ScrollView refreshControl={

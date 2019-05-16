@@ -4,7 +4,7 @@ import {
     Button,
     Text,
     ActivityIndicator,
-    SafeAreaView
+    SafeAreaView, Platform
 } from 'react-native';
 import ErrorMessage from "../../../components/ErrorMessage";
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
@@ -21,6 +21,7 @@ export default class LanguageView extends Component {
         this.iconPrefix = iconsService.getIconPrefix();
         this.from = null;
         this.update = null;
+        this.iconSize = Platform.OS === 'ios' ? 40 : 25 ;
     }
 
     setLocale = async (item) => {
@@ -57,7 +58,7 @@ export default class LanguageView extends Component {
                                 rightIcon={this.currentLocale === item.key ?
                                     <Icon type={IconsType.Ionicon}
                                           name={`${this.iconPrefix}-checkmark`}
-                                          size={40}
+                                          size={this.iconSize}
                                     /> : {}}
                             />
                         }

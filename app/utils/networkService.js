@@ -1,4 +1,4 @@
-import { NetInfo } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 
 
 const listener = data => {
