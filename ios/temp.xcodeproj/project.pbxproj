@@ -55,6 +55,7 @@
 		53258DDB228C603F009DDEDF /* libRNBackgroundFetch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DD9228C5FF8009DDEDF /* libRNBackgroundFetch.a */; };
 		53258DDD228C6070009DDEDF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DDC228C6070009DDEDF /* libsqlite3.tbd */; };
 		53258DDF228C60F9009DDEDF /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DDE228C60F9009DDEDF /* TSBackgroundFetch.framework */; };
+		53258E3F228EDDFF009DDEDF /* libRNCNetInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258E34228EDDED009DDEDF /* libRNCNetInfo.a */; };
 		53645A86226E135A0064F031 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 53645A85226E135A0064F031 /* GoogleMaps.bundle */; };
 		53645A88226E13970064F031 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645A87226E13970064F031 /* Accelerate.framework */; };
 		53645A8A226E139E0064F031 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645A89226E139E0064F031 /* CoreData.framework */; };
@@ -371,6 +372,20 @@
 			remoteGlobalIDString = 835318541D52293F005738CD;
 			remoteInfo = RNBackgroundFetch;
 		};
+		53258E33228EDDED009DDEDF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53258E04228EDDED009DDEDF /* RNCNetInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCNetInfo;
+		};
+		53258E35228EDDED009DDEDF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53258E04228EDDED009DDEDF /* RNCNetInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B5027B1B2237B30F00F1AABA;
+			remoteInfo = "RNCNetInfo-tvOS";
+		};
 		53A25DA32268646000A69D66 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -507,6 +522,7 @@
 		53258DD4228C5FF8009DDEDF /* RNBackgroundFetch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundFetch.xcodeproj; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch.xcodeproj"; sourceTree = "<group>"; };
 		53258DDC228C6070009DDEDF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		53258DDE228C60F9009DDEDF /* TSBackgroundFetch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSBackgroundFetch.framework; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/TSBackgroundFetch.framework"; sourceTree = "<group>"; };
+		53258E04228EDDED009DDEDF /* RNCNetInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCNetInfo.xcodeproj; path = "../node_modules/@react-native-community/netinfo/ios/RNCNetInfo.xcodeproj"; sourceTree = "<group>"; };
 		53645A85226E135A0064F031 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		53645A87226E13970064F031 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		53645A89226E139E0064F031 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -612,6 +628,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				E1911F33E9AB496B9D8489BF /* libRNGestureHandler.a in Frameworks */,
+				53258E3F228EDDFF009DDEDF /* libRNCNetInfo.a in Frameworks */,
 				4948E14838E846ABB7000E3E /* libRNVectorIcons.a in Frameworks */,
 				2C1DE6D4D04E425D89D4C077 /* libRNDeviceInfo.a in Frameworks */,
 				99B54897887240B5B676B09D /* libAirMaps.a in Frameworks */,
@@ -873,6 +890,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		53258E05228EDDED009DDEDF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				53258E34228EDDED009DDEDF /* libRNCNetInfo.a */,
+				53258E36228EDDED009DDEDF /* libRNCNetInfo-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		53A25D7D2268644200A69D66 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -952,6 +978,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				53258E04228EDDED009DDEDF /* RNCNetInfo.xcodeproj */,
 				53258DD4228C5FF8009DDEDF /* RNBackgroundFetch.xcodeproj */,
 				53258DCE228C5FC3009DDEDF /* RNBackgroundGeolocation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -1224,6 +1251,10 @@
 				{
 					ProductGroup = 530E0B5A2269C3DF0054DDE6 /* Products */;
 					ProjectRef = 052F8C09558F439098FB3BD8 /* RNCAsyncStorage.xcodeproj */;
+				},
+				{
+					ProductGroup = 53258E05228EDDED009DDEDF /* Products */;
+					ProjectRef = 53258E04228EDDED009DDEDF /* RNCNetInfo.xcodeproj */;
 				},
 				{
 					ProductGroup = 530E0B9C2269EF080054DDE6 /* Products */;
@@ -1516,6 +1547,20 @@
 			remoteRef = 53258DD8228C5FF8009DDEDF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		53258E34228EDDED009DDEDF /* libRNCNetInfo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCNetInfo.a;
+			remoteRef = 53258E33228EDDED009DDEDF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		53258E36228EDDED009DDEDF /* libRNCNetInfo-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNCNetInfo-tvOS.a";
+			remoteRef = 53258E35228EDDED009DDEDF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		53A25DA42268646000A69D66 /* libjsi.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1800,16 +1845,7 @@
 				INFOPLIST_FILE = tempTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1840,16 +1876,7 @@
 				INFOPLIST_FILE = tempTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1962,16 +1989,7 @@
 				);
 				INFOPLIST_FILE = "temp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2010,16 +2028,7 @@
 				);
 				INFOPLIST_FILE = "temp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2057,16 +2066,7 @@
 				);
 				INFOPLIST_FILE = "temp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2104,16 +2104,7 @@
 				);
 				INFOPLIST_FILE = "temp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",

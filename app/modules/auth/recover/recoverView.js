@@ -66,18 +66,13 @@ export default class RecoverView extends Component {
     };
 
     render() {
-        const {
-            isLoading,
-            recover
-        } = this.props;
-
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={sharedStyles.centredColumn}>
                     <View style={{width: '90%'}}>
                         <TextInput name={'email'}
                                    placeholder={i18nService.t('email')}
-                                   disabled={isLoading}
+                                   disabled={this.state.isLoading}
                                    icon={'mail'}
                                    value={this.state.recover.email}
                                    maxLength={40}
@@ -86,12 +81,15 @@ export default class RecoverView extends Component {
                         />
                     </View>
                     <View style={{width: '90%'}}>
-                        <LargeButton title={i18nService.t('recover_password')}
+                        <LargeButton title={this.state.done ? i18nService.t('go_to_login') : i18nService.t('recover_password')}
                                      buttonStyle={{marginTop: 20}}
-                                     loading={isLoading}
+                                     loading={this.state.isLoading}
                                      disabled={!this.state.emailValid}
                                      onPress={async () => {
-                                         if(!this.state.done) {
+                                         if(!this.state.done && !this.state.isLoading) {
+                                             this.setState({
+                                                 isLoading: true
+                                             });
                                              const result = await this.recoverPassword(this.state.recover);
                                              if (result.error) {
                                                  const errorText = i18nService.t(`validation_message.${result.message}`);
@@ -105,8 +103,10 @@ export default class RecoverView extends Component {
                                                       isLoading: false,
                                                       done: true
                                                  });
-                                                 messageService.showInfo(i18nService.t(`new_password_sent_to_your_email`))
+                                                 messageService.showInfo(this.refs.flashMessage, i18nService.t(`new_password_sent_to_your_email`));
                                              }
+                                         } else {
+                                             this.props.navigation.goBack();
                                          }
                                      }}
                         />

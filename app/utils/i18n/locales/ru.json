@@ -33,6 +33,7 @@
   "search_friends": "Поиск друзей",
   "start_tracking": "Запустить",
   "stop_tracking": "Остановить",
+  "go_to_login": "Войти",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "email_is_not_valid": "Email is not valid",
