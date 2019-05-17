@@ -9,6 +9,8 @@ import LargeButton from "../../components/largeButton/largeButton";
 import i18nService from "../../utils/i18n/i18nService";
 import ax from "../../utils/axios";
 import userService from "../../utils/userService";
+import asyncStorageService from "../../utils/asyncStorageService";
+import userKeys from "../../constants/userKeys";
 
 export default class HomeView extends Component {
     constructor(props) {
@@ -17,6 +19,8 @@ export default class HomeView extends Component {
         this.state = {
             location: null,
             tracking: false,
+            initialized: false,
+            geoLocationReady: false
         };
     }
 
@@ -27,18 +31,13 @@ export default class HomeView extends Component {
     async initialize() {
         this.user = await userService.getUser();
         // 1.  Wire up event-listeners
-        // This handler fires whenever bgGeo receives a location update.
-        BackgroundGeolocation.onLocation(this.onLocation, this.onError);
-
-        // This event fires when the user toggles location-services authorization
-        BackgroundGeolocation.onProviderChange(this.onProviderChange);
 
         BackgroundGeolocation.ready({
+            reset: true,
             desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
             distanceFilter: 100,
             // Activity Recognition
             stopTimeout: 1,
-            // Application config
             debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
             logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
             stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
@@ -51,28 +50,29 @@ export default class HomeView extends Component {
                 ...ax.defaults.headers.common
             },
             params: {               // <-- Optional HTTP params
-                "auth_token": "maybe_your_server_authenticates_via_token_YES?"
+                // 'id': this.user.id
             }
         }, (state) => {
             console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
-
-            if (!state.enabled) {
-                // 3. Start tracking!
+            this.setState({
+                geoLocationReady: true
+            });
+            if(!state.enabled) {
                 BackgroundGeolocation.start(function () {
-                    console.log("- Start success");
+                    console.log("- Start geo success");
                 });
             }
+        });
+        this.setState({
+            initialized: true,
+            tracking: this.user.tracking,
         });
         SplashScreen.hide();
     }
 
     componentWillMount() {
-
-    }
-
-    // You must remove listeners when your component unmounts
-    componentWillUnmount() {
-        BackgroundGeolocation.removeListeners();
+        BackgroundGeolocation.onLocation(this.onLocation, this.onError);
+        BackgroundGeolocation.onProviderChange(this.onProviderChange);
     }
 
     onLocation(location) {
@@ -95,20 +95,41 @@ export default class HomeView extends Component {
         } = this.props;
         return (
             <SafeAreaView forceInset={{top: 'always'}} style={sharedStyles.safeView}>
-                <View style={sharedStyles.centredColumn}>
+                {
+                    this.state.initialized ?
+                    <View style={sharedStyles.centredColumn}>
 
-                    <View style={{width: '90%'}}>
-                        <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
-                                     title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
-                                     onPress={() => {
-                                         this.setState({
-                                             tracking: !this.state.tracking
-                                         })
-                                     }}>
-                        </LargeButton>
-                    </View>
+                        <View style={{width: '90%'}}>
+                            <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
+                                         title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
+                                         loading={!this.state.initialized || !this.state.geoLocationReady}
+                                         onPress={async () => {
+                                             if(!this.state.initialized || !this.state.geoLocationReady) {
+                                                 return;
+                                             }
+                                             if(this.state.tracking) {
+                                                 BackgroundGeolocation.removeListeners();
+                                                 BackgroundGeolocation.stop(function () {
+                                                     console.log("- Stop geo success");
+                                                 });
+                                             } else {
+                                                 BackgroundGeolocation.onLocation(this.onLocation, this.onError);
+                                                 BackgroundGeolocation.onProviderChange(this.onProviderChange);
+                                                 BackgroundGeolocation.start(function () {
+                                                     console.log("- Start geo success");
+                                                 });
+                                             }
+                                             const tracking = !this.state.tracking;
+                                             await asyncStorageService.setItem(userKeys.TRACKING_KEY, tracking.toString());
+                                             this.setState({
+                                                 tracking: tracking
+                                             })
+                                         }}>
+                            </LargeButton>
+                        </View>
 
-                </View>
+                    </View> : null
+                }
             </SafeAreaView>
         );
     }

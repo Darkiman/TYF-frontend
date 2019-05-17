@@ -23,7 +23,7 @@ class ThemeServiceSingleton {
             default: {
                 this.currentTheme = Themes.RED;
                 this.currentThemeColors = blueColors;
-                return state;
+                return;
             }
         }
         this.initialized = true;
@@ -40,7 +40,7 @@ class ThemeServiceSingleton {
                 this.currentTheme = Themes.BLUE;
                 asyncStorageService.setItem(themeKey, Themes.BLUE);
                 this.currentThemeColors = colors;
-                return state;
+                return;
             }
         }
     }
