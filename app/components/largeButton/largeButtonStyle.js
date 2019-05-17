@@ -24,7 +24,7 @@ export const largeButtonStyles = {
     },
     loadingStyle: {
         width: '100%',
-        height: 28,
+        height: 24,
     },
     indicatorSize: {
         size: 'large'

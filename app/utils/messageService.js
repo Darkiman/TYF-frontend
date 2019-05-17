@@ -16,7 +16,7 @@ const messageService = {
                 type: "default",
                 backgroundColor: "tomato",
                 color: "white",
-                duration: 3000
+                duration: 3000,
             });
         }
     },
