@@ -56,6 +56,7 @@
 		53258DDD228C6070009DDEDF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DDC228C6070009DDEDF /* libsqlite3.tbd */; };
 		53258DDF228C60F9009DDEDF /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DDE228C60F9009DDEDF /* TSBackgroundFetch.framework */; };
 		53258E3F228EDDFF009DDEDF /* libRNCNetInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258E34228EDDED009DDEDF /* libRNCNetInfo.a */; };
+		53258EB32292F9F4009DDEDF /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258EAD2292F9EE009DDEDF /* libRNFetchBlob.a */; };
 		53645A86226E135A0064F031 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 53645A85226E135A0064F031 /* GoogleMaps.bundle */; };
 		53645A88226E13970064F031 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645A87226E13970064F031 /* Accelerate.framework */; };
 		53645A8A226E139E0064F031 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645A89226E139E0064F031 /* CoreData.framework */; };
@@ -386,6 +387,13 @@
 			remoteGlobalIDString = B5027B1B2237B30F00F1AABA;
 			remoteInfo = "RNCNetInfo-tvOS";
 		};
+		53258EAC2292F9EE009DDEDF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 53258E7F2292F9EE009DDEDF /* RNFetchBlob.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A15C300E1CD25C330074CB35;
+			remoteInfo = RNFetchBlob;
+		};
 		53A25DA32268646000A69D66 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -523,6 +531,7 @@
 		53258DDC228C6070009DDEDF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		53258DDE228C60F9009DDEDF /* TSBackgroundFetch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSBackgroundFetch.framework; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/TSBackgroundFetch.framework"; sourceTree = "<group>"; };
 		53258E04228EDDED009DDEDF /* RNCNetInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCNetInfo.xcodeproj; path = "../node_modules/@react-native-community/netinfo/ios/RNCNetInfo.xcodeproj"; sourceTree = "<group>"; };
+		53258E7F2292F9EE009DDEDF /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		53645A85226E135A0064F031 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		53645A87226E13970064F031 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		53645A89226E139E0064F031 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -590,6 +599,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53258EB32292F9F4009DDEDF /* libRNFetchBlob.a in Frameworks */,
 				53258DDF228C60F9009DDEDF /* TSBackgroundFetch.framework in Frameworks */,
 				53645A9C226E15490064F031 /* libz.tbd in Frameworks */,
 				53258DDD228C6070009DDEDF /* libsqlite3.tbd in Frameworks */,
@@ -899,6 +909,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		53258E802292F9EE009DDEDF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				53258EAD2292F9EE009DDEDF /* libRNFetchBlob.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		53A25D7D2268644200A69D66 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -978,6 +996,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				53258E7F2292F9EE009DDEDF /* RNFetchBlob.xcodeproj */,
 				53258E04228EDDED009DDEDF /* RNCNetInfo.xcodeproj */,
 				53258DD4228C5FF8009DDEDF /* RNBackgroundFetch.xcodeproj */,
 				53258DCE228C5FC3009DDEDF /* RNBackgroundGeolocation.xcodeproj */,
@@ -1259,6 +1278,10 @@
 				{
 					ProductGroup = 530E0B9C2269EF080054DDE6 /* Products */;
 					ProjectRef = 68E163A8E40A4FB4B373BE89 /* RNDeviceInfo.xcodeproj */;
+				},
+				{
+					ProductGroup = 53258E802292F9EE009DDEDF /* Products */;
+					ProjectRef = 53258E7F2292F9EE009DDEDF /* RNFetchBlob.xcodeproj */;
 				},
 				{
 					ProductGroup = 53083ABB22733AAA00362A9B /* Products */;
@@ -1559,6 +1582,13 @@
 			fileType = archive.ar;
 			path = "libRNCNetInfo-tvOS.a";
 			remoteRef = 53258E35228EDDED009DDEDF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		53258EAD2292F9EE009DDEDF /* libRNFetchBlob.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFetchBlob.a;
+			remoteRef = 53258EAC2292F9EE009DDEDF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		53A25DA42268646000A69D66 /* libjsi.a */ = {
@@ -1901,6 +1931,7 @@
 					"$(PROJECT_DIR)/GoogleMaps",
 					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
 					"$(PROJECT_DIR)/../node_modules/react-native-background-geolocation/ios/**",
+					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

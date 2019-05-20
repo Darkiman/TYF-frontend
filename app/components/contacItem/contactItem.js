@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import {Icon, ListItem} from 'react-native-elements';
-import {ActivityIndicator, View} from 'react-native';
+import {ActivityIndicator, View, Image} from 'react-native';
 import iconsService from "../../utils/iconsService";
 import IconsType from "../../constants/IconsType";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-import NavigationRoutes from "../../constants/NavigationRoutes";
+import imageCacheHoc from 'react-native-image-cache-hoc';
 import themeService from "../../utils/themeService";
+const CacheableImage = imageCacheHoc(Image, {
+});
 
 const colors = themeService.currentThemeColors;
 
@@ -29,8 +31,8 @@ export default class ContactItem extends Component {
         const avatarUrl = data && data.data.avatarUrl;
         return (
             <ListItem leftAvatar={leftAvatar ? leftAvatar : {
+                          ImageComponent: CacheableImage,
                           rounded: true,
-                          // source: require('../../assets/images/avatar.jpg')
                           source: avatarUrl ? {
                               uri: avatarUrl
                           } : require('../../assets/images/avatar.jpg')
