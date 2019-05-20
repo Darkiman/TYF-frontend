@@ -192,8 +192,7 @@ export default class SignupView extends Component {
                                              const errorText = i18nService.t(`validation_message.${result.message}`);
                                              messageService.showError(this.refs.flashMessage, errorText);
                                          } else {
-                                             console.log(result);
-                                             userService.setUser(result.source.key, result.source.data.email, password);
+                                             userService.setUser(result.source.key, result.source[0].data.email, password, result.source[0].data.token, false);
                                              this.props.navigation.navigate(NavigationRoutes.HOME);
                                          }
                                      }}

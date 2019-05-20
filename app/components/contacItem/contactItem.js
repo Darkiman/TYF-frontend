@@ -26,10 +26,14 @@ export default class ContactItem extends Component {
             onDelete,
             data
         } = this.props;
+        const avatarUrl = data && data.data.avatarUrl;
         return (
             <ListItem leftAvatar={leftAvatar ? leftAvatar : {
                           rounded: true,
-                          source: require('../../assets/images/avatar.jpg')
+                          // source: require('../../assets/images/avatar.jpg')
+                          source: avatarUrl ? {
+                              uri: avatarUrl
+                          } : require('../../assets/images/avatar.jpg')
                       }}
                       title={title}
                       rightElement={

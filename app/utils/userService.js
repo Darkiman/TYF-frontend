@@ -10,7 +10,7 @@ const userService = {
             asyncStorageService.setItem(userKeys.MAIL_KEY, email),
             asyncStorageService.setItem(userKeys.PASSWORD_KEY, password),
             asyncStorageService.setItem(userKeys.TOKEN_KEY, token),
-            asyncStorageService.setItem(userKeys.TRACKING_KEY, tracking),
+            asyncStorageService.setItem(userKeys.TRACKING_KEY, tracking.toString()),
         ]);
     },
     getUser: async function() {

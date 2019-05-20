@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet} from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import {
-    View,
-    Button,
-    Text,
-    ActivityIndicator, SafeAreaView,
+    View, SafeAreaView,
 } from 'react-native';
-import ErrorMessage from "../../components/ErrorMessage";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 
 const LATITUDE_DELTA = 0.01;
@@ -44,7 +40,8 @@ export default class MapsView extends Component {
                 longitudeDelta: 0.0421,
             },
             ready: true,
-            filteredMarkers: []
+            filteredMarkers: [],
+            refreshing: false
         };
     }
 
@@ -103,6 +100,10 @@ export default class MapsView extends Component {
         console.log('onRegionChangeComplete', region);
     };
 
+    onRefresh = () => {
+
+    };
+
 
     render() {
         const { region } = this.state;
@@ -116,8 +117,13 @@ export default class MapsView extends Component {
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={styles.mapContainer}>
-                    {isLoading ? <ActivityIndicator /> : null}
-                    {error ? <ErrorMessage/> : null}
+                    <ScrollView refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onRefresh}
+                        />}
+                    >
+                    </ScrollView>
                     <MapView
                         showsUserLocation
                         provider={PROVIDER_GOOGLE}

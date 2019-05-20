@@ -146,6 +146,7 @@ export default class SearchContactsView extends Component {
                                                     showDelete={isInContacts && !contact.data.loading}
                                                     showAdd={!isInContacts && !contact.data.loading}
                                                     loading={contact.data.loading}
+                                                    data={contact}
                                                     onDelete={async () => {
                                                         contact.data.loading = true;
                                                         this.forceUpdate();
