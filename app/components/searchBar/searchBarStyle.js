@@ -1,3 +1,5 @@
+import {Platform} from "react-native";
+
 export const searchBarStyle = {
     searchBarContainer: {
         flex: 1,
@@ -15,7 +17,10 @@ export const searchBarStyle = {
         height: 35,
         backgroundColor: 'white',
         borderRadius: 50,
-        paddingTop: 5
+        paddingTop: Platform.OS === 'ios' ? 0 : 5,
     },
-    searchIconContainer: {marginBottom: 4, marginLeft: 2}
+    searchIconContainer: {
+        marginBottom: Platform.OS === 'ios' ? 0 : 4,
+        marginLeft: 2
+    }
 };
