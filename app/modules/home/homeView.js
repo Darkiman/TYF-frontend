@@ -11,6 +11,8 @@ import ax from "../../utils/axios";
 import userService from "../../utils/userService";
 import asyncStorageService from "../../utils/asyncStorageService";
 import userKeys from "../../constants/userKeys";
+import ImagePicker from 'react-native-image-picker';
+
 
 export default class HomeView extends Component {
     constructor(props) {
@@ -26,6 +28,17 @@ export default class HomeView extends Component {
 
     componentDidMount() {
         this.initialize();
+
+         this.options = {
+            title: i18nService.t('select_avatar'),
+            cancelButtonTitle: i18nService.t('cancel'),
+            takePhotoButtonTitle: i18nService.t('take_photo'),
+            chooseFromLibraryButtonTitle: i18nService.t('choose_from_gallery'),
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
     }
 
     async initialize() {
@@ -43,7 +56,7 @@ export default class HomeView extends Component {
             stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
             startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
             // HTTP / SQLite config
-            url: `${ax.defaults.baseURL}/location/?id=${this.user.id}` ,
+            url: `${ax.defaults.baseURL}/location/?id=${this.user.id}`,
             batchSync: false,       // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
             autoSync: true,         // <-- [Default: true] Set true to sync each location to server as it arrives.
             headers: {              // <-- Optional HTTP headers
@@ -57,7 +70,7 @@ export default class HomeView extends Component {
             this.setState({
                 geoLocationReady: true
             });
-            if(!state.enabled) {
+            if (!state.enabled) {
                 BackgroundGeolocation.start(function () {
                     console.log("- Start geo success");
                 });
@@ -97,38 +110,63 @@ export default class HomeView extends Component {
             <SafeAreaView forceInset={{top: 'always'}} style={sharedStyles.safeView}>
                 {
                     this.state.initialized ?
-                    <View style={sharedStyles.centredColumn}>
+                        <View style={sharedStyles.centredColumn}>
 
-                        <View style={{width: '90%'}}>
-                            <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
-                                         title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
-                                         loading={!this.state.initialized || !this.state.geoLocationReady}
-                                         onPress={async () => {
-                                             if(!this.state.initialized || !this.state.geoLocationReady) {
-                                                 return;
-                                             }
-                                             if(this.state.tracking) {
-                                                 BackgroundGeolocation.removeListeners();
-                                                 BackgroundGeolocation.stop(function () {
-                                                     console.log("- Stop geo success");
-                                                 });
-                                             } else {
-                                                 BackgroundGeolocation.onLocation(this.onLocation, this.onError);
-                                                 BackgroundGeolocation.onProviderChange(this.onProviderChange);
-                                                 BackgroundGeolocation.start(function () {
-                                                     console.log("- Start geo success");
-                                                 });
-                                             }
-                                             const tracking = !this.state.tracking;
-                                             await asyncStorageService.setItem(userKeys.TRACKING_KEY, tracking.toString());
-                                             this.setState({
-                                                 tracking: tracking
-                                             })
-                                         }}>
-                            </LargeButton>
-                        </View>
+                            <View style={{width: '90%'}}>
+                                <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
+                                             title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
+                                             loading={!this.state.initialized || !this.state.geoLocationReady}
+                                             onPress={async () => {
+                                                 if (!this.state.initialized || !this.state.geoLocationReady) {
+                                                     return;
+                                                 }
+                                                 if (this.state.tracking) {
+                                                     BackgroundGeolocation.removeListeners();
+                                                     BackgroundGeolocation.stop(function () {
+                                                         console.log("- Stop geo success");
+                                                     });
+                                                 } else {
+                                                     BackgroundGeolocation.onLocation(this.onLocation, this.onError);
+                                                     BackgroundGeolocation.onProviderChange(this.onProviderChange);
+                                                     BackgroundGeolocation.start(function () {
+                                                         console.log("- Start geo success");
+                                                     });
+                                                 }
+                                                 const tracking = !this.state.tracking;
+                                                 await asyncStorageService.setItem(userKeys.TRACKING_KEY, tracking.toString());
+                                                 this.setState({
+                                                     tracking: tracking
+                                                 })
+                                             }}>
+                                </LargeButton>
+                                <LargeButton
+                                    title={'Select avatar'}
+                                    onPress={() => {
+                                        ImagePicker.showImagePicker(this.options, (response) => {
+                                            console.log('Response = ', response);
 
-                    </View> : null
+                                            if (response.didCancel) {
+                                                console.log('User cancelled image picker');
+                                            } else if (response.error) {
+                                                console.log('ImagePicker Error: ', response.error);
+                                            } else if (response.customButton) {
+                                                console.log('User tapped custom button: ', response.customButton);
+                                            } else {
+                                                const source = {uri: response.uri};
+
+                                                // You can also display the image using data:
+                                                // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+                                                this.setState({
+                                                    avatarSource: source,
+                                                });
+                                            }
+                                        });
+                                    }}>
+                                </LargeButton>
+                            </View>
+
+                        </View> : null
                 }
             </SafeAreaView>
         );
