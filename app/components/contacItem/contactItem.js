@@ -6,7 +6,10 @@ import IconsType from "../../constants/IconsType";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import themeService from "../../utils/themeService";
 import imageCacheHoc from 'react-native-image-cache-hoc';
+import apiConfig from "../../utils/apiConfig";
+
 const CacheableImage = imageCacheHoc(Image, {
+    validProtocols: ['http', 'https']
 });
 
 const colors = themeService.currentThemeColors;
@@ -28,13 +31,13 @@ export default class ContactItem extends Component {
             onDelete,
             data
         } = this.props;
-        const avatarUrl = data && data.data.avatarUrl;
+        const avatar = data.data && data.data.avatar ? `${apiConfig.static}avatars/${data.data.avatar}` : null;
         return (
             <ListItem leftAvatar={leftAvatar ? leftAvatar : {
                           ImageComponent: CacheableImage,
                           rounded: true,
-                          source: avatarUrl ? {
-                              uri: avatarUrl
+                          source: avatar ? {
+                              uri: avatar
                           } : require('../../assets/images/avatar.jpg')
                       }}
                       title={title}

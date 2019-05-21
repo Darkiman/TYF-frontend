@@ -14,7 +14,9 @@ import userKeys from "../../constants/userKeys";
 import ImagePicker from 'react-native-image-picker';
 import imageCacheHoc from 'react-native-image-cache-hoc';
 
-const CacheableImage = imageCacheHoc(Image, {});
+const CacheableImage = imageCacheHoc(Image, {
+    validProtocols: ['http', 'https'],
+});
 
 
 export default class HomeView extends Component {
