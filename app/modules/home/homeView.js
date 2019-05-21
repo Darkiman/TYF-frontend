@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView,
+    View, SafeAreaView, Image
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import SplashScreen from "react-native-splash-screen";
@@ -12,6 +12,9 @@ import userService from "../../utils/userService";
 import asyncStorageService from "../../utils/asyncStorageService";
 import userKeys from "../../constants/userKeys";
 import ImagePicker from 'react-native-image-picker';
+import imageCacheHoc from 'react-native-image-cache-hoc';
+
+const CacheableImage = imageCacheHoc(Image, {});
 
 
 export default class HomeView extends Component {
@@ -22,14 +25,15 @@ export default class HomeView extends Component {
             location: null,
             tracking: false,
             initialized: false,
-            geoLocationReady: false
+            geoLocationReady: false,
+            sourceDisplaying: null
         };
     }
 
     componentDidMount() {
         this.initialize();
 
-         this.options = {
+        this.options = {
             title: i18nService.t('select_avatar'),
             cancelButtonTitle: i18nService.t('cancel'),
             takePhotoButtonTitle: i18nService.t('take_photo'),
@@ -63,7 +67,7 @@ export default class HomeView extends Component {
                 ...ax.defaults.headers.common
             },
             params: {               // <-- Optional HTTP params
-                // 'id': this.user.id
+                                    // 'id': this.user.id
             }
         }, (state) => {
             console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
@@ -104,14 +108,14 @@ export default class HomeView extends Component {
         const {
             isLoading,
             error,
-            data
+            data,
+            uploadAvatar
         } = this.props;
         return (
             <SafeAreaView forceInset={{top: 'always'}} style={sharedStyles.safeView}>
                 {
                     this.state.initialized ?
                         <View style={sharedStyles.centredColumn}>
-
                             <View style={{width: '90%'}}>
                                 <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
                                              title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
@@ -142,7 +146,7 @@ export default class HomeView extends Component {
                                 <LargeButton
                                     title={'Select avatar'}
                                     onPress={() => {
-                                        ImagePicker.showImagePicker(this.options, (response) => {
+                                        ImagePicker.showImagePicker(this.options, async (response) => {
                                             console.log('Response = ', response);
 
                                             if (response.didCancel) {
@@ -153,17 +157,25 @@ export default class HomeView extends Component {
                                                 console.log('User tapped custom button: ', response.customButton);
                                             } else {
                                                 const source = {uri: response.uri};
-
-                                                // You can also display the image using data:
-                                                // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+                                                const sourceDisplaying = {uri: 'data:image/jpeg;base64,' + response.data};
 
                                                 this.setState({
                                                     avatarSource: source,
+                                                    sourceDisplaying: sourceDisplaying
                                                 });
+
+                                                const uploadedPhoto = await uploadAvatar(this.user.id, response);
                                             }
                                         });
                                     }}>
                                 </LargeButton>
+                                {
+                                    this.state.sourceDisplaying ?
+                                        <Image style={{ width: 150, height: 150}}
+                                               source={this.state.sourceDisplaying}>
+                                        </Image>
+                                        : null
+                                }
                             </View>
 
                         </View> : null

@@ -4,8 +4,8 @@ import {ActivityIndicator, View, Image} from 'react-native';
 import iconsService from "../../utils/iconsService";
 import IconsType from "../../constants/IconsType";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-import imageCacheHoc from 'react-native-image-cache-hoc';
 import themeService from "../../utils/themeService";
+import imageCacheHoc from 'react-native-image-cache-hoc';
 const CacheableImage = imageCacheHoc(Image, {
 });
 
