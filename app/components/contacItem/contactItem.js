@@ -31,14 +31,16 @@ export default class ContactItem extends Component {
             onDelete,
             data
         } = this.props;
-        const avatar = data.data && data.data.avatar ? `${apiConfig.static}avatars/${data.data.avatar}` : null;
+        const avatar = data.data && data.data.avatar ? `${apiConfig.static}avatars/${data.data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
         return (
             <ListItem leftAvatar={leftAvatar ? leftAvatar : {
                           ImageComponent: CacheableImage,
                           rounded: true,
                           source: avatar ? {
                               uri: avatar
-                          } : require('../../assets/images/avatar.jpg')
+                          } : {
+                              uri: require('../../assets/images/avatar.jpg')
+                          }
                       }}
                       title={title}
                       rightElement={
