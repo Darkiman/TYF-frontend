@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import {RefreshControl, ScrollView, StyleSheet} from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import {
     View, SafeAreaView,
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
+import ContactMarker from "../../components/contactMarker/contactMarket";
 
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.01;
 
 const initialRegion = {
-    latitude: -37.78825,
+    latitude: 37.4219983,
     longitude: -122.4324,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
@@ -59,12 +60,13 @@ export default class MapsView extends Component {
         try {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const region = {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        latitudeDelta: LATITUDE_DELTA,
-                        longitudeDelta: LONGITUDE_DELTA,
-                    };
+                    // const region = {
+                    //     latitude: position.coords.latitude,
+                    //     longitude: position.coords.longitude,
+                    //     latitudeDelta: LATITUDE_DELTA,
+                    //     longitudeDelta: LONGITUDE_DELTA,
+                    // };
+                    const region = initialRegion;
                     this.setRegion(region);
                 },
                 (error) => {
@@ -129,14 +131,20 @@ export default class MapsView extends Component {
                         provider={PROVIDER_GOOGLE}
                         ref={ map => { this.map = map }}
                         data={markers}
-                        initialRegion={initialRegion}
+                        // initialRegion={initialRegion}
                         renderMarker={renderMarker}
                         onMapReady={this.onMapReady}
                         showsMyLocationButton={false}
                         onRegionChange={this.onRegionChange}
                         onRegionChangeComplete={this.onRegionChangeComplete}
                         style={styles.map}
-                    />
+                    >
+                        {
+                            <Marker coordinate={initialRegion}>
+                                <ContactMarker data={{}} />
+                            </Marker>
+                        }
+                    </MapView>
                 </View>
             </SafeAreaView>
         );
