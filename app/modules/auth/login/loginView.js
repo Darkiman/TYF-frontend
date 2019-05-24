@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {
     View,
-    SafeAreaView,
-    AsyncStorage
+    SafeAreaView
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import {Icon, Text} from 'react-native-elements';
