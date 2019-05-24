@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
-import {RefreshControl, ScrollView, StyleSheet} from 'react-native';
+import { StyleSheet, Animated} from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import {
     View, SafeAreaView,
 } from 'react-native';
+import {Icon} from 'react-native-elements';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-import ContactMarker from "../../components/contactMarker/contactMarket";
+import ContactMarker from "../../components/contactMarker/contactMarker";
+import iconsService from "../../utils/iconsService";
+import IconsType from "../../constants/IconsType";
+import themeService from "../../utils/themeService";
+import {getContactsPosition} from "./mapsState";
+import userService from "../../utils/userService";
+
+const colors = themeService.currentThemeColors;
+
+const initialRegion = {
+    latitude: 59.866342,
+    longitude: 30.379782,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+};
 
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = 0.01;
 
-const initialRegion = {
-    latitude: 37.4219983,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-};
 
 const styles = StyleSheet.create({
     mapContainer: {
@@ -32,11 +41,11 @@ export default class MapsView extends Component {
         super(props);
 
         this.map = null;
-
+        this.iconPrefix = iconsService.getIconPrefix();
         this.state = {
             region: {
-                latitude: -37.78825,
-                longitude: -122.4324,
+                latitude: 59.866342,
+                longitude: 30.379782,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             },
@@ -46,41 +55,30 @@ export default class MapsView extends Component {
         };
     }
 
-    setRegion(region) {
-        if(this.state.ready) {
-            setTimeout(() => this.map.animateToRegion(region), 10);
-        }
-    }
-
     componentDidMount() {
         this.getCurrentPosition();
+        this.initialize();
+    }
+
+    async initialize() {
+        this.user = await userService.getUser();
     }
 
     getCurrentPosition() {
         try {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    // const region = {
-                    //     latitude: position.coords.latitude,
-                    //     longitude: position.coords.longitude,
-                    //     latitudeDelta: LATITUDE_DELTA,
-                    //     longitudeDelta: LONGITUDE_DELTA,
-                    // };
-                    const region = initialRegion;
+                    const region = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        latitudeDelta: LATITUDE_DELTA,
+                        longitudeDelta: LONGITUDE_DELTA,
+                    };
+                    // const region = initialRegion;
                     this.setRegion(region);
                 },
                 (error) => {
-                    switch (error.code) {
-                        case 1:
-                            if (Platform.OS === "ios") {
-                                alert("", "Para ubicar tu locación habilita permiso para la aplicación en Ajustes - Privacidad - Localización");
-                            } else {
-                                alert("", "Para ubicar tu locación habilita permiso para la aplicación en Ajustes - Apps - ExampleApp - Localización");
-                            }
-                            break;
-                        default:
-                            alert("", "Error al detectar tu locación");
-                    }
+                    alert("", "Error al detectar tu locación");
                 }
             );
         } catch(e) {
@@ -88,23 +86,38 @@ export default class MapsView extends Component {
         }
     };
 
+    setRegion(region) {
+        if(this.state.ready) {
+            setTimeout(() => this.map.animateToRegion(region), 10);
+        }
+    }
+
     onMapReady = (e) => {
         if(!this.state.ready) {
-            this.setState({ready: true});
+            this.setState({
+                ready: true
+            });
         }
     };
 
-    onRegionChange = (region) => {
-        console.log('onRegionChange', region);
+    onRefresh = async () => {
+        this.setState({
+            refreshing: true
+        })
+        this.props.getContactsPosition(this.user)
     };
 
-    onRegionChangeComplete = (region) => {
-        console.log('onRegionChangeComplete', region);
+    toCurrentPosition = () => {
+        this.getCurrentPosition();
     };
 
-    onRefresh = () => {
-
-    };
+    // onRegionChange = (region) => {
+    //     console.log('onRegionChange', region);
+    // };
+    //
+    // onRegionChangeComplete = (region) => {
+    //     console.log('onRegionChangeComplete', region);
+    // };
 
 
     render() {
@@ -119,24 +132,17 @@ export default class MapsView extends Component {
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={styles.mapContainer}>
-                    <ScrollView refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this.onRefresh}
-                        />}
-                    >
-                    </ScrollView>
                     <MapView
                         showsUserLocation
                         provider={PROVIDER_GOOGLE}
                         ref={ map => { this.map = map }}
                         data={markers}
-                        // initialRegion={initialRegion}
+                        initialRegion={initialRegion}
                         renderMarker={renderMarker}
                         onMapReady={this.onMapReady}
                         showsMyLocationButton={false}
-                        onRegionChange={this.onRegionChange}
-                        onRegionChangeComplete={this.onRegionChangeComplete}
+                        // onRegionChange={this.onRegionChange}
+                        // onRegionChangeComplete={this.onRegionChangeComplete}
                         style={styles.map}
                     >
                         {
@@ -146,6 +152,32 @@ export default class MapsView extends Component {
                         }
                     </MapView>
                 </View>
+                <Icon type={IconsType.Ionicon}
+                      name={`${this.iconPrefix}-compass`}
+                      size={50}
+                      containerStyle={{
+                          position: 'absolute',
+                          top: '50%',
+                          right: '5%',
+                          backgroundColor: 'transparent'
+                      }}
+                      color={ '#666'}
+                      underlayColor={'transparent'}
+                      onPress={this.toCurrentPosition}
+                />
+                <Icon type={IconsType.Ionicon}
+                      name={`${this.iconPrefix}-refresh-circle`}
+                      size={50}
+                      containerStyle={{
+                          position: 'absolute',
+                          top: '95%',
+                          right: '5%',
+                          backgroundColor: 'transparent'
+                      }}
+                      color={ this.state.refreshing ? colors.color : '#666'}
+                      underlayColor={'transparent'}
+                      onPress={this.onRefresh}
+                />
             </SafeAreaView>
         );
     }
