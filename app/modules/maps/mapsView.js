@@ -170,7 +170,7 @@ export default class MapsView extends Component {
                       size={50}
                       containerStyle={{
                           position: 'absolute',
-                          top: '95%',
+                          bottom: '4%',
                           right: '5%',
                           backgroundColor: 'transparent'
                       }}
