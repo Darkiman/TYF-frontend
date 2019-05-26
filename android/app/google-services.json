@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:464830932288:android:e49d1ff945d64585",
+        "mobilesdk_app_id": "1:464830932288:android:17938f3df5fbd909",
         "android_client_info": {
-          "package_name": "com.temp"
+          "package_name": "com.tyf"
         }
       },
       "oauth_client": [

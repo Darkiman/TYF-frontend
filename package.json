@@ -1,5 +1,5 @@
 {
-  "name": "temp",
+  "name": "TYF",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -16,6 +16,7 @@
     "lodash": "^4.17.11",
     "react": "16.8.3",
     "react-native": "0.59.4",
+    "react-native-background-fetch": "^2.5.6",
     "react-native-background-geolocation": "^3.0.5",
     "react-native-device-info": "^1.5.0",
     "react-native-elements": "^1.1.0",

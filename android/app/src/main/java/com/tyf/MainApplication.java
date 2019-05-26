@@ -1,14 +1,15 @@
-package com.temp;
+package com.tyf;
 
 import android.app.Application;
 import android.support.multidex.MultiDex;
 import android.content.Context;
 
 import com.facebook.react.ReactApplication;
+import com.transistorsoft.rnbackgroundfetch.RNBackgroundFetchPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.transistorsoft.rnbackgroundfetch.RNBackgroundFetchPackage;
+
 import com.transistorsoft.rnbackgroundgeolocation.RNBackgroundGeolocation;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
@@ -39,10 +40,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNBackgroundFetchPackage(),
             new ImagePickerPackage(),
             new RNFetchBlobPackage(),
             new NetInfoPackage(),
-            new RNBackgroundFetchPackage(),
             new RNBackgroundGeolocation(),
             new RNFirebasePackage(),
             new RNFirebaseMessagingPackage(),
