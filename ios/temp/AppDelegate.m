@@ -19,14 +19,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [GMSServices provideAPIKey:@"AIzaSyB_jQXqc1YuOIDHFhK7R-zTVuJKJU2Dg-M"];
-  
+  [GMSServices provideAPIKey:@"AIzaSyCU_6JKE2xuxUMNBJQOU6qzhJHRwALHfT0"];
+
   [FIRApp configure]; //Add This Line
   [RNFirebaseNotifications configure];  //Add This Line
-  
+
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"temp"
+                                                   moduleName:@"TYF"
                                             initialProperties:nil];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
@@ -36,7 +36,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  
+
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self]; //Add This Line
   [RNSplashScreen show];  // here
   return YES;
