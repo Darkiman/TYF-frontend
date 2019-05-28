@@ -72,9 +72,9 @@ export default class AuthView extends Component {
             return null;
         }
         return (
-            <LinearGradient style={{...sharedStyles.safeView, backgroundColor: 'transparent'}}
+            <LinearGradient style={{...sharedStyles.safeView }}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
-                <SafeAreaView style={{...sharedStyles.safeView, backgroundColor: 'transparent'}}>
+                <SafeAreaView style={{...sharedStyles.safeView}}>
                     <View style={{...sharedStyles.centredColumn, ...styles.mainContainer}}>
                         <Image style={styles.logo} source={require('../../assets/images/logoIcon.png')}/>
                         <Text h4 style={sharedStyles.h4}>{i18nService.t('welcome_to_app')}</Text>

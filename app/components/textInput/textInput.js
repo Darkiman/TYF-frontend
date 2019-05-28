@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {textInputStyle} from "./textInputStyle";
 import IconsType from "../../constants/IconsType";
-import {Input} from 'react-native-elements';
+import {Icon, Input} from 'react-native-elements';
 import iconsService from "../../utils/iconsService";
 import aboutState from "../../modules/settings/about/aboutState";
 
@@ -47,14 +47,15 @@ export default class TextInput extends Component {
                    onChangeText={onChangeText}
                    onFocus={this.setFocus.bind(this, true)}
                    onBlur={this.setFocus.bind(this, false)}
+                   inputStyle={textInputStyle.inputStyle}
+                   placeholderTextColor={'rgba(255,255,255,0.4)'}
                    containerStyle={this.state.hasFocus || (valid && value) ? textInputStyle.containerStyleFocused : textInputStyle.containerStyle}
                    inputContainerStyle={textInputStyle.inputContainerStyle}
                    leftIconContainerStyle={textInputStyle.leftIconContainerStyle}
-                   leftIcon={{
-                       type: IconsType.Ionicon,
-                       name: `${this.iconPrefix}-${icon}`,
-                       color: valid && value ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor
-                   }}
+                   leftIcon={<Icon type={IconsType.Ionicon}
+                                   name={`${this.iconPrefix}-${icon}`}
+                                   color={valid && value ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
+                                   underlayColor={'transparent'}/>}
                    rightIconContainerStyle={rightIconContainerStyle}
                    rightIcon={rightIcon ? rightIcon : {}}
             />

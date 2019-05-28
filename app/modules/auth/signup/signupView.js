@@ -18,6 +18,8 @@ import commonService from "../../../services/commonService";
 import asyncStorageService from "../../../utils/asyncStorageService";
 import userService from "../../../utils/userService";
 import NavigationRoutes from "../../../constants/NavigationRoutes";
+import LinearGradient from "react-native-linear-gradient";
+import NavigationBack from "../../../components/navigationBack/navigationBack";
 
 export default class SignupView extends Component {
     constructor(props) {
@@ -97,6 +99,10 @@ export default class SignupView extends Component {
         });
     };
 
+    back = () => {
+        this.props.navigation.goBack();
+    };
+
     render() {
         const {
             isLoading,
@@ -107,128 +113,136 @@ export default class SignupView extends Component {
         } = this.props;
 
         return (
-            <SafeAreaView style={sharedStyles.safeView}>
-                <View style={sharedStyles.centredColumn}>
-                    <View style={{width: '90%'}}>
-                        <TextInput name={'email'}
-                                   placeholder={i18nService.t('email')}
-                                   disabled={isLoading || user}
-                                   icon={'mail'}
-                                   value={this.state.signup.email}
-                                   maxLength={40}
-                                   valid={this.state.emailValid}
-                                   onChangeText={this.handleEmailChange}
-                        />
-                        <TextInput ref={(ref) => this.nameRef = ref}
-                                   name={'name'}
-                                   placeholder={i18nService.t('name')}
-                                   disabled={isLoading || user}
-                                   icon={'contact'}
-                                   value={this.state.signup.name}
-                                   maxLength={40}
-                                   valid={this.state.nameValid}
-                                   onChangeText={this.handleNameChange}
-                                   rightIcon={
-                                       <Icon
-                                           type={IconsType.Ionicon}
-                                           name={`${this.iconPrefix}-${'help-circle-outline'}`}
-                                           size={24}
-                                           color={this.state.nameValid ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
-                                           onPress={() => {
-                                               this.setState({
-                                                   showNameTooltip: !this.state.showNameTooltip
-                                               })
-                                           }}
-                                       />
-                                   }
-                        />
-                        <TextInput ref={(ref) => this.passwordRef = ref}
-                                   name={'password'}
-                                   placeholder={i18nService.t('password')}
-                                   disabled={isLoading || user}
-                                   icon={'lock'}
-                                   secureTextEntry={true}
-                                   value={this.state.signup.password}
-                                   maxLength={40}
-                                   valid={this.state.passwordValid}
-                                   onChangeText={this.handlePasswordChange}
-                                   rightIcon={
-                                       <Icon
-                                           type={IconsType.Ionicon}
-                                           name={`${this.iconPrefix}-${'help-circle-outline'}`}
-                                           size={24}
-                                           color={this.state.passwordValid ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
-                                           onPress={() => {
-                                               this.setState({
-                                                   showPasswordTooltip: !this.state.showPasswordTooltip
-                                               })
-                                           }}
-                                       />
-                                   }
-                        />
-                        <TextInput name={'confirmPassword'}
-                                   placeholder={i18nService.t('confirm_password')}
-                                   disabled={isLoading || user}
-                                   icon={'lock'}
-                                   secureTextEntry={true}
-                                   value={this.state.signup.confirmPassword}
-                                   maxLength={40}
-                                   valid={this.state.confirmPasswordValid}
-                                   onChangeText={this.handleConfirmPasswordChange}
-                        />
-                    </View>
-                    <View style={{width: '90%'}}>
-                        <LargeButton title={i18nService.t('sign_up')}
-                                     buttonStyle={{marginTop: 20}}
-                                     loading={isLoading || user}
-                                     disabled={!this.state.emailValid || !this.state.nameValid || !this.state.passwordValid || !this.state.confirmPasswordValid}
-                                     onPress={async () => {
-                                         const password = this.state.signup.password;
-                                         const result = await signup({
-                                             ...this.state.signup,
-                                             notificationToken: this.notificationToken
-                                         });
-                                         if(result.error) {
-                                             const errorText = i18nService.t(`validation_message.${result.message}`);
-                                             messageService.showError(this.refs.flashMessage, errorText);
-                                         } else {
-                                             userService.setUser(result.source.key, result.source[0].data.email, password, result.source[0].data.token, false);
-                                             this.props.navigation.navigate(NavigationRoutes.HOME);
-                                         }
-                                     }}
-                        />
-                    </View>
+            <LinearGradient style={{...sharedStyles.safeView}}
+                            colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
+                <SafeAreaView style={sharedStyles.safeView}>
+                    <NavigationBack onPress={() => {
+                        this.back();
+                    }}/>
+                    <View style={sharedStyles.centredColumn}>
+                        <View style={{width: '90%'}}>
+                            <TextInput name={'email'}
+                                       placeholder={i18nService.t('email')}
+                                       disabled={isLoading || user}
+                                       icon={'mail'}
+                                       value={this.state.signup.email}
+                                       maxLength={40}
+                                       valid={this.state.emailValid}
+                                       onChangeText={this.handleEmailChange}
+                            />
+                            <TextInput ref={(ref) => this.nameRef = ref}
+                                       name={'name'}
+                                       placeholder={i18nService.t('name')}
+                                       disabled={isLoading || user}
+                                       icon={'contact'}
+                                       value={this.state.signup.name}
+                                       maxLength={40}
+                                       valid={this.state.nameValid}
+                                       onChangeText={this.handleNameChange}
+                                       rightIcon={
+                                           <Icon
+                                               type={IconsType.Ionicon}
+                                               name={`${this.iconPrefix}-${'help-circle-outline'}`}
+                                               size={24}
+                                               color={this.state.nameValid ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
+                                               underlayColor={'transparent'}
+                                               onPress={() => {
+                                                   this.setState({
+                                                       showNameTooltip: !this.state.showNameTooltip
+                                                   })
+                                               }}
+                                           />
+                                       }
+                            />
+                            <TextInput ref={(ref) => this.passwordRef = ref}
+                                       name={'password'}
+                                       placeholder={i18nService.t('password')}
+                                       disabled={isLoading || user}
+                                       icon={'lock'}
+                                       secureTextEntry={true}
+                                       value={this.state.signup.password}
+                                       maxLength={40}
+                                       valid={this.state.passwordValid}
+                                       onChangeText={this.handlePasswordChange}
+                                       rightIcon={
+                                           <Icon
+                                               type={IconsType.Ionicon}
+                                               name={`${this.iconPrefix}-${'help-circle-outline'}`}
+                                               size={24}
+                                               color={this.state.passwordValid ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
+                                               underlayColor={'transparent'}
+                                               onPress={() => {
+                                                   this.setState({
+                                                       showPasswordTooltip: !this.state.showPasswordTooltip
+                                                   })
+                                               }}
+                                           />
+                                       }
+                            />
+                            <TextInput name={'confirmPassword'}
+                                       placeholder={i18nService.t('confirm_password')}
+                                       disabled={isLoading || user}
+                                       icon={'lock'}
+                                       secureTextEntry={true}
+                                       value={this.state.signup.confirmPassword}
+                                       maxLength={40}
+                                       valid={this.state.confirmPasswordValid}
+                                       onChangeText={this.handleConfirmPasswordChange}
+                            />
+                        </View>
+                        <View style={{width: '90%'}}>
+                            <LargeButton title={i18nService.t('sign_up')}
+                                         buttonStyle={{marginTop: 20}}
+                                         loading={isLoading || user}
+                                         disabled={!this.state.emailValid || !this.state.nameValid || !this.state.passwordValid || !this.state.confirmPasswordValid}
+                                         onPress={async () => {
+                                             const password = this.state.signup.password;
+                                             const result = await signup({
+                                                 ...this.state.signup,
+                                                 notificationToken: this.notificationToken
+                                             });
+                                             if(result.error) {
+                                                 const errorText = i18nService.t(`validation_message.${result.message}`);
+                                                 messageService.showError(this.refs.flashMessage, errorText);
+                                             } else {
+                                                 userService.setUser(result.source.key, result.source[0].data.email, password, result.source[0].data.token, false);
+                                                 this.props.navigation.navigate(NavigationRoutes.HOME);
+                                             }
+                                         }}
+                            />
+                        </View>
 
-                    <ModalOverlay
-                        isVisible={this.state.showNameTooltip}
-                        onBackdropPress={()=> {
-                            this.setState({
-                                showNameTooltip: !this.state.showNameTooltip
-                            })
-                        }}
-                        windowBackgroundColor="rgba(0, 0, 0, 0.35)"
-                        overlayBackgroundColor="#ffffff"
-                        width="auto"
-                        height="auto">
-                        <Text>{i18nService.t('validation_message.name_should_be_more_symbols', {symbols: 6})}</Text>
-                    </ModalOverlay>
-                    <ModalOverlay
-                        isVisible={this.state.showPasswordTooltip}
-                        onBackdropPress={()=> {
-                            this.setState({
-                                showPasswordTooltip: !this.state.showPasswordTooltip
-                            })
-                        }}
-                        windowBackgroundColor="rgba(0, 0, 0, 0.35)"
-                        overlayBackgroundColor="#ffffff"
-                        width="90%"
-                        height="auto">
-                        <Text style={{fontSize: 16}}>{i18nService.t('validation_message.password_requirements', {symbols: 8})}</Text>
-                    </ModalOverlay>
+                        <ModalOverlay
+                            isVisible={this.state.showNameTooltip}
+                            onBackdropPress={()=> {
+                                this.setState({
+                                    showNameTooltip: !this.state.showNameTooltip
+                                })
+                            }}
+                            windowBackgroundColor="rgba(0, 0, 0, 0.35)"
+                            overlayBackgroundColor="#ffffff"
+                            width="auto"
+                            height="auto">
+                            <Text>{i18nService.t('validation_message.name_should_be_more_symbols', {symbols: 6})}</Text>
+                        </ModalOverlay>
+                        <ModalOverlay
+                            isVisible={this.state.showPasswordTooltip}
+                            onBackdropPress={()=> {
+                                this.setState({
+                                    showPasswordTooltip: !this.state.showPasswordTooltip
+                                })
+                            }}
+                            windowBackgroundColor="rgba(0, 0, 0, 0.35)"
+                            overlayBackgroundColor="#ffffff"
+                            width="90%"
+                            height="auto">
+                            <Text style={{fontSize: 16}}>{i18nService.t('validation_message.password_requirements', {symbols: 8})}</Text>
+                        </ModalOverlay>
 
-                    <FlashMessage position="top" ref={'flashMessage'}/>
-                </View>
-            </SafeAreaView>
+                        <FlashMessage position="top" ref={'flashMessage'}/>
+                    </View>
+                </SafeAreaView>
+            </LinearGradient>
         );
     }
 }

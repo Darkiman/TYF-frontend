@@ -17,19 +17,19 @@ const AuthStack = createStackNavigator({
     Login: {
         screen: loginContainer,
         navigationOptions: () => ({
-            headerBackTitle: i18nService.t('navigation.back'),
+            header: null,
         })
     },
     Signup: {
         screen: signupContainer,
         navigationOptions: () => ({
-            headerBackTitle: i18nService.t('navigation.back'),
+            header: null,
         })
     },
     Recover: {
         screen: recoverContainer,
         navigationOptions: () => ({
-            headerBackTitle: i18nService.t('navigation.back'),
+            header: null,
         })
     },
     LanguageSettings: {

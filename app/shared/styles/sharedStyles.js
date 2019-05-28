@@ -1,7 +1,7 @@
 export const sharedStyles = {
     safeView: {
         flex: 1,
-        backgroundColor: 'white'
+        backgroundColor: 'transparent'
     },
     centredRow: {
         flex: 1,
