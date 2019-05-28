@@ -238,9 +238,8 @@ export default class SignupView extends Component {
                             height="auto">
                             <Text style={{fontSize: 16}}>{i18nService.t('validation_message.password_requirements', {symbols: 8})}</Text>
                         </ModalOverlay>
-
-                        <FlashMessage position="top" ref={'flashMessage'}/>
                     </View>
+                    <FlashMessage position="top" ref={'flashMessage'}/>
                 </SafeAreaView>
             </LinearGradient>
         );

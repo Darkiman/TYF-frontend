@@ -1,7 +1,7 @@
 const blueColors = {
-    backgroundColor: '#2eb0fb',
-    color: '#2eb0fb',
-    borderColor: '#2eb0fb',
+    backgroundColor: 'rgb(104,121,241)',
+    color: 'rgb(104,121,241)',
+    borderColor: 'rgb(104,121,241)',
     textLightColor: '#808080',
     textColor: '#555'
 };

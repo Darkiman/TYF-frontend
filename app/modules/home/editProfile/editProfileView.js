@@ -15,19 +15,14 @@ import ImagePicker from 'react-native-image-picker';
 import imageCacheHoc from 'react-native-image-cache-hoc';
 import LinearGradient from "react-native-linear-gradient";
 import EditPage from "../../components/editPage/editPage";
-import {Icon, Image, Text} from 'react-native-elements';
-import IconsType from "../../constants/IconsType";
-import themeService from "../../utils/themeService";
-import iconsService from "../../utils/iconsService";
+import {Image, Text} from 'react-native-elements';
 
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https'],
 });
 
-const colors = themeService.currentThemeColors;
 
-
-export default class HomeView extends Component {
+export default class EditProfileView extends Component {
     constructor(props) {
         super(props);
 
@@ -38,8 +33,6 @@ export default class HomeView extends Component {
             geoLocationReady: false,
             sourceDisplaying: null
         };
-
-        this.iconPrefix = iconsService.getIconPrefix();
     }
 
     componentDidMount() {
@@ -139,16 +132,6 @@ export default class HomeView extends Component {
                                 <Text h4>{this.user.name}</Text>
                                 <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
                                              title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
-                                             icon={<Icon
-                                                 type={IconsType.Ionicon}
-                                                 name={this.state.tracking ? `${this.iconPrefix}-pause` : `${this.iconPrefix}-play`}
-                                                 containerStyle={{position: 'relative', top: 3, marginLeft: 7}}
-                                                 size={20}
-                                                 color={this.state.tracking ? 'white' : colors.color }
-                                                 underlayColor={'transparent'}
-                                             />}
-                                             buttonText={{width: 'auto'}}
-                                             iconRight={true}
                                              loading={!this.state.initialized || !this.state.geoLocationReady}
                                              onPress={async () => {
                                                  if (!this.state.initialized || !this.state.geoLocationReady) {
@@ -173,6 +156,39 @@ export default class HomeView extends Component {
                                                  })
                                              }}>
                                 </LargeButton>
+                                <LargeButton
+                                    title={'Select avatar'}
+                                    onPress={() => {
+                                        ImagePicker.showImagePicker(this.options, async (response) => {
+                                            console.log('Response = ', response);
+
+                                            if (response.didCancel) {
+                                                console.log('User cancelled image picker');
+                                            } else if (response.error) {
+                                                console.log('ImagePicker Error: ', response.error);
+                                            } else if (response.customButton) {
+                                                console.log('User tapped custom button: ', response.customButton);
+                                            } else {
+                                                const source = {uri: response.uri};
+                                                const sourceDisplaying = {uri: 'data:image/jpeg;base64,' + response.data};
+
+                                                this.setState({
+                                                    avatarSource: source,
+                                                    sourceDisplaying: sourceDisplaying
+                                                });
+
+                                                const uploadedPhoto = await uploadAvatar(this.user.id, response);
+                                            }
+                                        });
+                                    }}>
+                                </LargeButton>
+                                {
+                                    this.state.sourceDisplaying ?
+                                        <Image style={{ width: 150, height: 150}}
+                                               source={this.state.sourceDisplaying}>
+                                        </Image>
+                                        : null
+                                }
                             </View>
 
                         </View> : null

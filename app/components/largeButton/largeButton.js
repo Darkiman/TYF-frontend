@@ -13,7 +13,10 @@ export default class LargeButton extends Component {
             loading,
             disabled,
             onPress,
-            type
+            type,
+            icon,
+            iconRight,
+            // iconContainerStyle
         } = this.props;
         const fromPropsButtonStyle = this.props.buttonStyle ? this.props.buttonStyle : {};
         const fromPropsTitleStyle = this.props.buttonText ? this.props.buttonText : {};
@@ -38,12 +41,15 @@ export default class LargeButton extends Component {
                     containerViewStyle={largeButtonStyles.containerViewStyle}
                     buttonStyle={{
                         ...buttonStyle,
-                        ...fromPropsButtonStyle
+                        ...fromPropsButtonStyle,
                     }}
                     titleStyle={{
                         ...titleStyle,
                         ...fromPropsTitleStyle
                     }}
+                    // iconContainerStyle={iconContainerStyle ? iconContainerStyle : {}}
+                    icon={icon ? icon : {}}
+                    iconRight={iconRight ? true : false}
                     loadingStyle={largeButtonStyles.loadingStyle}
                     loadingProps={largeButtonStyles.indicatorSize}
                     disabled={disabled}

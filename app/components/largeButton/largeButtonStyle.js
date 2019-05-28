@@ -11,7 +11,9 @@ export const largeButtonStyles = {
     containerViewStyle: {
         width: "100%",
         height: height,
-        borderRadius: borderRadius
+        borderRadius: borderRadius,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     outlineButtonStyle: {
         width: "100%",

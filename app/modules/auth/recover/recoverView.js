@@ -122,8 +122,8 @@ export default class RecoverView extends Component {
                                 }}
                             />
                         </View>
-                        <FlashMessage position="top" ref={'flashMessage'}/>
                     </View>
+                    <FlashMessage position="top" ref={'flashMessage'}/>
                 </SafeAreaView>
             </LinearGradient>
         );
