@@ -52,6 +52,7 @@
 		4D010C17B14749659B9D50E3 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF211E044605453C9CFE56E9 /* EvilIcons.ttf */; };
 		5306FB95226E1EB200808B15 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5306FB94226E1EB200808B15 /* MapKit.framework */; };
 		53083B3322733F7800362A9B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 53083B3222733F7800362A9B /* GoogleService-Info.plist */; };
+		5308DC5F229D27770021089F /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5308DC28229D27590021089F /* libBVLinearGradient.a */; };
 		53258DCD228C566B009DDEDF /* TSLocationManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DCC228C566B009DDEDF /* TSLocationManager.framework */; };
 		53258DDA228C6033009DDEDF /* libRNBackgroundGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DD3228C5FC3009DDEDF /* libRNBackgroundGeolocation.a */; };
 		53258DDD228C6070009DDEDF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DDC228C6070009DDEDF /* libsqlite3.tbd */; };
@@ -328,6 +329,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		5308DC27229D27590021089F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5308DC21229D27590021089F /* BVLinearGradient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = BVLinearGradient;
+		};
+		5308DC29229D27590021089F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5308DC21229D27590021089F /* BVLinearGradient.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64AA15081EF7F30100718508;
+			remoteInfo = "BVLinearGradient-tvOS";
+		};
 		530E0B5D2269C3E10054DDE6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 052F8C09558F439098FB3BD8 /* RNCAsyncStorage.xcodeproj */;
@@ -528,6 +543,7 @@
 		4B4A2A2BD7ED493C9960CB23 /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; };
 		5306FB94226E1EB200808B15 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		53083B3222733F7800362A9B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "temp/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5308DC21229D27590021089F /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		53258DCC228C566B009DDEDF /* TSLocationManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSLocationManager.framework; path = "../node_modules/react-native-background-geolocation/ios/RNBackgroundGeolocation/TSLocationManager.framework"; sourceTree = "<group>"; };
 		53258DCE228C5FC3009DDEDF /* RNBackgroundGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundGeolocation.xcodeproj; path = "../node_modules/react-native-background-geolocation/ios/RNBackgroundGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		53258DDC228C6070009DDEDF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -608,6 +624,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5308DC5F229D27770021089F /* libBVLinearGradient.a in Frameworks */,
 				53B870ED229BD6340063D85B /* libRNCAsyncStorage.a in Frameworks */,
 				53258EC42293ED81009DDEDF /* libRNImagePicker.a in Frameworks */,
 				53258EB32292F9F4009DDEDF /* libRNFetchBlob.a in Frameworks */,
@@ -869,6 +886,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5308DC22229D27590021089F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5308DC28229D27590021089F /* libBVLinearGradient.a */,
+				5308DC2A229D27590021089F /* libBVLinearGradient.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		530E0B5A2269C3DF0054DDE6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1014,6 +1040,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5308DC21229D27590021089F /* BVLinearGradient.xcodeproj */,
 				53258EB82293ED33009DDEDF /* RNImagePicker.xcodeproj */,
 				53258E7F2292F9EE009DDEDF /* RNFetchBlob.xcodeproj */,
 				53258E04228EDDED009DDEDF /* RNCNetInfo.xcodeproj */,
@@ -1224,6 +1251,10 @@
 				{
 					ProductGroup = 530E0BDF2269F82E0054DDE6 /* Products */;
 					ProjectRef = CC16077C703A4BF78EEA73C9 /* AirMaps.xcodeproj */;
+				},
+				{
+					ProductGroup = 5308DC22229D27590021089F /* Products */;
+					ProjectRef = 5308DC21229D27590021089F /* BVLinearGradient.xcodeproj */;
 				},
 				{
 					ProductGroup = 53258DC7228C4EDF009DDEDF /* Products */;
@@ -1537,6 +1568,20 @@
 			fileType = archive.ar;
 			path = libRNFirebase.a;
 			remoteRef = 53083AE722733AAA00362A9B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5308DC28229D27590021089F /* libBVLinearGradient.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBVLinearGradient.a;
+			remoteRef = 5308DC27229D27590021089F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5308DC2A229D27590021089F /* libBVLinearGradient.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBVLinearGradient.a;
+			remoteRef = 5308DC29229D27590021089F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		530E0B5E2269C3E10054DDE6 /* libRNCAsyncStorage.a */ = {

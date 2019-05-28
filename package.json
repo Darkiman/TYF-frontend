@@ -25,6 +25,7 @@
     "react-native-gesture-handler": "^1.1.0",
     "react-native-image-cache-hoc": "^2.0.0",
     "react-native-image-picker": "^0.28.1",
+    "react-native-linear-gradient": "^2.5.4",
     "react-native-maps": "^0.24.2",
     "react-native-settings-list": "^1.8.0",
     "react-native-splash-screen": "^3.2.0",

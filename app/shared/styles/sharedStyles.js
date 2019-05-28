@@ -15,4 +15,12 @@ export const sharedStyles = {
         justifyContent: 'center',
         alignItems:'center'
     },
+    gradient: {
+        start: '#6bddf2',
+        end: '#6879f1'
+    },
+    h4: {
+        color: 'white',
+        fontSize: 34
+    }
 };
