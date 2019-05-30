@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {View} from "react-native";
+import {Platform, View} from "react-native";
 import {Icon} from "react-native-elements";
 import IconsType from "../../constants/IconsType";
 import iconsService from "../../utils/iconsService";
@@ -10,7 +10,8 @@ const styles = {
         width: '100%',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingLeft: '5%'
+        paddingLeft: '5%',
+        paddingTop: Platform.OS === 'ios' ? '0' : 30
     }
 };
 
