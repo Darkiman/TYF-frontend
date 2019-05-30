@@ -17,6 +17,7 @@ import networkService from "../../../utils/networkService";
 import apiConfig from "../../../utils/apiConfig";
 import LinearGradient from "react-native-linear-gradient";
 import NavigationBack from "../../../components/navigationBack/navigationBack";
+import CommonConstant from "../../../constants/CommonConstant";
 
 export default class RecoverView extends Component {
     constructor(props) {
@@ -85,7 +86,7 @@ export default class RecoverView extends Component {
                                        disabled={this.state.isLoading}
                                        icon={'mail'}
                                        value={this.state.recover.email}
-                                       maxLength={40}
+                                       maxLength={CommonConstant.MAX_EMAIL_LENGTH}
                                        valid={this.state.emailValid}
                                        onChangeText={this.handleEmailChange}
                             />

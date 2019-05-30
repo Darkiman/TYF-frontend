@@ -19,6 +19,7 @@ import {Icon, Image, Text} from 'react-native-elements';
 import IconsType from "../../constants/IconsType";
 import themeService from "../../utils/themeService";
 import iconsService from "../../utils/iconsService";
+import NavigationRoutes from "../../constants/NavigationRoutes";
 
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https'],
@@ -129,15 +130,18 @@ export default class HomeView extends Component {
                 <SafeAreaView style={sharedStyles.safeView}>
                 {
                     this.state.initialized ?
-                        <EditPage onPress={() => {}} /> : null
+                        <EditPage onPress={() => {
+                            this.props.navigation.navigate(NavigationRoutes.HOME_PROFILE);
+                        }} /> : null
                 }
                 {
                     this.state.initialized ?
                         <View style={sharedStyles.centredColumn}>
                             <View style={{width: '90%'}}>
                                 <Image />
-                                <Text h4>{this.user.name}</Text>
+                                <Text h4 style={{...sharedStyles.h4, width: '100%', textAlign: 'center'}}>{this.user.name}</Text>
                                 <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
+                                             buttonStyle={{marginTop: 70}}
                                              title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
                                              icon={<Icon
                                                  type={IconsType.Ionicon}

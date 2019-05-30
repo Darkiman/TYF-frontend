@@ -26,7 +26,7 @@ export default class EditPage extends Component {
             <View style={styles.container}>
                 <Icon type={IconsType.Evilicon}
                       name={`pencil`}
-                      size={35}
+                      size={40}
                       color={'white'}
                       underlayColor={'transparent'}
                       onPress={onPress}

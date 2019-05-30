@@ -1,6 +1,6 @@
-import networkService from "../../utils/networkService";
-import ax from "../../utils/axios";
-import apiConfig from "../../utils/apiConfig";
+import networkService from "../../../utils/networkService";
+import ax from "../../../utils/axios";
+import apiConfig from "../../../utils/apiConfig";
 
 const initialState = {
   isLoading: false,

@@ -1,13 +1,13 @@
 export const textInputStyle = {
     containerStyle: {
-        borderRadius: 30,
+        borderRadius: 4,
         borderWidth: 1,
         borderColor: 'white',
         marginBottom: 5,
         marginTop: 5,
     },
     containerStyleFocused: {
-        borderRadius: 30,
+        borderRadius: 4,
         borderWidth: 1,
         borderColor: 'white',
         marginBottom: 5,

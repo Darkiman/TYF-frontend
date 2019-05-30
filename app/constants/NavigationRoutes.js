@@ -5,6 +5,7 @@ export default NavigationRoutes = {
     AUTH_RECOVER: 'Recover',
     //
     HOME: 'Home',
+    HOME_PROFILE: 'Profile',
     //
     CONTACTS: 'Contacts',
     SEARCH_CONTACTS: 'SearchContacts',

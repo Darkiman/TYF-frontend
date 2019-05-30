@@ -1,13 +1,11 @@
 import React from 'react';
-import homeContainer from "../home/homeContainer";
 import SettingsStackNavigator from "./settingsStackNavigator";
 import mapsContainer from "../maps/mapsContainer";
 import ContactsStackNavigator from "./contactsStackNavigator";
+import HomeStackNavigator from "./homeStackNavigator";
 
 export default mainNavigationScreens = {
-    Home: {
-        screen: homeContainer
-    },
+    Home: HomeStackNavigator,
     Maps: {
         screen: mapsContainer
     },

@@ -20,6 +20,7 @@ import userService from "../../../utils/userService";
 import NavigationRoutes from "../../../constants/NavigationRoutes";
 import LinearGradient from "react-native-linear-gradient";
 import NavigationBack from "../../../components/navigationBack/navigationBack";
+import CommonConstant from "../../../constants/CommonConstant";
 
 export default class SignupView extends Component {
     constructor(props) {
@@ -126,7 +127,7 @@ export default class SignupView extends Component {
                                        disabled={isLoading || user}
                                        icon={'mail'}
                                        value={this.state.signup.email}
-                                       maxLength={40}
+                                       maxLength={CommonConstant.MAX_EMAIL_LENGTH}
                                        valid={this.state.emailValid}
                                        onChangeText={this.handleEmailChange}
                             />
@@ -136,7 +137,7 @@ export default class SignupView extends Component {
                                        disabled={isLoading || user}
                                        icon={'contact'}
                                        value={this.state.signup.name}
-                                       maxLength={40}
+                                       maxLength={CommonConstant.MAX_NAME_LENGTH}
                                        valid={this.state.nameValid}
                                        onChangeText={this.handleNameChange}
                                        rightIcon={
@@ -161,7 +162,7 @@ export default class SignupView extends Component {
                                        icon={'lock'}
                                        secureTextEntry={true}
                                        value={this.state.signup.password}
-                                       maxLength={40}
+                                       maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
                                        valid={this.state.passwordValid}
                                        onChangeText={this.handlePasswordChange}
                                        rightIcon={
@@ -185,7 +186,7 @@ export default class SignupView extends Component {
                                        icon={'lock'}
                                        secureTextEntry={true}
                                        value={this.state.signup.confirmPassword}
-                                       maxLength={40}
+                                       maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
                                        valid={this.state.confirmPasswordValid}
                                        onChangeText={this.handleConfirmPasswordChange}
                             />
@@ -205,7 +206,14 @@ export default class SignupView extends Component {
                                                  const errorText = i18nService.t(`validation_message.${result.message}`);
                                                  messageService.showError(this.refs.flashMessage, errorText);
                                              } else {
-                                                 userService.setUser(result.source.key, result.source[0].data.email, password, result.source[0].data.token, false);
+                                                 userService.setUser(
+                                                     result.source.key,
+                                                     result.source[0].data.email,
+                                                     result.source[0].data.name[0],
+                                                     password,
+                                                     result.source[0].data.token,
+                                                     false,
+                                                     result.source[0].data.avatar);
                                                  this.props.navigation.navigate(NavigationRoutes.HOME);
                                              }
                                          }}
@@ -218,12 +226,8 @@ export default class SignupView extends Component {
                                 this.setState({
                                     showNameTooltip: !this.state.showNameTooltip
                                 })
-                            }}
-                            windowBackgroundColor="rgba(0, 0, 0, 0.35)"
-                            overlayBackgroundColor="#ffffff"
-                            width="auto"
-                            height="auto">
-                            <Text>{i18nService.t('validation_message.name_should_be_more_symbols', {symbols: 6})}</Text>
+                            }}>
+                            <Text>{i18nService.t('validation_message.name_should_be_more_symbols', {symbols: CommonConstant.MIN_NAME_LENGTH})}</Text>
                         </ModalOverlay>
                         <ModalOverlay
                             isVisible={this.state.showPasswordTooltip}
@@ -231,12 +235,8 @@ export default class SignupView extends Component {
                                 this.setState({
                                     showPasswordTooltip: !this.state.showPasswordTooltip
                                 })
-                            }}
-                            windowBackgroundColor="rgba(0, 0, 0, 0.35)"
-                            overlayBackgroundColor="#ffffff"
-                            width="90%"
-                            height="auto">
-                            <Text style={{fontSize: 16}}>{i18nService.t('validation_message.password_requirements', {symbols: 8})}</Text>
+                            }}>
+                            <Text style={{fontSize: 16}}>{i18nService.t('validation_message.password_requirements', {symbols: CommonConstant.MIN_PASSWORD_LENGTH})}</Text>
                         </ModalOverlay>
                     </View>
                     <FlashMessage position="top" ref={'flashMessage'}/>

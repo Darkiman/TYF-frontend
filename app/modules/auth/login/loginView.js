@@ -14,6 +14,7 @@ import NavigationRoutes from "../../../constants/NavigationRoutes";
 import userService from "../../../utils/userService";
 import LinearGradient from "react-native-linear-gradient";
 import NavigationBack from "../../../components/navigationBack/navigationBack";
+import CommonConstant from "../../../constants/CommonConstant";
 
 export default class LoginView extends Component {
     constructor(props) {
@@ -75,7 +76,7 @@ export default class LoginView extends Component {
                                        disabled={isLoading || user}
                                        icon={'mail'}
                                        value={this.state.login.email}
-                                       maxLength={40}
+                                       maxLength={CommonConstant.MAX_EMAIL_LENGTH}
                                        valid={this.state.emailValid}
                                        onChangeText={this.handleEmailChange}
                             />
@@ -85,7 +86,7 @@ export default class LoginView extends Component {
                                        icon={'lock'}
                                        secureTextEntry={true}
                                        value={this.state.login.password}
-                                       maxLength={40}
+                                       maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
                                        valid={this.state.passwordValid}
                                        onChangeText={this.handlePasswordChange}
                             />
@@ -102,7 +103,14 @@ export default class LoginView extends Component {
                                                  const errorText = i18nService.t(`validation_message.${result.message}`);
                                                  messageService.showError(this.refs.flashMessage, errorText);
                                              } else {
-                                                 userService.setUser(result.source[0].key, result.source[0].data.email, password, result.source[0].data.token, false);
+                                                 userService.setUser(
+                                                     result.source[0].key,
+                                                     result.source[0].data.email,
+                                                     result.source[0].data.name[0],
+                                                     password,
+                                                     result.source[0].data.token,
+                                                     false,
+                                                     result.source[0].data.avatar);
                                                  this.props.navigation.navigate(NavigationRoutes.HOME);
                                              }
                                          }}
