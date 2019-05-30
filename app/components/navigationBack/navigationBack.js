@@ -11,7 +11,7 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'flex-start',
         paddingLeft: '5%',
-        paddingTop: Platform.OS === 'ios' ? '0' : 30
+        paddingTop: Platform.OS === 'ios' ? 0 : 30
     }
 };
 

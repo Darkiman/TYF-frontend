@@ -2329,7 +2329,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "React-Native-App";
+				PRODUCT_BUNDLE_IDENTIFIER = TYF;
 				PRODUCT_NAME = temp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2377,7 +2377,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "React-Native-App";
+				PRODUCT_BUNDLE_IDENTIFIER = TYF;
 				PRODUCT_NAME = temp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

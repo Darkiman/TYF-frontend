@@ -142,7 +142,7 @@ export default class HomeView extends Component {
                                              icon={<Icon
                                                  type={IconsType.Ionicon}
                                                  name={this.state.tracking ? `${this.iconPrefix}-pause` : `${this.iconPrefix}-play`}
-                                                 containerStyle={{position: 'relative', top: Platform.OS === 'ios' ? 3 : 2, marginLeft: 7}}
+                                                 containerStyle={{position: 'relative', top: 2, marginLeft: 7}}
                                                  size={20}
                                                  color={this.state.tracking ? 'white' : colors.color }
                                                  underlayColor={'transparent'}
