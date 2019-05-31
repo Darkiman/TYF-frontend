@@ -4,9 +4,8 @@ import {
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import userService from "../../../utils/userService";
-import imageCacheHoc from 'react-native-image-cache-hoc';
 import LinearGradient from "react-native-linear-gradient";
-import {Icon, Image, Text} from 'react-native-elements';
+import {Icon, Text} from 'react-native-elements';
 import NavigationBack from "../../../components/navigationBack/navigationBack";
 import i18nService from "../../../utils/i18n/i18nService";
 import NavigationRoutes from "../../../constants/NavigationRoutes";
@@ -17,11 +16,19 @@ import TextInput from "../../../components/textInput/textInput";
 import ModalOverlay from "../../../components/overlay/overlay";
 import iconsService from "../../../utils/iconsService";
 import CommonConstant from "../../../constants/CommonConstant";
+import ProfileImage from "../../../components/profileImage/profileImage";
 
-const CacheableImage = imageCacheHoc(Image, {
-    validProtocols: ['http', 'https'],
-});
-
+const styles = {
+    view: {
+        height: '100%',
+        width: '90%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    avatar: {
+        marginBottom: 71
+    }
+};
 
 export default class EditProfileView extends Component {
     constructor(props) {
@@ -79,8 +86,12 @@ export default class EditProfileView extends Component {
                     {
                         this.state.initialized ?
                             <View style={sharedStyles.centredColumn}>
-                                <View style={{width: '90%'}}>
-
+                                <View style={styles.view}>
+                                    <ProfileImage style={styles.avatar}
+                                                  avatar={this.user.avatar}
+                                                  editable={true}
+                                    >
+                                    </ProfileImage>
                                     <TextInput ref={(ref) => this.nameRef = ref}
                                                name={'name'}
                                                placeholder={i18nService.t('name')}
@@ -119,7 +130,7 @@ export default class EditProfileView extends Component {
                     }
                     <ModalOverlay
                         isVisible={showNameTooltip}
-                        onBackdropPress={()=> {
+                        onBackdropPress={() => {
                             this.setState({
                                 showNameTooltip: !showNameTooltip
                             })
