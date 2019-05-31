@@ -69,8 +69,6 @@ export default class EditProfileView extends Component {
     render() {
         const {
             isLoading,
-            error,
-            data,
             uploadAvatar
         } = this.props;
         const {
@@ -88,9 +86,9 @@ export default class EditProfileView extends Component {
                             <View style={sharedStyles.centredColumn}>
                                 <View style={styles.view}>
                                     <ProfileImage style={styles.avatar}
-                                                  avatar={this.user.avatar}
+                                                  user={this.user}
                                                   editable={true}
-                                    >
+                                                  uploadAvatar={uploadAvatar}>
                                     </ProfileImage>
                                     <TextInput ref={(ref) => this.nameRef = ref}
                                                name={'name'}

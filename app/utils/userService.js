@@ -11,7 +11,7 @@ const userService = {
             name,
             password,
             token,
-            tracking: tracking.toString(),
+            tracking,
             avatar
         };
         const stringValue = JSON.stringify(user);
@@ -31,7 +31,7 @@ const userService = {
             name: result.name,
             password: result.password,
             token: result.token,
-            tracking: result.tracking === 'true',
+            tracking: result.tracking,
             avatar: result.avatar
         }
     },

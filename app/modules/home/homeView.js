@@ -20,13 +20,24 @@ import IconsType from "../../constants/IconsType";
 import themeService from "../../utils/themeService";
 import iconsService from "../../utils/iconsService";
 import NavigationRoutes from "../../constants/NavigationRoutes";
+import ProfileImage from "../../components/profileImage/profileImage";
 
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https'],
 });
 
 const colors = themeService.currentThemeColors;
-
+const styles = {
+    view: {
+        height: '100%',
+        width: '90%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    avatar: {
+        marginBottom: 71
+    }
+};
 
 export default class HomeView extends Component {
     constructor(props) {
@@ -137,8 +148,10 @@ export default class HomeView extends Component {
                 {
                     this.state.initialized ?
                         <View style={sharedStyles.centredColumn}>
-                            <View style={{width: '90%'}}>
-                                <Image />
+                            <View style={styles.view}>
+                                <ProfileImage style={styles.avatar}
+                                              user={this.user}>
+                                </ProfileImage>
                                 <Text h4 style={{...sharedStyles.h4, width: '100%', textAlign: 'center'}}>{this.user.name}</Text>
                                 <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
                                              buttonStyle={{marginTop: 70}}

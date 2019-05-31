@@ -12,22 +12,6 @@ export const UPLOAD_AVATAR_SUCCESS = 'profile/UPLOAD_AVATAR_SUCCESS';
 export const UPLOAD_AVATAR_LOADING = 'profile/UPLOAD_AVATAR_LOADING';
 export const UPLOAD_AVATAR_ERROR = 'profile/UPLOAD_AVATAR_ERROR';
 
-// const createFormData = (photo, body) => {
-//   const data = new FormData();
-//
-//   data.append("photo", {
-//     name: photo.fileName,
-//     type: photo.type,
-//     data: photo.data
-//   });
-//
-//   Object.keys(body).forEach(key => {
-//     data.append(key, body[key]);
-//   });
-//
-//   return data;
-// };
-
 export const uploadAvatar = (id, photo) => {
   return dispatch => {
     if(!networkService.isConnected) {
