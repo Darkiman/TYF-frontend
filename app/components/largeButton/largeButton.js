@@ -13,6 +13,7 @@ export default class LargeButton extends Component {
             loading,
             disabled,
             onPress,
+            style,
             type,
             icon,
             iconRight,
@@ -55,6 +56,7 @@ export default class LargeButton extends Component {
                     disabled={disabled}
                     loading={loading}
                     onPress={onPress}
+                    style={style ? style : {}}
             />
         );
     }

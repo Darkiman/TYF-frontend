@@ -24,6 +24,7 @@
   "email": "Email",
   "name": "Name",
   "password": "Password",
+  "new_password": "New password",
   "confirm_password": "Confirm password",
   "forgot_password": "Forgot password?",
   "recover_password": "Recover password",
@@ -40,6 +41,8 @@
   "select_avatar": "Select avatar",
   "take_photo": "Take photo",
   "choose_from_gallery": "Choose from gallery",
+  "max_avatar_size": "Max image size for avatar %{size} MB",
+  "type_here_to_change_password": "Type here to change password",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",

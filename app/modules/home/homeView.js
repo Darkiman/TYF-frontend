@@ -11,7 +11,7 @@ import ax from "../../utils/axios";
 import userService from "../../utils/userService";
 import asyncStorageService from "../../utils/asyncStorageService";
 import userKeys from "../../constants/userKeys";
-import ImagePicker from 'react-native-image-picker';
+import { Dimensions } from "react-native";
 import imageCacheHoc from 'react-native-image-cache-hoc';
 import LinearGradient from "react-native-linear-gradient";
 import EditPage from "../../components/editPage/editPage";
@@ -135,6 +135,10 @@ export default class HomeView extends Component {
             data,
             uploadAvatar
         } = this.props;
+        const screenWidth = Math.round(Dimensions.get('window').width);
+        const buttonWidth = screenWidth - (screenWidth * 0.1);
+        const buttonMargin = screenWidth * 0.05;
+
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
@@ -155,6 +159,7 @@ export default class HomeView extends Component {
                                 <Text h4 style={{...sharedStyles.h4, width: '100%', textAlign: 'center'}}>{this.user.name}</Text>
                                 <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
                                              buttonStyle={{marginTop: 70}}
+                                             style={{width: buttonWidth, marginLeft: buttonMargin, marginRight: buttonMargin}}
                                              title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
                                              icon={<Icon
                                                  type={IconsType.Ionicon}

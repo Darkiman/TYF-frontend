@@ -8,36 +8,40 @@ const initialState = {
   data: {}
 };
 
-export const UPLOAD_AVATAR_SUCCESS = 'profile/UPLOAD_AVATAR_SUCCESS';
-export const UPLOAD_AVATAR_LOADING = 'profile/UPLOAD_AVATAR_LOADING';
-export const UPLOAD_AVATAR_ERROR = 'profile/UPLOAD_AVATAR_ERROR';
+export const UPLOAD_INFO_SUCCESS = 'profile/UPLOAD_INFO_SUCCESS';
+export const UPLOAD_INFO_LOADING = 'profile/UPLOAD_INFO_LOADING';
+export const UPLOAD_INFO_ERROR = 'profile/UPLOAD_INFO_ERROR';
 
-export const uploadAvatar = (id, photo) => {
+export const changeInfo = (id, photo, name, password) => {
   return dispatch => {
     if(!networkService.isConnected) {
       dispatch({
-        type: UPLOAD_AVATAR_ERROR,
+        type: UPLOAD_INFO_ERROR,
         payload: { data: 'internet_connection_not_available' }
       });
       return;
     }
     dispatch({
-      type: UPLOAD_AVATAR_LOADING,
+      type: UPLOAD_INFO_LOADING,
     });
     const data = {
       id: id,
-      name: photo.fileName,
-      type: photo.type,
-      data: photo.data
+      avatar: {
+        name: photo.fileName,
+        type: photo.type,
+        data: photo.data
+      },
+      name: name,
+      password: password
     };
-    return ax.post(`${apiConfig.url}profile/avatar`, data)
+    return ax.post(`${apiConfig.url}profile/info`, data)
         .then(({data}) => {
           const result = {
             source: data,
             error: false
           };
           dispatch({
-            type: UPLOAD_AVATAR_SUCCESS,
+            type: UPLOAD_INFO_SUCCESS,
             payload: result
           });
           return result;
@@ -49,7 +53,7 @@ export const uploadAvatar = (id, photo) => {
             message: text
           };
           dispatch({
-            type: UPLOAD_AVATAR_ERROR,
+            type: UPLOAD_INFO_ERROR,
             payload: result
           });
           return result;
@@ -59,17 +63,17 @@ export const uploadAvatar = (id, photo) => {
 
 const editProfileState = (state: Object = initialState, action: Object) => {
   switch (action.type) {
-    case UPLOAD_AVATAR_SUCCESS:
+    case UPLOAD_INFO_SUCCESS:
       return {
         isLoading: false,
         data: action.payload
       };
-    case UPLOAD_AVATAR_LOADING:
+    case UPLOAD_INFO_LOADING:
       return {
         ...state,
         isLoading: true
       };
-    case UPLOAD_AVATAR_ERROR:
+    case UPLOAD_INFO_ERROR:
       return {
         isLoading: false,
         data: action.payload

@@ -9,14 +9,14 @@ export const largeButtonStyles = {
         color: '#6879f1'
     },
     containerViewStyle: {
-        width: "100%",
+        width: '100%',
         height: height,
         borderRadius: borderRadius,
         justifyContent: 'center',
         alignItems: 'center'
     },
     outlineButtonStyle: {
-        width: "100%",
+        width: '100%',
         borderColor: 'white',
         borderWidth: 1,
         height: height,
@@ -29,7 +29,7 @@ export const largeButtonStyles = {
         color: 'white'
     },
     clearButtonStyle: {
-        width: "100%",
+        width: '100%',
         borderColor: 'transparent',
         backgroundColor: 'transparent',
         borderWidth: 1,
@@ -43,7 +43,7 @@ export const largeButtonStyles = {
         color: 'white'
     },
     buttonStyle: {
-        width: "100%",
+        width: '100%',
         height: height,
         backgroundColor: 'white',
         borderRadius: borderRadius

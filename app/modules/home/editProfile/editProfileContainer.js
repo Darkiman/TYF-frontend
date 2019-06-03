@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import EditProfileView from './editProfileView';
 import { bindActionCreators } from 'redux';
 import {
-  uploadAvatar,
+  changeInfo,
 } from './editProfileState';
 
 const mapStateToProps = state => ({
@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  uploadAvatar
+  changeInfo
 }, dispatch);
 
 export default connect(

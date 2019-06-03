@@ -1,14 +1,13 @@
 import React, {Component} from "react";
-import {Image, View, TouchableOpacity} from 'react-native';
+import {Image, View, TouchableOpacity, ActivityIndicator} from 'react-native';
 import imageCacheHoc from "react-native-image-cache-hoc";
 import apiConfig from "../../utils/apiConfig";
 import ImagePicker from 'react-native-image-picker';
 import i18nService from '../../utils/i18n/i18nService';
 import IconsType from "../../constants/IconsType";
-import {textInputStyle} from "../textInput/textInputStyle";
 import {Icon} from "react-native-elements";
 import iconsService from "../../utils/iconsService";
-import userService from "../../utils/userService";
+import CommonConstant from "../../constants/CommonConstant";
 
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https']
@@ -34,6 +33,11 @@ const styles = {
         position: 'absolute',
         right: 47,
         top: 40
+    },
+    activityIndicator: {
+        position: 'absolute',
+        right: 42,
+        top: 44
     }
 };
 
@@ -44,6 +48,8 @@ export default class ProfileImage extends Component {
         this.iconPrefix = iconsService.getIconPrefix();
         this.state = {
             avatar: this.getAvatar(avatar),
+            avatarSource: null,
+            changed: false,
             user: props.user,
             loading: false,
         };
@@ -67,6 +73,9 @@ export default class ProfileImage extends Component {
     }
 
     changeAvatar = () => {
+        this.setState({
+            loading: true
+        });
         ImagePicker.showImagePicker(this.options, async (response) => {
             console.log('Response = ', response);
 
@@ -77,19 +86,20 @@ export default class ProfileImage extends Component {
             } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
-                this.setState({
-                    loading: true
-                });
-                const uploadedPhoto = await this.props.uploadAvatar(this.state.user.id, response);
-                const user = this.state.user;
-                const avatarUrl = this.getAvatar(uploadedPhoto.source.contact.data.avatar);
-                user.avatar = await uploadedPhoto.source.contact.data.avatar;
-                this.setState({
-                    user: user,
-                    avatar: avatarUrl
-                });
-                userService.setUser(user.id, user.email, user.name, user.password, user.token, user.tracking, user.avatar);
+                if(response.fileSize >= CommonConstant.MAX_FILE_SIZE) {
+                    this.props.showError(i18nService.t('max_avatar_size', {size: 20}))
+                } else {
+                    this.setState({
+                        avatarSource:  { uri: 'data:image/jpeg;base64,' + response.data },
+                        type: response.data.type,
+                        changed: true
+                    });
+                }
             }
+
+            this.setState({
+                loading: false
+            });
         })
     };
 
@@ -98,30 +108,45 @@ export default class ProfileImage extends Component {
             style,
             editable
         } = this.props;
+        const {
+            loading,
+            avatar,
+            avatarSource,
+            changed
+        } = this.state;
         const containerStyle = {...styles.view, ...(style ? style : {})};
-        const avatarSource = this.state.avatar;
-        const img = <CacheableImage style={{...styles.avatar, ...{opacity: editable ? 0.3 : 1}}}
-                                    source={avatarSource ? {
-                                        uri: avatarSource
+        const avatarData = avatarSource ? avatarSource : avatar;
+        const img = changed ? <Image source={avatarSource}
+                                     style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? 0.3 : 1}}}/>
+                                    : <CacheableImage
+                                    style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? 0.3 : 1}}}
+                                    source={avatarData ? {
+                                        uri: avatarData
                                     } : defaultImg}/>;
         return (
             <View style={containerStyle}>
                 {
                     editable ?
                         <TouchableOpacity onPress={() => {
-                            if (editable) {
+                            if (editable && !loading) {
                                 this.changeAvatar();
                             }
                         }}>
-                            <Icon
-                                containerStyle={styles.icon}
-                                type={IconsType.Ionicon}
-                                name={`${this.iconPrefix}-${'camera'}`}
-                                size={40}
-                                color={'white'}
-                                underlayColor={'transparent'}
-                            />
                             {img}
+                            {
+                                loading ?
+                                    <View style={styles.activityIndicator}>
+                                        <ActivityIndicator size={'large'} color={'white'}/>
+                                    </View> :
+                                    <Icon
+                                        containerStyle={styles.icon}
+                                        type={IconsType.Ionicon}
+                                        name={`${this.iconPrefix}-${'camera'}`}
+                                        size={40}
+                                        color={'white'}
+                                        underlayColor={'transparent'}
+                                    />
+                            }
                         </TouchableOpacity>
                         : img
                 }
