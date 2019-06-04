@@ -45,6 +45,8 @@ export default class EditProfileView extends Component {
             passwordValid: true,
             nameValid: true,
             nameChanged: false,
+
+            imageLoading: false,
         };
     }
 
@@ -63,7 +65,7 @@ export default class EditProfileView extends Component {
     }
 
     handleNameChange = (text) => {
-        const isNameValid = text && (text.length < 6 || text === this.user.name) ? false : true;
+        const isNameValid = !text || text.length < CommonConstant.MIN_NAME_LENGTH ? false : true;
         this.setState({
             name: text,
             nameValid: isNameValid,
@@ -84,6 +86,19 @@ export default class EditProfileView extends Component {
         const {name, password} = this.state;
         try {
             const result = await changeInfo(this.user.id, this.profileImageRef.state.response, name, password);
+            if(result.error) {
+                const errorText = i18nService.t(`validation_message.${result.message}`);
+                messageService.showError(this.refs.flashMessage, errorText);
+            } else {
+                let updatedUser = {...this.user, ... result.source.user.data};
+                updatedUser.name = updatedUser.name[0];
+                await userService.setUser(updatedUser);
+                const update = this.props.navigation.getParam('update');
+                if(update) {
+                    update();
+                }
+                this.back();
+            }
         } catch (e) {
             messageService.showError(this.refs.flashMessage, i18nService.t('error_while_saving_data'));
         }
@@ -98,19 +113,11 @@ export default class EditProfileView extends Component {
             isLoading,
         } = this.props;
         const {
-            name, nameValid, passwordValid, nameChanged, showNameTooltip, changePassword
+            name, nameValid, passwordValid, nameChanged, showNameTooltip, changePassword, imageLoading
         } = this.state;
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
-                {/*<NavigationEvents*/}
-                {/*    onWillFocus={payload => {*/}
-                {/*        this.setState({*/}
-                {/*            // contacts: this.props.contacts,*/}
-                {/*            // contactsToShow: this.getContactsToShow(this.state.search, this.props.contacts).slice()*/}
-                {/*        })*/}
-                {/*    }}*/}
-                {/*/>*/}
                 <SafeAreaView style={sharedStyles.safeView}>
                     <NavigationBack onPress={() => {
                         this.back();
@@ -123,6 +130,11 @@ export default class EditProfileView extends Component {
                                                   style={styles.avatar}
                                                   user={this.user}
                                                   editable={true}
+                                                  stateChanged={(value) => {
+                                                      this.setState({
+                                                          imageLoading: value
+                                                      })
+                                                  }}
                                                   showError={(text) => {
                                                       messageService.showError(this.refs.flashMessage, text);
                                                   }}>
@@ -186,7 +198,7 @@ export default class EditProfileView extends Component {
                                     }
                                     <View style={{width: '100%', height: 50}}>
                                         <LargeButton title={i18nService.t('save_changes')}
-                                                     disabled={isLoading}
+                                                     disabled={isLoading || imageLoading || !nameValid || !passwordValid}
                                                      loading={isLoading}
                                                      buttonStyle={{
                                                          marginTop: 72,

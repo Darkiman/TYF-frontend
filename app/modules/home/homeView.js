@@ -122,6 +122,11 @@ export default class HomeView extends Component {
         // console.log('[providerchange] -', provider.enabled, provider.status);
     }
 
+    afterUserInfoChange = async () => {
+        this.user = await userService.getUser();
+        this.forceUpdate();
+    };
+
     render() {
         const {
             isLoading,
@@ -137,7 +142,11 @@ export default class HomeView extends Component {
                 {
                     this.state.initialized ?
                         <EditPage onPress={() => {
-                            this.props.navigation.navigate(NavigationRoutes.HOME_PROFILE);
+                            this.props.navigation.navigate(NavigationRoutes.HOME_PROFILE, {
+                                update: () => {
+                                    this.afterUserInfoChange();
+                                }
+                            });
                         }} /> : null
                 }
                 {

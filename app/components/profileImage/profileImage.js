@@ -68,14 +68,23 @@ export default class ProfileImage extends Component {
         };
     }
 
+    componentDidUpdate(prevProps, prevState) {
+       if(this.props.user !== prevState.user) {
+           const avatar = this.props.user.avatar;
+           this.setState({
+               avatar: this.getAvatar(avatar),
+               user: this.props.user,
+           })
+       }
+    }
+
+
     getAvatar(avatar) {
         return avatar ? `${apiConfig.static}avatars/${avatar}` : `${apiConfig.static}avatars/default.jpg`
     }
 
     changeAvatar = () => {
-        this.setState({
-            loading: true
-        });
+        this.toggleLoadingState(true);
         ImagePicker.showImagePicker(this.options, async (response) => {
             console.log('Response = ', response);
 
@@ -97,10 +106,16 @@ export default class ProfileImage extends Component {
                 }
             }
 
-            this.setState({
-                loading: false
-            });
+            this.toggleLoadingState(false);
         })
+    };
+
+    toggleLoadingState = (value) => {
+        const {stateChanged} = this.props;
+        this.setState({
+            loading: value
+        });
+        stateChanged(value);
     };
 
     render() {

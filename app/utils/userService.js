@@ -3,17 +3,8 @@ import ax from '../utils/axios';
 import userKeys from "../constants/userKeys";
 
 const userService = {
-    setUser: function (id, email, name, password, token, tracking, avatar) {
-        ax.defaults.headers.common['Authorization'] = `Token ${token}`;
-        const user = {
-            id,
-            email,
-            name,
-            password,
-            token,
-            tracking,
-            avatar
-        };
+    setUser: function (user) {
+        ax.defaults.headers.common['Authorization'] = `Token ${user.token}`;
         const stringValue = JSON.stringify(user);
         return Promise.all([
             asyncStorageService.setItem(userKeys.USER_KEY, stringValue)
