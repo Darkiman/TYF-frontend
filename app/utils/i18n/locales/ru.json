@@ -43,6 +43,7 @@
   "choose_from_gallery": "Выбрать из галереи",
   "max_avatar_size": "Максимальный размер для фотографии %{size} МБ",
   "type_here_to_change_password": "Нажмите чтобы изменить пароль",
+  "error_while_saving_data": "Ошибка при сохранение. Попробуйте еще раз.",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "email_is_not_valid": "Email is not valid",

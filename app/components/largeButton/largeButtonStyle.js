@@ -28,6 +28,10 @@ export const largeButtonStyles = {
         fontSize: 21,
         color: 'white'
     },
+    outlineButtonLoadingProps: {
+        size: 'large',
+        color: 'white'
+    },
     clearButtonStyle: {
         width: '100%',
         borderColor: 'transparent',
@@ -42,6 +46,10 @@ export const largeButtonStyles = {
         fontSize: 16,
         color: 'white'
     },
+    clearButtonLoadingProps: {
+        size: 'large',
+        color: '#6879f1'
+    },
     buttonStyle: {
         width: '100%',
         height: height,
@@ -52,7 +60,4 @@ export const largeButtonStyles = {
         width: '100%',
         height: 24,
     },
-    indicatorSize: {
-        size: 'large'
-    }
 };

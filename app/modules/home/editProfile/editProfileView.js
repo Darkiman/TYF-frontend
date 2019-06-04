@@ -81,6 +81,12 @@ export default class EditProfileView extends Component {
 
     saveChanges = async () => {
         const {changeInfo} = this.props;
+        const {name, password} = this.state;
+        try {
+            const result = await changeInfo(this.user.id, this.profileImageRef.state.response, name, password);
+        } catch (e) {
+            messageService.showError(this.refs.flashMessage, i18nService.t('error_while_saving_data'));
+        }
     };
 
     back = () => {
@@ -113,15 +119,15 @@ export default class EditProfileView extends Component {
                         this.state.initialized ?
                             <View style={sharedStyles.centredColumn}>
                                 <View style={styles.view}>
-                                    <ProfileImage style={styles.avatar}
+                                    <ProfileImage ref={(ref) => this.profileImageRef = ref}
+                                                  style={styles.avatar}
                                                   user={this.user}
                                                   editable={true}
                                                   showError={(text) => {
                                                       messageService.showError(this.refs.flashMessage, text);
                                                   }}>
                                     </ProfileImage>
-                                    <TextInput ref={(ref) => this.nameRef = ref}
-                                               name={'name'}
+                                    <TextInput name={'name'}
                                                placeholder={i18nService.t('name')}
                                                disabled={isLoading || !nameValid || !nameChanged}
                                                icon={'contact'}
@@ -178,16 +184,17 @@ export default class EditProfileView extends Component {
                                                 />
                                             </View>
                                     }
-                                    <LargeButton title={i18nService.t('save_changes')}
-                                                 disabled={isLoading || !nameValid || !nameChanged || !passwordValid}
-                                                 buttonStyle={{
-                                                     marginTop: 72,
-                                                     marginBottom: 20
-                                                 }}
-                                                 onPress={() => {
-                                                     this.props.navigation.navigate(NavigationRoutes.AUTH_LOGIN)
-                                                 }}
-                                    />
+                                    <View style={{width: '100%', height: 50}}>
+                                        <LargeButton title={i18nService.t('save_changes')}
+                                                     disabled={isLoading}
+                                                     loading={isLoading}
+                                                     buttonStyle={{
+                                                         marginTop: 72,
+                                                         marginBottom: 20,
+                                                     }}
+                                                     onPress={this.saveChanges}
+                                        />
+                                    </View>
                                 </View>
                             </View> : null
                     }

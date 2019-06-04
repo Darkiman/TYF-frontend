@@ -26,11 +26,11 @@ export const changeInfo = (id, photo, name, password) => {
     });
     const data = {
       id: id,
-      avatar: {
+      avatar: photo ? {
         name: photo.fileName,
         type: photo.type,
-        data: photo.data
-      },
+        data: photo.data,
+      } : null,
       name: name,
       password: password
     };

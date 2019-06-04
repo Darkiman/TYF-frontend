@@ -6,7 +6,9 @@ import {
 } from './editProfileState';
 
 const mapStateToProps = state => ({
-  home: state.home
+  data: state.editProfile.data,
+  isLoading: state.editProfile.isLoading,
+  error: state.editProfile.error
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

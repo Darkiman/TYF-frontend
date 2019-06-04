@@ -23,18 +23,22 @@ export default class LargeButton extends Component {
         const fromPropsTitleStyle = this.props.buttonText ? this.props.buttonText : {};
         let buttonStyle;
         let titleStyle;
+        let loadingProps;
         switch (type) {
             case 'outline':
                 buttonStyle = largeButtonStyles.outlineButtonStyle;
                 titleStyle = largeButtonStyles.outlineButtonText;
+                loadingProps = largeButtonStyles.outlineButtonLoadingProps;
                 break;
             case 'clear':
                 buttonStyle = largeButtonStyles.clearButtonStyle;
                 titleStyle = largeButtonStyles.clearButtonText;
+                loadingProps = largeButtonStyles.clearButtonLoadingProps;
                 break;
             default:
                 buttonStyle = largeButtonStyles.buttonStyle;
                 titleStyle = largeButtonStyles.buttonText;
+                loadingProps = largeButtonStyles.clearButtonLoadingProps;
         }
         return (
             <Button type={type}
@@ -52,7 +56,7 @@ export default class LargeButton extends Component {
                     icon={icon ? icon : {}}
                     iconRight={iconRight ? true : false}
                     loadingStyle={largeButtonStyles.loadingStyle}
-                    loadingProps={largeButtonStyles.indicatorSize}
+                    loadingProps={loadingProps}
                     disabled={disabled}
                     loading={loading}
                     onPress={onPress}

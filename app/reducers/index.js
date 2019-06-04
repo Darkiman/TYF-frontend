@@ -9,6 +9,7 @@ import authState from '../modules/auth/authState';
 import loginState from '../modules/auth/login/loginState';
 import signupState from '../modules/auth/signup/signupState';
 import contactsState from '../modules/contacts/contactsState';
+import editProfileState from '../modules/home/editProfile/editProfileState';
 
 // Root Reducer
 const rootReducer = combineReducers({
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   auth: authState,
   login: loginState,
   signupState: signupState,
-  contactsState: contactsState
+  contactsState: contactsState,
+  editProfile: editProfileState
 });
 
 export default rootReducer;

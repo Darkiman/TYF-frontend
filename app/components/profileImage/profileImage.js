@@ -91,7 +91,7 @@ export default class ProfileImage extends Component {
                 } else {
                     this.setState({
                         avatarSource:  { uri: 'data:image/jpeg;base64,' + response.data },
-                        type: response.data.type,
+                        response: response,
                         changed: true
                     });
                 }
