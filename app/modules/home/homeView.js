@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView, Platform
+    View, SafeAreaView
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import SplashScreen from "react-native-splash-screen";
@@ -11,20 +11,14 @@ import ax from "../../utils/axios";
 import userService from "../../utils/userService";
 import asyncStorageService from "../../utils/asyncStorageService";
 import userKeys from "../../constants/userKeys";
-import { Dimensions } from "react-native";
-import imageCacheHoc from 'react-native-image-cache-hoc';
 import LinearGradient from "react-native-linear-gradient";
 import EditPage from "../../components/editPage/editPage";
-import {Icon, Image, Text} from 'react-native-elements';
+import {Icon, Text} from 'react-native-elements';
 import IconsType from "../../constants/IconsType";
 import themeService from "../../utils/themeService";
 import iconsService from "../../utils/iconsService";
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import ProfileImage from "../../components/profileImage/profileImage";
-
-const CacheableImage = imageCacheHoc(Image, {
-    validProtocols: ['http', 'https'],
-});
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -135,9 +129,6 @@ export default class HomeView extends Component {
             data,
             uploadAvatar
         } = this.props;
-        const screenWidth = Math.round(Dimensions.get('window').width);
-        const buttonWidth = screenWidth - (screenWidth * 0.1);
-        const buttonMargin = screenWidth * 0.05;
 
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
@@ -157,44 +148,45 @@ export default class HomeView extends Component {
                                               user={this.user}>
                                 </ProfileImage>
                                 <Text h4 style={{...sharedStyles.h4, width: '100%', textAlign: 'center'}}>{this.user.name}</Text>
-                                <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
-                                             buttonStyle={{marginTop: 70}}
-                                             style={{width: buttonWidth, marginLeft: buttonMargin, marginRight: buttonMargin}}
-                                             title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
-                                             icon={<Icon
-                                                 type={IconsType.Ionicon}
-                                                 name={this.state.tracking ? `${this.iconPrefix}-pause` : `${this.iconPrefix}-play`}
-                                                 containerStyle={{position: 'relative', top: 2, marginLeft: 7}}
-                                                 size={20}
-                                                 color={this.state.tracking ? 'white' : colors.color }
-                                                 underlayColor={'transparent'}
-                                             />}
-                                             buttonText={{width: 'auto'}}
-                                             iconRight={true}
-                                             loading={!this.state.initialized || !this.state.geoLocationReady}
-                                             onPress={async () => {
-                                                 if (!this.state.initialized || !this.state.geoLocationReady) {
-                                                     return;
-                                                 }
-                                                 if (this.state.tracking) {
-                                                     BackgroundGeolocation.removeListeners();
-                                                     BackgroundGeolocation.stop(function () {
-                                                         console.log("- Stop geo success");
-                                                     });
-                                                 } else {
-                                                     BackgroundGeolocation.onLocation(this.onLocation, this.onError);
-                                                     BackgroundGeolocation.onProviderChange(this.onProviderChange);
-                                                     BackgroundGeolocation.start(function () {
-                                                         console.log("- Start geo success");
-                                                     });
-                                                 }
-                                                 const tracking = !this.state.tracking;
-                                                 await asyncStorageService.setItem(userKeys.TRACKING_KEY, tracking.toString());
-                                                 this.setState({
-                                                     tracking: tracking
-                                                 })
-                                             }}>
-                                </LargeButton>
+                                <View style={{width: '100%'}}>
+                                    <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
+                                                 buttonStyle={{marginTop: 70}}
+                                                 title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
+                                                 icon={<Icon
+                                                     type={IconsType.Ionicon}
+                                                     name={this.state.tracking ? `${this.iconPrefix}-pause` : `${this.iconPrefix}-play`}
+                                                     containerStyle={{position: 'relative', top: 2, marginLeft: 7}}
+                                                     size={20}
+                                                     color={this.state.tracking ? 'white' : colors.color }
+                                                     underlayColor={'transparent'}
+                                                 />}
+                                                 buttonText={{width: 'auto'}}
+                                                 iconRight={true}
+                                                 loading={!this.state.initialized || !this.state.geoLocationReady}
+                                                 onPress={async () => {
+                                                     if (!this.state.initialized || !this.state.geoLocationReady) {
+                                                         return;
+                                                     }
+                                                     if (this.state.tracking) {
+                                                         BackgroundGeolocation.removeListeners();
+                                                         BackgroundGeolocation.stop(function () {
+                                                             console.log("- Stop geo success");
+                                                         });
+                                                     } else {
+                                                         BackgroundGeolocation.onLocation(this.onLocation, this.onError);
+                                                         BackgroundGeolocation.onProviderChange(this.onProviderChange);
+                                                         BackgroundGeolocation.start(function () {
+                                                             console.log("- Start geo success");
+                                                         });
+                                                     }
+                                                     const tracking = !this.state.tracking;
+                                                     await asyncStorageService.setItem(userKeys.TRACKING_KEY, tracking.toString());
+                                                     this.setState({
+                                                         tracking: tracking
+                                                     })
+                                                 }}>
+                                    </LargeButton>
+                                </View>
                             </View>
 
                         </View> : null
