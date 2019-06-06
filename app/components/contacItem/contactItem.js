@@ -30,9 +30,6 @@ export default class ContactItem extends Component {
         const {
             leftAvatar,
             title,
-            showAdd,
-            showDelete,
-            loading,
             onAdd,
             onDelete,
             data
@@ -61,40 +58,6 @@ export default class ContactItem extends Component {
                     }
                 }}
                 title={title}
-                rightElement={
-                    <View style={{
-                        ...sharedStyles.centredRow,
-                        flex: 0,
-                        justifyContent: showDelete && showAdd ? 'space-between' : 'flex-end',
-                        width: 60
-                    }}>
-                        {
-                            showAdd ? <Icon type={IconsType.Ionicon}
-                                            name={`${this.iconPrefix}-add`}
-                                            size={30}
-                                            color={colors.color}
-                                            onPress={() => {
-                                                if (onAdd) {
-                                                    onAdd(data);
-                                                }
-                                            }}
-                            /> : null
-                        }
-                        {loading ? <ActivityIndicator/> : null}
-                        {
-                            showDelete ? <Icon type={IconsType.Ionicon}
-                                               name={`${this.iconPrefix}-trash`}
-                                               size={30}
-                                               color={colors.color}
-                                               onPress={() => {
-                                                   if (onDelete) {
-                                                       onDelete(data);
-                                                   }
-                                               }}
-                            /> : null
-                        }
-                    </View>
-                }
             >
             </ListItem>
         );

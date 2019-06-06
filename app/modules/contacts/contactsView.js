@@ -3,7 +3,7 @@ import {
     View,
     SafeAreaView,
     ScrollView,
-    RefreshControl
+    RefreshControl, ActivityIndicator, TouchableOpacity
 } from 'react-native';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
@@ -19,7 +19,7 @@ import ContactItem from "../../components/contacItem/contactItem";
 import {NavigationEvents} from 'react-navigation';
 import CustomSearchBar from "../../components/searchBar/searchBar";
 import LinearGradient from "react-native-linear-gradient";
-import { SwipeListView } from 'react-native-swipe-list-view';
+import {SwipeListView} from 'react-native-swipe-list-view';
 
 const colors = themeService.currentThemeColors;
 
@@ -143,6 +143,7 @@ export default class ContactsView extends Component {
         }
     };
 
+
     render() {
         const {
             isLoading,
@@ -193,29 +194,26 @@ export default class ContactsView extends Component {
                             </View>
                         </View>
                         <ScrollView style={{backgroundColor: 'white'}}
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={this.state.refreshing}
-                                    onRefresh={this.onRefresh}
-                                />
-                        }>
+                                    refreshControl={
+                                        <RefreshControl
+                                            refreshing={this.state.refreshing}
+                                            onRefresh={this.onRefresh}
+                                        />
+                                    }>
                             <SwipeListView
                                 useFlatList
                                 stopLeftSwipe={300}
                                 stopRightSwipe={-100}
                                 leftOpenValue={75}
-                                rightOpenValue={-75}
+                                rightOpenValue={-90}
                                 disableRightSwipe={true}
                                 data={this.state.contactsToShow}
-                                renderItem={ (data, rowMap) => {
+                                renderItem={(data, rowMap) => {
                                     const contact = data.item;
                                     const isInContacts = contacts && contacts.find(item => item.key === contact.key);
                                     return <ContactItem key={contact.key}
                                                         title={contact.data.name[0]}
                                                         data={contact}
-                                                        showDelete={isInContacts && !contact.data.loading}
-                                                        showAdd={!isInContacts && !contact.data.loading}
-                                                        loading={contact.data.loading}
                                                         onDelete={async () => {
                                                             contact.data.loading = true;
                                                             this.forceUpdate();
@@ -244,12 +242,44 @@ export default class ContactsView extends Component {
                                                         }}>
                                     </ContactItem>
                                 }}
-                                renderHiddenItem={ (data, rowMap) => (
-                                    <View>
-                                        <Text>Left</Text>
-                                        <Text>Right</Text>
+                                renderHiddenItem={(data, rowMap) => {
+                                    const contact = data.item;
+                                    const isInContacts = contacts && contacts.find(item => item.key === contact.key);
+                                    const loading = contact.data.loading;
+                                    const showDelete = isInContacts && !loading;
+                                    const showAdd = !isInContacts && !loading;
+                                    return <View style={{position: 'absolute', right: 0}}>
+                                        {
+                                            showAdd ? <Icon type={IconsType.Ionicon}
+                                                            name={`${this.iconPrefix}-add`}
+                                                            size={30}
+                                                            color={colors.color}
+                                                            onPress={() => {
+                                                                if (onAdd) {
+                                                                    onAdd(data);
+                                                                }
+                                                            }}
+                                            /> : null
+                                        }
+                                        {loading ? <ActivityIndicator/> : null}
+                                        {
+                                            showDelete ? <TouchableOpacity>
+                                                <LinearGradient style={{width: 90, height: 80, justifyContent: 'center', alignItems: 'center'}}
+                                                                colors={[sharedStyles.deleteGradient.start, sharedStyles.deleteGradient.end]}>
+                                                    <Icon type={IconsType.Ionicon}
+                                                          name={`${this.iconPrefix}-trash`}
+                                                          size={30}
+                                                          color={'white'}
+                                                          onPress={() => {
+                                                              // if (onDelete) {
+                                                              //     onDelete(data);
+                                                              // }
+                                                          }}/>
+                                                </LinearGradient>
+                                            </TouchableOpacity> : null
+                                        }
                                     </View>
-                                )}
+                                }}
                             />
                             {
                                 this.state.contactsToShow.map(contact => {

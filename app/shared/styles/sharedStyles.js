@@ -19,6 +19,10 @@ export const sharedStyles = {
         start: '#6bddf2',
         end: '#6879f1'
     },
+    deleteGradient: {
+        start: 'rgb(218,112,51)',
+        end: 'rgb(218,65,51)'
+    },
     h4: {
         color: 'white',
         fontSize: 34
