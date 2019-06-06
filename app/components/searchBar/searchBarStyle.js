@@ -9,13 +9,14 @@ export const searchBarStyle = {
         padding: 0,
         borderBottomColor: 'transparent',
         borderTopColor: 'transparent',
-        marginLeft: 5,
-        marginRight: 10,
         marginBottom: 2
+    },
+    inputStyle: {
+      color: 'white'
     },
     searchBarInput: {
         height: 35,
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(255,255,255,0.4)',
         borderRadius: 50,
         paddingTop: Platform.OS === 'ios' ? 0 : 5,
     },

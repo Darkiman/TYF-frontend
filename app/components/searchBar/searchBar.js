@@ -24,13 +24,15 @@ export default class CustomSearchBar extends Component {
                 onClear={onClear}
                 value={value}
                 platform={'default'}
+                inputStyle={searchBarStyle.inputStyle}
                 containerStyle={searchBarStyle.searchBarContainer}
                 inputContainerStyle={searchBarStyle.searchBarInput}
+                placeholderTextColor={'white'}
                 searchIcon={
                     <Icon type={IconsType.Ionicon}
                           name={`${this.iconPrefix}-search`}
                           size={25}
-                          color={'#86939e'}
+                          color={'white'}
                           containerStyle={searchBarStyle.searchIconContainer}
                     />
                 }
