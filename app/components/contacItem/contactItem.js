@@ -7,17 +7,11 @@ import {sharedStyles} from "../../shared/styles/sharedStyles";
 import themeService from "../../utils/themeService";
 import imageCacheHoc from 'react-native-image-cache-hoc';
 import apiConfig from "../../utils/apiConfig";
-import {SwipeRow} from 'react-native-swipe-list-view';
 
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https']
 });
 
-const colors = themeService.currentThemeColors;
-const config = {
-    velocityThreshold: 0.3,
-    directionalOffsetThreshold: 80
-};
 
 export default class ContactItem extends Component {
     constructor(props) {
@@ -30,8 +24,6 @@ export default class ContactItem extends Component {
         const {
             leftAvatar,
             title,
-            onAdd,
-            onDelete,
             data
         } = this.props;
         const avatar = data.data && data.data.avatar ? `${apiConfig.static}avatars/${data.data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
@@ -41,7 +33,8 @@ export default class ContactItem extends Component {
                     height: 80
                 }}
                 titleStyle={{
-                    fontSize: 22
+                    fontSize: 22,
+                    marginLeft: 10
                 }}
                 leftAvatar={leftAvatar ? leftAvatar : {
                     ImageComponent: CacheableImage,
@@ -49,6 +42,7 @@ export default class ContactItem extends Component {
                     containerStyle: {
                         width: 50,
                         height: 50,
+                        marginLeft: 3
                     },
                     size: 'medium',
                     source: avatar ? {

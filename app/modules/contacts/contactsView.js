@@ -3,7 +3,7 @@ import {
     View,
     SafeAreaView,
     ScrollView,
-    RefreshControl, ActivityIndicator, TouchableOpacity
+    RefreshControl
 } from 'react-native';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
@@ -15,11 +15,11 @@ import i18nService from "../../utils/i18n/i18nService";
 import userService from "../../utils/userService";
 import messageService from "../../utils/messageService";
 import _ from 'lodash';
-import ContactItem from "../../components/contacItem/contactItem";
 import {NavigationEvents} from 'react-navigation';
 import CustomSearchBar from "../../components/searchBar/searchBar";
 import LinearGradient from "react-native-linear-gradient";
-import {SwipeListView} from 'react-native-swipe-list-view';
+import ContactsList from "../../components/contactsList/contactsList";
+import FlashMessage from "react-native-flash-message";
 
 const colors = themeService.currentThemeColors;
 
@@ -148,7 +148,9 @@ export default class ContactsView extends Component {
         const {
             isLoading,
             error,
-            contacts
+            contacts,
+            deleteContact,
+            addContact
         } = this.props;
 
         return (
@@ -200,94 +202,16 @@ export default class ContactsView extends Component {
                                             onRefresh={this.onRefresh}
                                         />
                                     }>
-                            <SwipeListView
-                                useFlatList
-                                stopLeftSwipe={300}
-                                stopRightSwipe={-100}
-                                leftOpenValue={75}
-                                rightOpenValue={-90}
-                                disableRightSwipe={true}
-                                data={this.state.contactsToShow}
-                                renderItem={(data, rowMap) => {
-                                    const contact = data.item;
-                                    const isInContacts = contacts && contacts.find(item => item.key === contact.key);
-                                    return <ContactItem key={contact.key}
-                                                        title={contact.data.name[0]}
-                                                        data={contact}
-                                                        onDelete={async () => {
-                                                            contact.data.loading = true;
-                                                            this.forceUpdate();
-                                                            const result = await this.props.deleteContact(this.user.id, contact.key);
-                                                            if (result.error) {
-                                                                contact.data.loading = false;
-                                                                const errorText = i18nService.t(`validation_message.${result.message}`);
-                                                                messageService.showError(errorText);
-                                                            } else {
-                                                                contact.data.loading = false;
-                                                            }
-                                                            this.forceUpdate();
-                                                        }}
-                                                        onAdd={async () => {
-                                                            contact.data.loading = true;
-                                                            this.forceUpdate();
-                                                            const result = await this.props.addContact(this.user.id, contact.key);
-                                                            if (result.error) {
-                                                                contact.data.loading = false;
-                                                                const errorText = i18nService.t(`validation_message.${result.message}`);
-                                                                messageService.showError(errorText);
-                                                            } else {
-                                                                contact.data.loading = false;
-                                                            }
-                                                            this.forceUpdate();
-                                                        }}>
-                                    </ContactItem>
-                                }}
-                                renderHiddenItem={(data, rowMap) => {
-                                    const contact = data.item;
-                                    const isInContacts = contacts && contacts.find(item => item.key === contact.key);
-                                    const loading = contact.data.loading;
-                                    const showDelete = isInContacts && !loading;
-                                    const showAdd = !isInContacts && !loading;
-                                    return <View style={{position: 'absolute', right: 0}}>
-                                        {
-                                            showAdd ? <Icon type={IconsType.Ionicon}
-                                                            name={`${this.iconPrefix}-add`}
-                                                            size={30}
-                                                            color={colors.color}
-                                                            onPress={() => {
-                                                                if (onAdd) {
-                                                                    onAdd(data);
-                                                                }
-                                                            }}
-                                            /> : null
-                                        }
-                                        {loading ? <ActivityIndicator/> : null}
-                                        {
-                                            showDelete ? <TouchableOpacity>
-                                                <LinearGradient style={{width: 90, height: 80, justifyContent: 'center', alignItems: 'center'}}
-                                                                colors={[sharedStyles.deleteGradient.start, sharedStyles.deleteGradient.end]}>
-                                                    <Icon type={IconsType.Ionicon}
-                                                          name={`${this.iconPrefix}-trash`}
-                                                          size={30}
-                                                          color={'white'}
-                                                          onPress={() => {
-                                                              // if (onDelete) {
-                                                              //     onDelete(data);
-                                                              // }
-                                                          }}/>
-                                                </LinearGradient>
-                                            </TouchableOpacity> : null
-                                        }
-                                    </View>
-                                }}
-                            />
-                            {
-                                this.state.contactsToShow.map(contact => {
-
-                                })
-                            }
+                            <ContactsList contacts={contacts}
+                                          contactsToShow={this.state.contactsToShow}
+                                          deleteContact={deleteContact}
+                                          addContact={addContact}
+                                          user={this.user}
+                                          flashMessage={this.refs.flashMessage}>
+                            </ContactsList>
                         </ScrollView>
                     </View>
+                    <FlashMessage position="top" ref={'flashMessage'}/>
                 </SafeAreaView>
             </LinearGradient>
         );

@@ -73,7 +73,11 @@ export const addContact = (id, idToAdd ) => {
     dispatch({
       type: ADD_CONTACT_LOADING,
     });
-    return ax.post(`contacts/?id=${id}&idToAdd=${idToAdd}`)
+    const data = {
+      id: id,
+      idToAdd: idToAdd
+    };
+    return ax.post(`contacts/`, data)
         .then(({data}) => {
           const result = {
             source: data,
@@ -101,7 +105,7 @@ export const addContact = (id, idToAdd ) => {
 };
 
 
-export const deleteContact = (id, idToDelete ) => {
+export const deleteContact = (id, idToDelete) => {
   return dispatch => {
     if(!networkService.isConnected) {
       dispatch({
@@ -113,7 +117,11 @@ export const deleteContact = (id, idToDelete ) => {
     dispatch({
       type: DELETE_CONTACT_LOADING,
     });
-    return ax.delete(`contacts/?id=${id}&idToDelete=${idToDelete}`)
+    const data = {
+      id: id,
+      idToDelete: idToDelete
+    };
+    return ax.delete(`contacts/`, {data :data})
         .then(({data}) => {
           const result = {
             source: data,
