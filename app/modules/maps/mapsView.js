@@ -103,7 +103,7 @@ export default class MapsView extends Component {
     onRefresh = async () => {
         this.setState({
             refreshing: true
-        })
+        });
         this.props.getContactsPosition(this.user)
     };
 
@@ -118,7 +118,6 @@ export default class MapsView extends Component {
     // onRegionChangeComplete = (region) => {
     //     console.log('onRegionChangeComplete', region);
     // };
-
 
     render() {
         const { region } = this.state;
@@ -146,7 +145,7 @@ export default class MapsView extends Component {
                         style={styles.map}
                     >
                         {
-                            <Marker coordinate={initialRegion}>
+                            <Marker tracksViewChanges={false} coordinate={initialRegion}>
                                 <ContactMarker data={{}} />
                             </Marker>
                         }
