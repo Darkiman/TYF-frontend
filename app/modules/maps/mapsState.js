@@ -11,7 +11,7 @@ const initialState = {
 
 export const GET_POSITIONS_SUCCESS = 'maps/GET_POSITIONS_SUCCESS';
 export const GET_POSITIONS_LOADING = 'maps/GET_POSITIONS_LOADING';
-export const GET_POSITIONS_ERROR = 'maps/GET_POSITIONS__ERROR';
+export const GET_POSITIONS_ERROR = 'maps/GET_POSITIONS_ERROR';
 
 export const getContactsPosition = (id) => {
   return dispatch => {

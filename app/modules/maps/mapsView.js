@@ -49,9 +49,10 @@ export default class MapsView extends Component {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             },
-            ready: true,
-            filteredMarkers: [],
-            refreshing: false
+            ready: false,
+            tracksViewChanges: true,
+            refreshing: false,
+            contacts: []
         };
     }
 
@@ -62,6 +63,16 @@ export default class MapsView extends Component {
 
     async initialize() {
         this.user = await userService.getUser();
+        const result = await this.props.getContactsPosition(this.user.id);
+        console.log(result);
+        this.setState({
+            contacts: result.source.positions,
+        });
+        setTimeout(() => {
+            this.setState({
+                tracksViewChanges: false,
+            });
+        }, 100);
     }
 
     getCurrentPosition() {
@@ -111,17 +122,13 @@ export default class MapsView extends Component {
         this.getCurrentPosition();
     };
 
-    // onRegionChange = (region) => {
-    //     console.log('onRegionChange', region);
-    // };
-    //
-    // onRegionChangeComplete = (region) => {
-    //     console.log('onRegionChangeComplete', region);
-    // };
+    convertCoords(coords) {
+        return {latitude : coords._latitude, longitude: coords._longitude}
+    }
 
     render() {
-        const { region } = this.state;
-        const { children, renderMarker, markers } = this.props;
+        const { region, contacts, tracksViewChanges } = this.state;
+        const { children } = this.props;
 
         const {
             isLoading,
@@ -135,19 +142,21 @@ export default class MapsView extends Component {
                         showsUserLocation
                         provider={PROVIDER_GOOGLE}
                         ref={ map => { this.map = map }}
-                        data={markers}
                         initialRegion={initialRegion}
-                        renderMarker={renderMarker}
                         onMapReady={this.onMapReady}
                         showsMyLocationButton={false}
-                        // onRegionChange={this.onRegionChange}
-                        // onRegionChangeComplete={this.onRegionChangeComplete}
                         style={styles.map}
                     >
                         {
-                            <Marker tracksViewChanges={false} coordinate={initialRegion}>
-                                <ContactMarker data={{}} />
-                            </Marker>
+                            contacts && contacts.map(item => {
+                                if(!item.data || !item.data.geoPosition) {
+                                    return null;
+                                } else {
+                                    return <Marker key={item.key} tracksViewChanges={tracksViewChanges} coordinate={this.convertCoords(item.data.geoPosition.coords)}>
+                                        <ContactMarker data={item.data} />
+                                    </Marker>
+                                }
+                            })
                         }
                     </MapView>
                 </View>

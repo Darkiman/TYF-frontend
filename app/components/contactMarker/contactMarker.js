@@ -11,6 +11,10 @@ const defaultImg = require('../../assets/images/avatar.jpg');
 const markerImg = require('../../assets/images/marker.png');
 
 const styles = {
+    imgBg: {
+        width: 40,
+        height: 60
+    },
     avatar: {
         width: 30,
         height: 30,
@@ -32,10 +36,10 @@ export default class ContactMarker extends Component {
         const {
             data
         } = this.props;
-        const avatar = data.data && data.data.avatar ? `${apiConfig.static}avatars/${data.data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
+        const avatar = data && data.avatar ? `${apiConfig.static}avatars/${data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
         return (
             <View style={{...sharedStyles.centredRow, position: 'relative'}}>
-                <ImageBackground source={markerImg} style={{width: 40, height: 60}}>
+                <ImageBackground source={markerImg} style={styles.imgBg}>
                     <CacheableImage style={styles.avatar}
                                     source={avatar ? {
                                         uri: avatar
