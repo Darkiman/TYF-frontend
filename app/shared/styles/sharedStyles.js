@@ -23,8 +23,22 @@ export const sharedStyles = {
         start: 'rgb(218,112,51)',
         end: 'rgb(218,65,51)'
     },
+    headerGradient: {
+        start: { x: 1, y: 0.3 },
+        end: { x: 0, y: 0 }
+    },
+    contactsSearchBar: {
+        width: '100%',
+        height: 55
+    },
     h4: {
         color: 'white',
         fontSize: 34
+    },
+    actionsContainer: {
+        width: 90,
+        height: 80,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 };

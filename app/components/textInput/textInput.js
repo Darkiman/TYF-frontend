@@ -4,6 +4,7 @@ import IconsType from "../../constants/IconsType";
 import {Icon, Input} from 'react-native-elements';
 import iconsService from "../../utils/iconsService";
 import aboutState from "../../modules/settings/about/aboutState";
+import CommonConstant from "../../constants/CommonConstant";
 
 export default class TextInput extends Component {
     constructor(props) {
@@ -40,7 +41,7 @@ export default class TextInput extends Component {
                    placeholder={placeholder}
                    disabled={disabled}
                    value={value}
-                   maxLength={maxLength ? maxLength : 40}
+                   maxLength={maxLength ? maxLength : CommonConstant.MAX_NAME_LENGTH}
                    errorMessage={errorMessage}
                    errorStyle={{position: 'absolute', top: 25, left: 10}}
                    secureTextEntry={secureTextEntry}

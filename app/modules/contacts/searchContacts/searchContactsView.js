@@ -2,13 +2,11 @@ import React, {Component} from 'react';
 import {
     View,
     SafeAreaView,
-    StyleSheet,
     ScrollView,
     RefreshControl
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
-import {Icon, SearchBar} from "react-native-elements";
-import IconsType from "../../../constants/IconsType";
+import { Text} from "react-native-elements";
 import iconsService from "../../../utils/iconsService";
 import themeService from "../../../utils/themeService";
 import i18nService from "../../../utils/i18n/i18nService";
@@ -17,8 +15,10 @@ import _ from 'lodash';
 import NavigationRoutes from "../../../constants/NavigationRoutes";
 import FlashMessage from "react-native-flash-message";
 import userService from "../../../utils/userService";
-import ContactItem from "../../../components/contacItem/contactItem";
 import CustomSearchBar from "../../../components/searchBar/searchBar";
+import LinearGradient from "react-native-linear-gradient";
+import ContactsList from "../../../components/contactsList/contactsList";
+import NavigationBack from "../../../components/navigationBack/navigationBack";
 
 const colors = themeService.currentThemeColors;
 
@@ -28,16 +28,24 @@ const styles = {
         backgroundColor: colors.backgroundColor
     },
     mainView: {
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         flex: 1
     },
     header: {
-        backgroundColor: colors.backgroundColor,
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        flexDirection: 'row',
-        height: 55,
-        width: '100%'
+        flexDirection: 'column',
+        height: 125,
+        width: '100%',
+        backgroundColor: 'transparent',
+        paddingLeft: 16,
+        paddingRight: 16
+    },
+    headerText: {
+        fontSize: 34,
+        color: 'white',
+        width: '100%',
+        marginBottom: 5
     },
     backContainerStyle: {marginTop: 3, width: 35},
 };
@@ -107,79 +115,58 @@ export default class SearchContactsView extends Component {
         }
     };
 
+    back = () => {
+        this.props.navigation.navigate(NavigationRoutes.CONTACTS);
+    };
+
     render() {
         const {
             isLoading,
             error,
-            contacts
+            contacts,
+            deleteContact,
+            addContact
         } = this.props;
         return (
-            <SafeAreaView style={styles.safeArea}>
-                <View style={styles.mainView}>
-                    <View style={styles.header}>
-                        <Icon type={IconsType.Evilicon}
-                              name={`chevron-left`}
-                              size={45}
-                              color={'white'}
-                              containerStyle={styles.backContainerStyle}
-                              onPress={() => {
-                                  this.props.navigation.navigate(NavigationRoutes.CONTACTS);
-                              }}/>
-                        <CustomSearchBar
-                            placeholder={i18nService.t('search_friends')}
-                            onChangeText={this.handleSearchChange}
-                            onClear={this.handleClearClick}
-                            value={this.state.search}
-                        />
+            <LinearGradient style={{...sharedStyles.safeView}}
+                            start={sharedStyles.headerGradient.start}
+                            end={sharedStyles.headerGradient.end}
+                            colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
+                <SafeAreaView style={{...styles.safeArea, backgroundColor: 'transparent'}}>
+                    <View style={styles.mainView}>
+                        <View style={styles.header}>
+                            <NavigationBack style={{paddingLeft: 0}} onPress={() => {
+                                this.back();
+                            }}/>
+                            <Text style={styles.headerText}>{i18nService.t('search_contacts')}</Text>
+                            <View style={sharedStyles.contactsSearchBar}>
+                                <CustomSearchBar
+                                    placeholder={i18nService.t('search')}
+                                    onChangeText={this.handleSearchChange}
+                                    onClear={this.handleClearClick}
+                                    value={this.state.search}
+                                />
+                            </View>
+                        </View>
+                        <ScrollView style={{backgroundColor: 'white'}}
+                            refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this.onRefresh}
+                            />}>
+                            <ContactsList contacts={contacts}
+                                          contactsToShow={this.state.searchResult}
+                                          disableLeftSwipe={true}
+                                          deleteContact={deleteContact}
+                                          addContact={addContact}
+                                          user={this.user}
+                                          flashMessage={this.refs.flashMessage}>
+                            </ContactsList>
+                        </ScrollView>
                     </View>
-                    <ScrollView refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this.onRefresh}
-                        />}
-                    >
-                        {
-                            this.state.searchResult.map(contact => {
-                                const isInContacts = contacts && contacts.find(item => item.key === contact.key);
-                                return <ContactItem key={contact.key}
-                                                    title={contact.data.name[0]}
-                                                    showDelete={isInContacts && !contact.data.loading}
-                                                    showAdd={!isInContacts && !contact.data.loading}
-                                                    loading={contact.data.loading}
-                                                    data={contact}
-                                                    onDelete={async () => {
-                                                        contact.data.loading = true;
-                                                        this.forceUpdate();
-                                                        const result = await this.props.deleteContact(this.user.id, contact.key);
-                                                        if (result.error) {
-                                                            contact.data.loading = false;
-                                                            const errorText = i18nService.t(`validation_message.${result.message}`);
-                                                            messageService.showError(errorText);
-                                                        } else {
-                                                            contact.data.loading = false;
-                                                        }
-                                                        this.forceUpdate();
-                                                    }}
-                                                    onAdd={async () => {
-                                                        contact.data.loading = true;
-                                                        this.forceUpdate();
-                                                        const result = await this.props.addContact(this.user.id, contact.key);
-                                                        if (result.error) {
-                                                            contact.data.loading = false;
-                                                            const errorText = i18nService.t(`validation_message.${result.message}`);
-                                                            messageService.showError(errorText);
-                                                        } else {
-                                                            contact.data.loading = false;
-                                                        }
-                                                        this.forceUpdate();
-                                                    }}>
-                                </ContactItem>
-                            })
-                        }
-                        <FlashMessage position="top"/>
-                    </ScrollView>
-                </View>
-            </SafeAreaView>
+                    <FlashMessage position="top" ref={'flashMessage'}/>
+                </SafeAreaView>
+            </LinearGradient>
         );
     }
 }

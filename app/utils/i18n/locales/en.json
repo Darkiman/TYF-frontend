@@ -34,7 +34,7 @@
   "search" : "Search",
   "refresh": "Refresh",
   "save_changes": "Save changes",
-  "search_friends": "Search friends",
+  "search_contacts": "Search contacts",
   "start_tracking": "Start tracking",
   "stop_tracking": "Stop tracking",
   "go_to_login": "Go to Login",
@@ -44,6 +44,8 @@
   "max_avatar_size": "Max image size for avatar %{size} MB",
   "type_here_to_change_password": "Type here to change password",
   "error_while_saving_data": "Error while saving data. Please try again.",
+  "cant_add_more_contacts": "You can`t add more %{max} contacts",
+  "you_cant_add_more_contacts": "You can`t add more contacts",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",

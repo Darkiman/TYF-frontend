@@ -3,6 +3,7 @@ import {searchBarStyle} from "./searchBarStyle";
 import {Icon, SearchBar} from "react-native-elements";
 import IconsType from "../../constants/IconsType";
 import iconsService from "../../utils/iconsService";
+import CommonConstant from "../../constants/CommonConstant";
 
 export default class CustomSearchBar extends Component {
     constructor(props) {
@@ -16,6 +17,7 @@ export default class CustomSearchBar extends Component {
             placeholder,
             onChangeText,
             onClear,
+            maxLength
         } = this.props;
         return (
             <SearchBar
@@ -28,12 +30,27 @@ export default class CustomSearchBar extends Component {
                 containerStyle={searchBarStyle.searchBarContainer}
                 inputContainerStyle={searchBarStyle.searchBarInput}
                 placeholderTextColor={'white'}
+                maxLength={maxLength ? maxLength : CommonConstant.MAX_NAME_LENGTH}
                 searchIcon={
                     <Icon type={IconsType.Ionicon}
                           name={`${this.iconPrefix}-search`}
                           size={25}
                           color={'white'}
                           containerStyle={searchBarStyle.searchIconContainer}
+                    />
+                }
+                clearIcon={
+                    <Icon type={IconsType.Ionicon}
+                          name={`${this.iconPrefix}-close-circle-outline`}
+                          size={25}
+                          color={'white'}
+                          underlayColor={'transparent'}
+                          // containerStyle={searchBarStyle.searchIconContainer}
+                          onPress={() => {
+                              if(onChangeText) {
+                                  onChangeText('');
+                              }
+                          }}
                     />
                 }
             />

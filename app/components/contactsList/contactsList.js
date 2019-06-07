@@ -10,15 +10,6 @@ import messageService from "../../utils/messageService";
 import LinearGradient from "react-native-linear-gradient";
 import {SwipeListView} from "react-native-swipe-list-view";
 
-const styles = {
-    actionsContainer: {
-        width: 90,
-        height: 80,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-};
-
 export default class ContactsList extends Component {
     constructor(props) {
         super(props);
@@ -32,7 +23,8 @@ export default class ContactsList extends Component {
             addContact,
             deleteContact,
             flashMessage,
-            user
+            user,
+            disableLeftSwipe
         } = this.props;
         return (
             <SwipeListView
@@ -42,12 +34,16 @@ export default class ContactsList extends Component {
                 leftOpenValue={75}
                 rightOpenValue={-90}
                 disableRightSwipe={true}
+                disableLeftSwipe={disableLeftSwipe}
                 data={contactsToShow}
                 renderItem={(data, rowMap) => {
                     const contact = data.item;
                     return <ContactItem key={contact.key}
                                         title={contact.data.name[0]}
-                                        data={contact}>
+                                        data={contact}
+                                        addContact={addContact}
+                                        contacts={contacts}
+                                        user={user}>
                     </ContactItem>
                 }}
                 renderHiddenItem={(data, rowMap) => {
@@ -55,33 +51,8 @@ export default class ContactsList extends Component {
                     const isInContacts = contacts && contacts.find(item => item.key === contact.key);
                     const loading = contact.data.loading;
                     const showDelete = isInContacts && !loading;
-                    const showAdd = !isInContacts && !loading;
                     return <View style={{position: 'absolute', right: 0}}>
-                        {
-                            showAdd ? <View style={styles.actionsContainer}>
-                                <Icon type={IconsType.Ionicon}
-                                      name={`${this.iconPrefix}-add`}
-                                      size={30}
-                                      color={'rgb(144,154,165)'}
-                                      onPress={async () => {
-                                          if (addContact) {
-                                              contact.data.loading = true;
-                                              this.forceUpdate();
-                                              const result = await addContact(user.id, contact.key);
-                                              if (result.error) {
-                                                  contact.data.loading = false;
-                                                  const errorText = i18nService.t(`validation_message.${result.message}`);
-                                                  messageService.showError(flashMessage, errorText);
-                                              } else {
-                                                  contact.data.loading = false;
-                                              }
-                                              this.forceUpdate();
-                                          }
-                                      }}
-                                />
-                            </View> : null
-                        }
-                        {loading ? <View style={styles.actionsContainer}>
+                        {loading ? <View style={sharedStyles.actionsContainer}>
                                  <ActivityIndicator></ActivityIndicator>
                              </View> : null
                         }
@@ -99,10 +70,13 @@ export default class ContactsList extends Component {
                                         } else {
                                             contact.data.loading = false;
                                         }
+                                        const index = contactsToShow.findIndex(item => item.key === contact.key);
+                                        contactsToShow.splice(index, 1);
+                                        console.log(index);
                                         this.forceUpdate();
                                     }
                                 }}>
-                                <LinearGradient style={styles.actionsContainer}
+                                <LinearGradient style={sharedStyles.actionsContainer}
                                                 colors={[sharedStyles.deleteGradient.start, sharedStyles.deleteGradient.end]}>
                                     <Icon type={IconsType.Ionicon}
                                           name={`${this.iconPrefix}-trash`}

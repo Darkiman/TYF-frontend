@@ -5,6 +5,8 @@ const CommonConstant = {
     MIN_NAME_LENGTH: 6,
     MAX_EMAIL_LENGTH: 40,
 
-    MAX_FILE_SIZE: 2e+7
+    MAX_FILE_SIZE: 2e+7,
+
+    CONTACTS_MAX_COUNT: 10
 };
 export default CommonConstant;

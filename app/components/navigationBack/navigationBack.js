@@ -6,11 +6,11 @@ import iconsService from "../../utils/iconsService";
 
 const styles = {
     container: {
-        height: 40,
+        height: 33,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingLeft: '5%',
+        paddingLeft: 16,
         paddingTop: Platform.OS === 'ios' ? 0 : 30
     }
 };
@@ -24,9 +24,11 @@ export default class NavigationBack extends Component {
     render() {
         const {
             onPress,
+            style
         } = this.props;
+        const containerStyle = {...styles.container, ...style};
         return (
-            <View style={styles.container}>
+            <View style={containerStyle}>
                 <Icon type={IconsType.Ionicon}
                       name={`${this.iconPrefix}-arrow-back`}
                       size={35}

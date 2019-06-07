@@ -20,6 +20,7 @@ import CustomSearchBar from "../../components/searchBar/searchBar";
 import LinearGradient from "react-native-linear-gradient";
 import ContactsList from "../../components/contactsList/contactsList";
 import FlashMessage from "react-native-flash-message";
+import CommonConstant from "../../constants/CommonConstant";
 
 const colors = themeService.currentThemeColors;
 
@@ -155,7 +156,8 @@ export default class ContactsView extends Component {
 
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
-                            start={{x: 1, y: 0.3}} end={{x: 0, y: 0}}
+                            start={sharedStyles.headerGradient.start}
+                            end={sharedStyles.headerGradient.end}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={{...styles.safeArea, backgroundColor: 'transparent'}}>
                     <View style={styles.mainView}>
@@ -175,6 +177,10 @@ export default class ContactsView extends Component {
                                       color={'white'}
                                       containerStyle={styles.personIconContainer}
                                       onPress={() => {
+                                          if(contacts && contacts.length >= CommonConstant.CONTACTS_MAX_COUNT) {
+                                              messageService.showError(this.refs.flashMessage, i18nService.t( 'cant_add_more_contacts', {max: CommonConstant.CONTACTS_MAX_COUNT}));
+                                              return;
+                                          }
                                           this.props.navigation.navigate(NavigationRoutes.SEARCH_CONTACTS);
                                           setTimeout(() => {
                                               this.setState({
@@ -186,7 +192,7 @@ export default class ContactsView extends Component {
                                 />
                             </View>
                             <Text style={styles.headerText}>{i18nService.t('navigation.contacts')}</Text>
-                            <View style={{width: '100%', height: 55}}>
+                            <View style={sharedStyles.contactsSearchBar}>
                                 <CustomSearchBar
                                     placeholder={i18nService.t('search')}
                                     onChangeText={this.handleSearchChange}
