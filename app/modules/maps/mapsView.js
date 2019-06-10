@@ -63,7 +63,8 @@ export default class MapsView extends Component {
                     this.startAnimation();
                 } else {
                     this.setState({
-                        startAnimation: false
+                        startAnimation: false,
+                        tracksViewChanges: false
                     })
                 }
             })
