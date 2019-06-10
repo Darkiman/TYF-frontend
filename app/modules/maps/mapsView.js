@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated} from 'react-native';
+import { StyleSheet, Animated, View, SafeAreaView, Easing} from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import {
-    View, SafeAreaView,
-} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import ContactMarker from "../../components/contactMarker/contactMarker";
@@ -15,16 +12,10 @@ import userService from "../../utils/userService";
 
 const colors = themeService.currentThemeColors;
 
-const initialRegion = {
-    latitude: 59.866342,
-    longitude: 30.379782,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-};
+const LATITUDE_DELTA = 0.05;
+const LONGITUDE_DELTA = 0.05;
 
-const LATITUDE_DELTA = 0.01;
-const LONGITUDE_DELTA = 0.01;
-
+const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 const styles = StyleSheet.create({
     mapContainer: {
@@ -43,36 +34,50 @@ export default class MapsView extends Component {
         this.map = null;
         this.iconPrefix = iconsService.getIconPrefix();
         this.state = {
-            region: {
-                latitude: 59.866342,
-                longitude: 30.379782,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-            },
+            region: null,
             ready: false,
             tracksViewChanges: true,
             refreshing: false,
-            contacts: []
+            startAnimation: false,
+            contacts: [],
+            refreshingRotate: new Animated.Value(0),
         };
     }
 
     componentDidMount() {
-        this.getCurrentPosition();
         this.initialize();
+        this.getCurrentPosition();
     }
+
+    startAnimation = () => {
+        this.state.refreshingRotate.setValue(0);
+        Animated.timing(
+            this.state.refreshingRotate,
+            {
+                toValue: 1,
+                duration: 1500,
+                easing: Easing.linear,
+                useNativeDriver: true
+            }).start(() => {
+                if(!this.state.refreshing) {
+                    this.startAnimation();
+                } else {
+                    this.setState({
+                        startAnimation: false
+                    })
+                }
+            })
+    };
+
 
     async initialize() {
         this.user = await userService.getUser();
         const result = await this.props.getContactsPosition(this.user.id);
-        console.log(result);
+        this.loadedImagesCount = 0;
         this.setState({
+            refreshingRotate: new Animated.Value(0),
             contacts: result.source.positions,
         });
-        setTimeout(() => {
-            this.setState({
-                tracksViewChanges: false,
-            });
-        }, 100);
     }
 
     getCurrentPosition() {
@@ -85,11 +90,13 @@ export default class MapsView extends Component {
                         latitudeDelta: LATITUDE_DELTA,
                         longitudeDelta: LONGITUDE_DELTA,
                     };
-                    // const region = initialRegion;
+                    this.setState({
+                        region: region
+                    });
                     this.setRegion(region);
                 },
                 (error) => {
-                    alert("", "Error al detectar tu locación");
+                    alert(error);
                 }
             );
         } catch(e) {
@@ -108,14 +115,35 @@ export default class MapsView extends Component {
             this.setState({
                 ready: true
             });
+            this.getCurrentPosition();
         }
     };
 
+    onImageLoad = () => {
+       this.loadedImagesCount++;
+       if(this.loadedImagesCount >= this.state.contacts.length) {
+           this.loadedImagesCount = 0;
+           this.setState({
+               tracksViewChanges: false
+           });
+       }
+    };
+
     onRefresh = async () => {
+        if(this.state.startAnimation) {
+            return;
+        }
         this.setState({
-            refreshing: true
+            refreshing: true,
+            startAnimation: true
         });
-        this.props.getContactsPosition(this.user)
+        this.startAnimation();
+        const result = await this.props.getContactsPosition(this.user.id);
+        this.setState({
+            contacts: result.source.positions,
+            tracksViewChanges: true,
+            refreshing: true,
+        });
     };
 
     toCurrentPosition = () => {
@@ -135,6 +163,12 @@ export default class MapsView extends Component {
             error,
             data
         } = this.props;
+
+        const spin = this.state.refreshingRotate.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '360deg']
+        });
+
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={styles.mapContainer}>
@@ -142,7 +176,7 @@ export default class MapsView extends Component {
                         showsUserLocation
                         provider={PROVIDER_GOOGLE}
                         ref={ map => { this.map = map }}
-                        initialRegion={initialRegion}
+                        initialRegion={region}
                         onMapReady={this.onMapReady}
                         showsMyLocationButton={false}
                         style={styles.map}
@@ -152,8 +186,11 @@ export default class MapsView extends Component {
                                 if(!item.data || !item.data.geoPosition) {
                                     return null;
                                 } else {
-                                    return <Marker key={item.key} tracksViewChanges={tracksViewChanges} coordinate={this.convertCoords(item.data.geoPosition.coords)}>
-                                        <ContactMarker data={item.data} />
+                                    return <Marker key={item.key}
+                                                   tracksViewChanges={tracksViewChanges}
+                                                   coordinate={this.convertCoords(item.data.geoPosition.coords)}>
+                                        <ContactMarker data={item.data}
+                                                       onLoad={this.onImageLoad}/>
                                     </Marker>
                                 }
                             })
@@ -173,7 +210,7 @@ export default class MapsView extends Component {
                       underlayColor={'transparent'}
                       onPress={this.toCurrentPosition}
                 />
-                <Icon type={IconsType.Ionicon}
+                <AnimatedIcon type={IconsType.Ionicon}
                       name={`${this.iconPrefix}-refresh-circle`}
                       size={50}
                       containerStyle={{
@@ -182,7 +219,8 @@ export default class MapsView extends Component {
                           right: '5%',
                           backgroundColor: 'transparent'
                       }}
-                      color={ this.state.refreshing ? colors.color : '#666'}
+                      style={{ transform: [{rotate: spin}]}}
+                      color={ this.state.startAnimation ? colors.color : '#666'}
                       underlayColor={'transparent'}
                       onPress={this.onRefresh}
                 />

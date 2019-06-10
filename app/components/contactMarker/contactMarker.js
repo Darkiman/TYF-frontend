@@ -34,7 +34,8 @@ export default class ContactMarker extends Component {
 
     render() {
         const {
-            data
+            data,
+            onLoad
         } = this.props;
         const avatar = data && data.avatar ? `${apiConfig.static}avatars/${data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
         return (
@@ -43,7 +44,12 @@ export default class ContactMarker extends Component {
                     <CacheableImage style={styles.avatar}
                                     source={avatar ? {
                                         uri: avatar
-                                    } : defaultImg}>
+                                    } : defaultImg}
+                                    onLoad={()=> {
+                                        if(onLoad) {
+                                            onLoad();
+                                        }
+                                    }}>
                     </CacheableImage>
                 </ImageBackground>
             </View>
