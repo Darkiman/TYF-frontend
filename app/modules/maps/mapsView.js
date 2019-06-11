@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Animated, View, SafeAreaView, Easing} from 'react-native';
+import {StyleSheet, Animated, View, SafeAreaView, Easing, Text} from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import {Icon} from 'react-native-elements';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
@@ -9,6 +9,7 @@ import IconsType from "../../constants/IconsType";
 import themeService from "../../utils/themeService";
 import {getContactsPosition} from "./mapsState";
 import userService from "../../utils/userService";
+import ContactMarkerCallout from "../../components/contactMarketCallout/contactMarkerCallout";
 
 const colors = themeService.currentThemeColors;
 
@@ -192,6 +193,7 @@ export default class MapsView extends Component {
                                                    coordinate={this.convertCoords(item.data.geoPosition.coords)}>
                                         <ContactMarker data={item.data}
                                                        onLoad={this.onImageLoad}/>
+                                        <ContactMarkerCallout data={item.data}></ContactMarkerCallout>
                                     </Marker>
                                 }
                             })

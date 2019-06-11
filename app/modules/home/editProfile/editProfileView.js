@@ -56,7 +56,7 @@ export default class EditProfileView extends Component {
 
     async initialize() {
         this.user = await userService.getUser();
-        this.iconPrefix = this.iconPrefix = iconsService.getIconPrefix();
+        this.iconPrefix = iconsService.getIconPrefix();
         this.setState({
             initialized: true,
             name: this.user.name,

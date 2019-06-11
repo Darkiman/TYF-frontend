@@ -3,7 +3,7 @@ import {Image, View, Text, ImageBackground} from 'react-native';
 import imageCacheHoc from "react-native-image-cache-hoc";
 import apiConfig from "../../utils/apiConfig";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-
+import MapView, { Marker } from 'react-native-maps';
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https']
 });
@@ -30,7 +30,15 @@ const styles = {
 export default class ContactMarker extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showDetails: false
+        };
     }
+
+    onMarkerPress = () => {
+        console.log('pressed');
+    };
 
     render() {
         const {
@@ -40,7 +48,7 @@ export default class ContactMarker extends Component {
         const avatar = data && data.avatar ? `${apiConfig.static}avatars/${data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
         return (
             <View style={{...sharedStyles.centredRow, position: 'relative'}}>
-                <ImageBackground source={markerImg} style={styles.imgBg}>
+                <ImageBackground source={markerImg} style={styles.imgBg} onPress={this.onMarkerPress}>
                     <CacheableImage style={styles.avatar}
                                     source={avatar ? {
                                         uri: avatar
