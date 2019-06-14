@@ -71,6 +71,7 @@ export default class AuthView extends Component {
         if (!i18nService.initialized) {
             return null;
         }
+
         return (
             <LinearGradient style={{...sharedStyles.safeView }}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>

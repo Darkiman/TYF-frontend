@@ -73,7 +73,7 @@ export default class HomeView extends Component {
             distanceFilter: 100,
             // Activity Recognition
             stopTimeout: 1,
-            debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
+            debug: __DEV__, // <-- enable this hear sounds for background-geolocation life-cycle.
             logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
             stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
             startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
@@ -132,7 +132,6 @@ export default class HomeView extends Component {
             isLoading,
             error,
             data,
-            uploadAvatar
         } = this.props;
 
         return (
@@ -189,7 +188,8 @@ export default class HomeView extends Component {
                                                          });
                                                      }
                                                      const tracking = !this.state.tracking;
-                                                     await asyncStorageService.setItem(userKeys.TRACKING_KEY, tracking.toString());
+                                                     this.user.tracking = tracking;
+                                                     await userService.setUser(this.user);
                                                      this.setState({
                                                          tracking: tracking
                                                      })

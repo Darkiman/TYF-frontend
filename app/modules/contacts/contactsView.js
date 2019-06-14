@@ -74,7 +74,7 @@ export default class ContactsView extends Component {
                 this.props.getContacts(user.id).then(result => {
                     if (result.error) {
                         const errorText = i18nService.t(`validation_message.${result.message}`);
-                        messageService.showError(errorText);
+                        messageService.showError(this.refs.flashMessage ,errorText);
                     } else {
                         this.setState({
                             contacts: result.source.contacts,

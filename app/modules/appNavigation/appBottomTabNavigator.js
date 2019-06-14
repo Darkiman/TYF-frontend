@@ -30,7 +30,7 @@ const bottomTabNavigator = createBottomTabNavigator(
                         iconName = `${iconPrefix}-cog`;
                         break;
                     case NavigationRoutes.MAPS:
-                        iconName = `${iconPrefix}-map`;
+                        iconName = `${iconPrefix}-pin`;
                         break;
                 }
                 return <Icon type={IconsType.Ionicon} name={iconName} size={25} color={ focused ? colors.color : colors.textLightColor} />;

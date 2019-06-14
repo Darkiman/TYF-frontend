@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Image, View, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {Image, View, TouchableOpacity, ActivityIndicator, Platform} from 'react-native';
 import imageCacheHoc from "react-native-image-cache-hoc";
 import apiConfig from "../../utils/apiConfig";
 import ImagePicker from 'react-native-image-picker';
@@ -10,7 +10,7 @@ import iconsService from "../../utils/iconsService";
 import CommonConstant from "../../constants/CommonConstant";
 
 const CacheableImage = imageCacheHoc(Image, {
-    validProtocols: ['http', 'https']
+    validProtocols: ['http', 'https'],
 });
 const defaultImg = require('../../assets/images/avatar.jpg');
 
@@ -31,12 +31,12 @@ const styles = {
     },
     icon: {
         position: 'absolute',
-        right: 47,
-        top: 40
+        right: 45,
+        top: 41
     },
     activityIndicator: {
         position: 'absolute',
-        right: 43,
+        right: Platform.OS === 'ios' ? 43 : 45,
         top: 45
     }
 };
