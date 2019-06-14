@@ -8,11 +8,7 @@ import NavigationRoutes from "../../constants/NavigationRoutes";
 import {Image, Text} from 'react-native-elements';
 import i18nService from "../../utils/i18n/i18nService";
 import LargeButton from "../../components/largeButton/largeButton";
-import userService from "../../utils/userService";
-import ax from "../../utils/axios";
-import apiConfig from "../../utils/apiConfig";
 import LinearGradient from 'react-native-linear-gradient';
-import SplashScreen from "react-native-splash-screen";
 
 const styles = {
     mainContainer: {
@@ -29,37 +25,6 @@ const styles = {
 export default class AuthView extends Component {
     constructor(props) {
         super(props);
-    }
-
-
-    componentDidMount() {
-        this.initialize();
-    }
-
-    async initialize() {
-        if (!i18nService.initialized) {
-            await i18nService.initialize();
-            this.forceUpdate();
-        }
-        const user = await userService.getUser();
-        if (user && user.token) {
-            ax.defaults.headers.common['Authorization'] = `Token ${user.token}`;
-        }
-        if (user) {
-            try {
-                const response = await ax.post(`${apiConfig.url}auth/login`, {
-                    email: user.email,
-                    password: user.password
-                });
-                if (response && response.data[0].key) {
-                    this.props.navigation.navigate(NavigationRoutes.HOME);
-                } else {
-                    SplashScreen.hide()
-                }
-            } catch (error) {
-                SplashScreen.hide();
-            }
-        }
     }
 
     render() {

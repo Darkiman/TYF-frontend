@@ -21,15 +21,20 @@ const userService = {
             asyncStorageService.getItem(userKeys.USER_KEY)
         ]);
         const result = JSON.parse(data[0]);
-        const user = {
-            id: result.id,
-            email: result.email,
-            name: result.name,
-            password: result.password,
-            token: result.token,
-            tracking: result.tracking,
-            avatar: result.avatar
-        };
+        let user;
+        if(!result) {
+            user = null;
+        } else {
+            user = {
+                id: result.id,
+                email: result.email,
+                name: result.name,
+                password: result.password,
+                token: result.token,
+                tracking: result.tracking,
+                avatar: result.avatar
+            };
+        }
         _currentUser = user;
         return user;
     },

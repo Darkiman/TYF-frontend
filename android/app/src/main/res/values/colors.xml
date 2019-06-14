@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="splashBackground" type="color">#6BD3F2FF</item>
+    <color name="primary_dark">#000000</color>
+    <color name="status_bar_color">#ffffff</color>
+</resources>

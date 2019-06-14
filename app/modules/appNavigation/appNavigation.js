@@ -2,14 +2,16 @@ import {createAppContainer, createStackNavigator, createSwitchNavigator} from "r
 import bottomTabNavigator from "./appBottomTabNavigator";
 import AuthStack from "./authNavigator";
 import NavigationRoutes from "../../constants/NavigationRoutes";
+import LoadingView from "../loading/loadingView";
 
 const AppNavigation = createAppContainer(createSwitchNavigator(
     {
         App: bottomTabNavigator,
         Auth: AuthStack,
+        Loading: LoadingView
     },
     {
-        initialRouteName: NavigationRoutes.AUTH,
+        initialRouteName: NavigationRoutes.LOADING,
     }
 ));
 export default AppNavigation;
