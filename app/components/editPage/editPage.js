@@ -1,15 +1,17 @@
 import React, {Component} from "react";
-import {View} from "react-native";
+import {Platform, View} from "react-native";
 import {Icon} from "react-native-elements";
 import IconsType from "../../constants/IconsType";
+import {sharedStyles} from "../../shared/styles/sharedStyles";
 
 const styles = {
     container: {
-        height: 40,
+        ...sharedStyles.topIcons,
+        height: 31,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'flex-end',
-        paddingRight: '5%'
+        paddingRight: 8,
     }
 };
 

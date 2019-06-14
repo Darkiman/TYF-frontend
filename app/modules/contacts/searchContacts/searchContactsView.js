@@ -31,20 +31,11 @@ const styles = {
         backgroundColor: 'transparent',
         flex: 1
     },
-    header: {
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: 'column',
-        height: 125,
-        width: '100%',
-        backgroundColor: 'transparent',
-        paddingLeft: 16,
-        paddingRight: 16
-    },
     headerText: {
         fontSize: 34,
         color: 'white',
         width: '100%',
+        marginTop: 5,
         marginBottom: 5
     },
     backContainerStyle: {marginTop: 3, width: 35},
@@ -134,7 +125,7 @@ export default class SearchContactsView extends Component {
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={{...styles.safeArea, backgroundColor: 'transparent'}}>
                     <View style={styles.mainView}>
-                        <View style={styles.header}>
+                        <View style={sharedStyles.contactsHeader}>
                             <NavigationBack style={{paddingLeft: 0}} onPress={() => {
                                 this.back();
                             }}/>

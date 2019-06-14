@@ -3,15 +3,16 @@ import {Platform, View} from "react-native";
 import {Icon} from "react-native-elements";
 import IconsType from "../../constants/IconsType";
 import iconsService from "../../utils/iconsService";
+import {sharedStyles} from "../../shared/styles/sharedStyles";
 
 const styles = {
     container: {
+        ...sharedStyles.topIcons,
         height: 33,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'flex-start',
         paddingLeft: 16,
-        paddingTop: Platform.OS === 'ios' ? 0 : 30
     }
 };
 

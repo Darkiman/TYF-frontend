@@ -62,17 +62,18 @@ export default class ContactsList extends Component {
                                     if (deleteContact) {
                                         contact.data.loading = true;
                                         this.forceUpdate();
+                                        console.log(user.id, contact.key);
                                         const result = await deleteContact(user.id, contact.key);
                                         if (result.error) {
                                             contact.data.loading = false;
                                             const errorText = i18nService.t(`validation_message.${result.message}`);
                                             messageService.showError(flashMessage, errorText);
                                         } else {
-                                            contact.data.loading = false;
+                                            const index = contactsToShow.findIndex(item => item.key === contact.key);
+                                            contactsToShow.splice(index, 1);
+                                            console.log(index);
                                         }
-                                        const index = contactsToShow.findIndex(item => item.key === contact.key);
-                                        contactsToShow.splice(index, 1);
-                                        console.log(index);
+                                        contact.data.loading = false;
                                         this.forceUpdate();
                                     }
                                 }}>

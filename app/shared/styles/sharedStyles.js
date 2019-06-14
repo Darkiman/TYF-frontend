@@ -1,3 +1,5 @@
+import {Platform} from "react-native";
+
 export const sharedStyles = {
     safeView: {
         flex: 1,
@@ -40,5 +42,18 @@ export const sharedStyles = {
         height: 80,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+    topIcons: {
+        paddingTop: Platform.OS === 'ios' ? 0 : 12
+    },
+    contactsHeader: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'column',
+        height: 135,
+        width: '100%',
+        backgroundColor: 'transparent',
+        paddingLeft: 16,
+        paddingRight: 16
+    },
 };

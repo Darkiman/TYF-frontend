@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView
+    View, SafeAreaView, Platform
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import SplashScreen from "react-native-splash-screen";

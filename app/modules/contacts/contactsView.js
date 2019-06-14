@@ -3,7 +3,7 @@ import {
     View,
     SafeAreaView,
     ScrollView,
-    RefreshControl
+    RefreshControl, Platform
 } from 'react-native';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
@@ -33,16 +33,6 @@ const styles = {
         backgroundColor: 'transparent',
         flex: 1
     },
-    header: {
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: 'column',
-        height: 125,
-        width: '100%',
-        backgroundColor: 'transparent',
-        paddingLeft: 16,
-        paddingRight: 16
-    },
     personIconContainer: {
         alignItems: 'flex-end',
         justifyContent: 'flex-end'
@@ -51,11 +41,13 @@ const styles = {
         fontSize: 34,
         color: 'white',
         width: '100%',
-        marginBottom: 5
+        marginBottom: Platform.OS === 'ios' ? 5 : 0
     },
     icons: {
+        ...sharedStyles.topIcons,
         width: '100%',
-        position: 'relative'
+        position: 'relative',
+        paddingRight: 0,
     }
 };
 
@@ -169,7 +161,7 @@ export default class ContactsView extends Component {
                                 })
                             }}
                         />
-                        <View style={styles.header}>
+                        <View style={sharedStyles.contactsHeader}>
                             <View style={styles.icons}>
                                 <Icon type={IconsType.Ionicon}
                                       name={`${this.iconPrefix}-person-add`}

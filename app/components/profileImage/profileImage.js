@@ -36,8 +36,8 @@ const styles = {
     },
     activityIndicator: {
         position: 'absolute',
-        right: 42,
-        top: 44
+        right: 43,
+        top: 45
     }
 };
 

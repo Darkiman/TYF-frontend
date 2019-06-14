@@ -22,8 +22,7 @@ const SettingsStackNavigator = createStackNavigator({
     AboutSettings: {
         screen: aboutContainer,
         navigationOptions: () => ({
-            title: i18nService.t('navigation.about'),
-            headerBackTitle: i18nService.t('navigation.back'),
+            header: null,
         })
     }
 });

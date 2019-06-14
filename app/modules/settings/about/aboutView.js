@@ -8,6 +8,8 @@ import {
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import {Image} from "react-native-elements";
 import i18nService from "../../../utils/i18n/i18nService";
+import LinearGradient from "react-native-linear-gradient";
+import NavigationBack from "../../../components/navigationBack/navigationBack";
 
 const styles = StyleSheet.create({
     centred: {
@@ -17,14 +19,19 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     logo: {
-        width: 150,
-        height: 150
+        width: 100,
+        height: 125,
+        marginBottom: 10
     },
     centredColumn: {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems:'center'
+    },
+    versionText: {
+        color: 'white',
+        fontSize: 15
     }
 });
 
@@ -33,20 +40,29 @@ export default class AboutView extends Component {
         super(props);
     }
 
+    back = () => {
+        this.props.navigation.goBack();
+    };
+
     render() {
         const {
             isLoading,
             error
         } = this.props;
         return (
-            <SafeAreaView style={sharedStyles.safeView}>
-                <View style={styles.centred}>
-                    <View style={styles.centredColumn}>
-                        <Image style={styles.logo} source={require('../../../assets/images/logo.jpg')}/>
-                        <Text>{i18nService.t('app_version', {version: '1.0.0' })}</Text>
+            <LinearGradient style={{...sharedStyles.safeView }}
+                            colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
+                <SafeAreaView style={{...sharedStyles.safeView}}>
+                    <NavigationBack onPress={() => {
+                        this.back();
+                    }}/>
+                    <View style={{...sharedStyles.centredColumn, ...styles.mainContainer}}>
+                        <Image style={styles.logo} source={require('../../../assets/images/logoIcon.png')}/>
+                        <Text style={styles.versionText}>{i18nService.t('app_version', {version: '1.0.0' })}</Text>
                     </View>
-                </View>
-            </SafeAreaView>
+                </SafeAreaView>
+            </LinearGradient>
+
         );
     }
 }

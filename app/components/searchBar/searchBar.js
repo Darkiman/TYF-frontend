@@ -36,7 +36,6 @@ export default class CustomSearchBar extends Component {
                           name={`${this.iconPrefix}-search`}
                           size={25}
                           color={'white'}
-                          containerStyle={searchBarStyle.searchIconContainer}
                     />
                 }
                 clearIcon={
@@ -45,7 +44,7 @@ export default class CustomSearchBar extends Component {
                           size={25}
                           color={'white'}
                           underlayColor={'transparent'}
-                          // containerStyle={searchBarStyle.searchIconContainer}
+                          containerStyle={searchBarStyle.searchIconContainer}
                           onPress={() => {
                               if(onChangeText) {
                                   onChangeText('');
