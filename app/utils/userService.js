@@ -32,7 +32,8 @@ const userService = {
                 password: result.password,
                 token: result.token,
                 tracking: result.tracking,
-                avatar: result.avatar
+                avatar: result.avatar,
+                language: result.language
             };
         }
         _currentUser = user;

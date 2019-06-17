@@ -15,6 +15,7 @@ import userService from "../../../utils/userService";
 import LinearGradient from "react-native-linear-gradient";
 import NavigationBack from "../../../components/navigationBack/navigationBack";
 import CommonConstant from "../../../constants/CommonConstant";
+import asyncStorageService from "../../../utils/asyncStorageService";
 
 export default class LoginView extends Component {
     constructor(props) {
@@ -27,6 +28,13 @@ export default class LoginView extends Component {
         }
     }
 
+    componentDidMount() {
+        this.initialize()
+    }
+
+    async initialize() {
+        this.notificationToken = await asyncStorageService.getItem('fcmToken');
+    }
 
     handleEmailChange = (text) => {
         let login = this.state.login;
@@ -98,7 +106,12 @@ export default class LoginView extends Component {
                                          disabled={!this.state.emailValid || !this.state.passwordValid}
                                          onPress={async () => {
                                              const password = this.state.login.password;
-                                             const result = await login(this.state.login);
+                                             const currentLocale = i18nService.getCurrentLocale();
+                                             const result = await login({
+                                                 ...this.state.login,
+                                                 notificationToken: this.notificationToken,
+                                                 language: currentLocale
+                                             });
                                              if (result.error) {
                                                  const errorText = i18nService.t(`validation_message.${result.message}`);
                                                  messageService.showError(this.refs.flashMessage, errorText);
@@ -110,7 +123,8 @@ export default class LoginView extends Component {
                                                      password: password,
                                                      token: result.source[0].data.token,
                                                      tracking: false,
-                                                     avatar: result.source[0].data.avatar
+                                                     avatar: result.source[0].data.avatar,
+                                                     language: currentLocale
                                                  };
                                                  userService.setUser(user);
                                                  this.props.navigation.navigate(NavigationRoutes.HOME);
