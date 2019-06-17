@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import {
     View,
-    Button,
-    Text,
-    ActivityIndicator,
     SafeAreaView, Platform
 } from 'react-native';
-import ErrorMessage from "../../../components/ErrorMessage";
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import {ListItem, Icon} from 'react-native-elements';
 import i18nService from "../../../utils/i18n/i18nService";
 import iconsService from "../../../utils/iconsService";
 import IconsType from "../../../constants/IconsType";
+import userService from "../../../utils/userService";
+import LargeButton from '../../../components/largeButton/largeButton';
+import themeService from "../../../utils/themeService";
+
+const colors = themeService.currentThemeColors;
 
 export default class LanguageView extends Component {
     constructor(props) {
@@ -21,41 +22,64 @@ export default class LanguageView extends Component {
         this.iconPrefix = iconsService.getIconPrefix();
         this.from = null;
         this.update = null;
-        this.iconSize = Platform.OS === 'ios' ? 40 : 25 ;
+        this.iconSize = Platform.OS === 'ios' ? 40 : 25;
+
+        this.state = {
+            changed: false,
+            currentLocale: this.currentLocale
+        }
     }
 
-    setLocale = async (item) => {
-        await i18nService.setLocale(item.key);
+    componentDidMount() {
+        this.user = userService.getUser();
+        this.initialize();
+    }
+
+    async initialize() {
+        this.user = await userService.getUser();
+    }
+
+    selectLocale = async (item) => {
+        this.setState({
+            currentLocale: item.key,
+            changed: true
+        });
+    };
+
+    save = async () => {
+        const { currentLocale } = this.state;
+        if(this.user) {
+            await this.props.changeLanguage(this.user.id, currentLocale);
+        }
         if(this.update) {
             this.update();
         }
         // add date param to rerender stack navigator
-        this.props.navigation.navigate(this.from,{date: new Date()});
+        await i18nService.setLocale(currentLocale);
+        this.props.navigation.navigate(this.from, {date: new Date()});
     };
 
     render() {
         const {
             isLoading,
-            error,
             navigation
         } = this.props;
+        const { changed, currentLocale } = this.state;
         this.from = navigation.getParam('from');
         this.update = navigation.getParam('update');
 
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View>
-                    {isLoading ? <ActivityIndicator/> : null}
-                    {error ? <ErrorMessage/> : null}
                     {this.supportedLanguages.map((item, index) => {
                         {
                             return <ListItem
                                 key={index}
                                 title={i18nService.t(item.translationKey, {locale: item.key})}
                                 onPress={async () => {
-                                    this.setLocale(item)}
-                                }
-                                rightIcon={this.currentLocale === item.key ?
+                                    this.selectLocale(item)
+                                }}
+                                rightIcon={currentLocale === item.key ?
                                     <Icon type={IconsType.Ionicon}
                                           name={`${this.iconPrefix}-checkmark`}
                                           size={this.iconSize}
@@ -63,6 +87,23 @@ export default class LanguageView extends Component {
                             />
                         }
                     })}
+                    <View style={{width: '100%', paddingLeft: 16, paddingRight: 16}}>
+                        <LargeButton type={'solid'}
+                                     title={i18nService.t('save')}
+                                     disabled={!changed}
+                                     buttonStyle={{
+                                         marginTop: 20,
+                                         backgroundColor: colors.backgroundColor
+                                     }}
+                                     titleStyle={{
+                                         color: 'white'
+                                     }}
+                                     loading={isLoading}
+                                     onPress={async () => {
+                                        await this.save();
+                                     }}
+                        />
+                    </View>
                 </View>
             </SafeAreaView>
         );

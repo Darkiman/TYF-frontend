@@ -20,7 +20,7 @@ export default class LargeButton extends Component {
             // iconContainerStyle
         } = this.props;
         const fromPropsButtonStyle = this.props.buttonStyle ? this.props.buttonStyle : {};
-        const fromPropsTitleStyle = this.props.buttonText ? this.props.buttonText : {};
+        const fromPropsTitleStyle = this.props.titleStyle ? this.props.titleStyle : {};
         let buttonStyle;
         let titleStyle;
         let loadingProps;

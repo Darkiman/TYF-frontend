@@ -83,7 +83,7 @@ export default class EditProfileView extends Component {
         const {changeInfo} = this.props;
         const {name, password} = this.state;
         try {
-            const result = await changeInfo(this.user.id, this.profileImageRef.state.response, name, password);
+            const result = await changeInfo(this.user.id, this.profileImageRef.state.response, name, password, i18nService.getCurrentLocale());
             if(result.error) {
                 const errorText = i18nService.t(`validation_message.${result.message}`);
                 messageService.showError(this.refs.flashMessage, errorText);

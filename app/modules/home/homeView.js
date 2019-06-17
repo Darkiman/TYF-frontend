@@ -159,6 +159,7 @@ export default class HomeView extends Component {
                                 <View style={{width: '100%'}}>
                                     <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
                                                  buttonStyle={{marginTop: 70}}
+                                                 titleStyle={{width: 'auto'}}
                                                  title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
                                                  icon={<Icon
                                                      type={IconsType.Ionicon}
@@ -168,7 +169,6 @@ export default class HomeView extends Component {
                                                      color={this.state.tracking ? 'white' : colors.color }
                                                      underlayColor={'transparent'}
                                                  />}
-                                                 buttonText={{width: 'auto'}}
                                                  iconRight={true}
                                                  loading={!this.state.initialized || !this.state.geoLocationReady}
                                                  onPress={async () => {

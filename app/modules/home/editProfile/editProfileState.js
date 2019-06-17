@@ -12,7 +12,7 @@ export const UPLOAD_INFO_SUCCESS = 'profile/UPLOAD_INFO_SUCCESS';
 export const UPLOAD_INFO_LOADING = 'profile/UPLOAD_INFO_LOADING';
 export const UPLOAD_INFO_ERROR = 'profile/UPLOAD_INFO_ERROR';
 
-export const changeInfo = (id, photo, name, password) => {
+export const changeInfo = (id, photo, name, password, language) => {
   return dispatch => {
     if(!networkService.isConnected) {
       dispatch({
@@ -32,7 +32,8 @@ export const changeInfo = (id, photo, name, password) => {
         data: photo.data,
       } : null,
       name: name,
-      password: password
+      password: password,
+      language: language
     };
     return ax.post(`${apiConfig.url}profile/info`, data)
         .then(({data}) => {
