@@ -75,6 +75,7 @@ export default class LanguageView extends Component {
                         {
                             return <ListItem
                                 key={index}
+                                containerStyle={{height: 70}}
                                 title={i18nService.t(item.translationKey, {locale: item.key})}
                                 onPress={async () => {
                                     this.selectLocale(item)
@@ -89,7 +90,7 @@ export default class LanguageView extends Component {
                     })}
                     <View style={{width: '100%', paddingLeft: 16, paddingRight: 16}}>
                         <LargeButton type={'solid'}
-                                     title={i18nService.t('save')}
+                                     title={i18nService.t('save', {locale: currentLocale})}
                                      disabled={!changed}
                                      buttonStyle={{
                                          marginTop: 20,

@@ -19,6 +19,7 @@ import themeService from "../../utils/themeService";
 import iconsService from "../../utils/iconsService";
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import ProfileImage from "../../components/profileImage/profileImage";
+import {NavigationEvents} from "react-navigation";
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -151,6 +152,11 @@ export default class HomeView extends Component {
                 {
                     this.state.initialized ?
                         <View style={sharedStyles.centredColumn}>
+                            <NavigationEvents
+                                onWillFocus={payload => {
+                                    this.forceUpdate();
+                                }}
+                            />
                             <View style={styles.view}>
                                 <ProfileImage style={styles.avatar}
                                               user={this.user}>

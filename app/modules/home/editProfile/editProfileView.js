@@ -19,6 +19,7 @@ import ProfileImage from "../../../components/profileImage/profileImage";
 import commonService from "../../../services/commonService";
 import FlashMessage from "react-native-flash-message";
 import messageService from "../../../utils/messageService";
+import {NavigationEvents} from "react-navigation";
 
 const styles = {
     view: {
@@ -123,6 +124,11 @@ export default class EditProfileView extends Component {
                     {
                         this.state.initialized ?
                             <View style={sharedStyles.centredColumn}>
+                                <NavigationEvents
+                                    onWillFocus={payload => {
+                                        this.forceUpdate();
+                                    }}
+                                />
                                 <View style={styles.view}>
                                     <ProfileImage ref={(ref) => this.profileImageRef = ref}
                                                   style={styles.avatar}
