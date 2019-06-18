@@ -6,9 +6,9 @@ import {
 } from './loginState';
 
 const mapStateToProps = state => ({
-    data: state.signupState.data,
-    isLoading: state.signupState.isLoading,
-    error: state.signupState.error
+    data: state.loginState.data,
+    isLoading: state.loginState.isLoading,
+    error: state.loginState.error
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

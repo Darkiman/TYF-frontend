@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {StyleSheet,ImageBackground, ActivityIndicator, SafeAreaView} from 'react-native';
-import {getContactsPosition} from "./loadingState";
 import userService from "../../utils/userService";
 import ax from "../../utils/axios";
 import NavigationRoutes from "../../constants/NavigationRoutes";
@@ -43,16 +42,17 @@ export default class LoadingView extends Component {
             }
             if (user) {
                 try {
-                    const response = await ax.post(`${apiConfig.url}auth/login`, {
-                        email: user.email,
-                        password: user.password
+                    const response = await ax.post(`${apiConfig.url}auth/checkToken`, {
+                        id: user.id,
+                        token: user.token
                     });
-                    if (response && response.data[0].key) {
+                    if (response && response.data.key) {
                         this.props.navigation.navigate(NavigationRoutes.HOME);
                     } else {
                         this.props.navigation.navigate(NavigationRoutes.AUTH);
                     }
                 } catch (error) {
+                    console.log(error);
                     this.props.navigation.navigate(NavigationRoutes.AUTH);
                 }
             } else {
@@ -65,12 +65,6 @@ export default class LoadingView extends Component {
 
 
     render() {
-        const {
-            isLoading,
-            error,
-            data
-        } = this.props;
-
         return (
             <ImageBackground source={require('../../assets/images/loading.png')} style={styles.backgroundImage}>
                <SafeAreaView style={styles.backgroundContainer}>

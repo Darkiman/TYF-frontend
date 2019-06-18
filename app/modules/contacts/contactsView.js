@@ -165,6 +165,7 @@ export default class ContactsView extends Component {
                             <View style={styles.icons}>
                                 <Icon type={IconsType.Ionicon}
                                       name={`${this.iconPrefix}-person-add`}
+                                      underlayColor={'transparent'}
                                       size={30}
                                       color={'white'}
                                       containerStyle={styles.personIconContainer}

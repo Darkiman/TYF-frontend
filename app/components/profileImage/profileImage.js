@@ -13,7 +13,7 @@ const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https'],
 });
 const defaultImg = require('../../assets/images/avatar.jpg');
-
+const opacityValue = 0.3;
 const styles = {
     view: {
         position: 'relative',
@@ -29,15 +29,42 @@ const styles = {
         borderWidth: 7,
         borderColor: 'white',
     },
+    placeholder: {
+        width: 125,
+        height: 125,
+        borderRadius: 60,
+        overflow: 'hidden',
+        borderWidth: 7,
+        borderColor: 'white',
+    },
     icon: {
         position: 'absolute',
-        right: 45,
+        right:  Platform.OS === 'ios' ? 48 : 45,
         top: 41
     },
     activityIndicator: {
         position: 'absolute',
         right: Platform.OS === 'ios' ? 43 : 45,
         top: 45
+    }
+};
+
+const placeholder = {
+    component: Image,
+    props: {
+        style: styles.placeholder,
+        source: defaultImg
+    }
+};
+
+const placeholderLoading = {
+    component: Image,
+    props: {
+        style: {
+            ...styles.placeholder,
+            opacity: opacityValue
+        },
+        source: defaultImg
     }
 };
 
@@ -132,9 +159,10 @@ export default class ProfileImage extends Component {
         const containerStyle = {...styles.view, ...(style ? style : {})};
         const avatarData = avatarSource ? avatarSource : avatar;
         const img = changed ? <Image source={avatarSource}
-                                     style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? 0.3 : 1}}}/>
+                                     style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? opacityValue : 1}}}/>
                                     : <CacheableImage
-                                    style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? 0.3 : 1}}}
+                                    style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? opacityValue : 1}}}
+                                    placeholder={loading || editable ? placeholderLoading : placeholder}
                                     source={avatarData ? {
                                         uri: avatarData
                                     } : defaultImg}/>;

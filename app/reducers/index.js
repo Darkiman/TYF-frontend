@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
   language: languageState,
   about: aboutState,
   auth: authState,
-  login: loginState,
+  loginState: loginState,
   signupState: signupState,
   contactsState: contactsState,
   editProfile: editProfileState

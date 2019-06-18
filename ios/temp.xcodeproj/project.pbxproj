@@ -129,6 +129,7 @@
 		53645AA8226E16360064F031 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645AA5226E16360064F031 /* GoogleMaps.framework */; };
 		53645AA9226E16360064F031 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645AA6226E16360064F031 /* GoogleMapsCore.framework */; };
 		53645AAA226E16360064F031 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645AA7226E16360064F031 /* GoogleMapsBase.framework */; };
+		5377949822B8DCB7007A3348 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5377949722B8DCB7007A3348 /* Storyboard.storyboard */; };
 		53B870ED229BD6340063D85B /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 530E0B5E2269C3E10054DDE6 /* libRNCAsyncStorage.a */; };
 		58A4F12A8037452085CC9E61 /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2E0BA2A4F4837A424475B /* TSBackgroundFetch.framework */; };
 		647E443EA80647CABE7C7794 /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 893B161139DF48EFB87DAB8E /* TSBackgroundFetch.framework */; };
@@ -716,6 +717,7 @@
 		53645AA5226E16360064F031 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = GoogleMaps/GoogleMaps.framework; sourceTree = "<group>"; };
 		53645AA6226E16360064F031 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsCore.framework; path = GoogleMaps/GoogleMapsCore.framework; sourceTree = "<group>"; };
 		53645AA7226E16360064F031 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsBase.framework; path = GoogleMaps/GoogleMapsBase.framework; sourceTree = "<group>"; };
+		5377949722B8DCB7007A3348 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		68E011B084B64AE190A88A39 /* TSBackgroundFetch.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = TSBackgroundFetch.framework; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/TSBackgroundFetch.framework"; sourceTree = SDKROOT; };
 		68E163A8E40A4FB4B373BE89 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
@@ -946,6 +948,7 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				B9E253E71DB245988EA005CB /* RNBackgroundFetch+AppDelegate.m */,
+				5377949722B8DCB7007A3348 /* Storyboard.storyboard */,
 			);
 			name = temp;
 			sourceTree = "<group>";
@@ -2021,6 +2024,7 @@
 				43D0AD67F8B647D18A404DF7 /* FontAwesome.ttf in Resources */,
 				4B503652F5AB490CAC9B4D01 /* FontAwesome5_Brands.ttf in Resources */,
 				A95C1EFBA0584072969066C6 /* FontAwesome5_Regular.ttf in Resources */,
+				5377949822B8DCB7007A3348 /* Storyboard.storyboard in Resources */,
 				53645A86226E135A0064F031 /* GoogleMaps.bundle in Resources */,
 				3CF054805180492ABB0DB8DD /* FontAwesome5_Solid.ttf in Resources */,
 				53083B3322733F7800362A9B /* GoogleService-Info.plist in Resources */,
