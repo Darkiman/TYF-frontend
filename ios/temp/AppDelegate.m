@@ -14,6 +14,7 @@
 #import "RNSplashScreen.h"
 #import <Firebase.h> //Add This Line
 #import "RNFirebaseNotifications.h" //Add This Line
+@import Firebase;
 
 @implementation AppDelegate
 
@@ -28,7 +29,7 @@
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"TYF"
                                             initialProperties:nil];
-
+  [GADMobileAds configureWithApplicationID:@"ca-app-pub-7987914246691031~8295071692"];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -37,6 +38,7 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
+  
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self]; //Add This Line
   [RNSplashScreen show];  // here
   return YES;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Animated, View, SafeAreaView, Easing, Text} from 'react-native';
+import {StyleSheet, Animated, View, SafeAreaView, Easing, Platform} from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import {Icon} from 'react-native-elements';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
@@ -7,9 +7,9 @@ import ContactMarker from "../../components/contactMarker/contactMarker";
 import iconsService from "../../utils/iconsService";
 import IconsType from "../../constants/IconsType";
 import themeService from "../../utils/themeService";
-import {getContactsPosition} from "./mapsState";
 import userService from "../../utils/userService";
 import ContactMarkerCallout from "../../components/contactMarketCallout/contactMarkerCallout";
+import firebase from 'react-native-firebase';
 
 const colors = themeService.currentThemeColors;
 
@@ -171,6 +171,14 @@ export default class MapsView extends Component {
             outputRange: ['0deg', '360deg']
         });
 
+        const unitId =
+            Platform.OS === 'ios'
+                ? 'ca-app-pub-4318279887762361/7843050671'
+                : 'ca-app-pub-4318279887762361/6126698221';
+        const Banner = firebase.admob.Banner;
+        const AdRequest = firebase.admob.AdRequest;
+        const request = new AdRequest();
+
         return (
             <SafeAreaView style={sharedStyles.safeView}>
                 <View style={styles.mapContainer}>
@@ -199,6 +207,7 @@ export default class MapsView extends Component {
                             })
                         }
                     </MapView>
+
                 </View>
                 <Icon type={IconsType.Ionicon}
                       name={`${this.iconPrefix}-compass`}
@@ -227,6 +236,14 @@ export default class MapsView extends Component {
                       underlayColor={'transparent'}
                       onPress={this.onRefresh}
                 />
+                {/*<Banner*/}
+                {/*    unitId={unitId}*/}
+                {/*    size={'SMART_BANNER'}*/}
+                {/*    request={request.build()}*/}
+                {/*    onAdLoaded={() => {*/}
+                {/*        console.log('Advert loaded');*/}
+                {/*    }}*/}
+                {/*/>*/}
             </SafeAreaView>
         );
     }
