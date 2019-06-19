@@ -10,6 +10,7 @@ import themeService from "../../utils/themeService";
 import userService from "../../utils/userService";
 import ContactMarkerCallout from "../../components/contactMarketCallout/contactMarkerCallout";
 import firebase from 'react-native-firebase';
+import mapStyle from './mapStyle';
 
 const colors = themeService.currentThemeColors;
 
@@ -180,7 +181,7 @@ export default class MapsView extends Component {
         const request = new AdRequest();
 
         return (
-            <SafeAreaView style={sharedStyles.safeView}>
+            <View style={sharedStyles.safeView}>
                 <View style={styles.mapContainer}>
                     <MapView
                         showsUserLocation
@@ -190,6 +191,7 @@ export default class MapsView extends Component {
                         onMapReady={this.onMapReady}
                         showsMyLocationButton={false}
                         style={styles.map}
+                        customMapStyle={mapStyle}
                     >
                         {
                             contacts && contacts.map(item => {
@@ -244,7 +246,7 @@ export default class MapsView extends Component {
                 {/*        console.log('Advert loaded');*/}
                 {/*    }}*/}
                 {/*/>*/}
-            </SafeAreaView>
+            </View>
         );
     }
 }
