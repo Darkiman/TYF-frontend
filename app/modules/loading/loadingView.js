@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
     }
 });
 
+const logo = require('../../assets/images/logoIcon.png');
+
 export default class LoadingView extends Component {
     constructor(props) {
         super(props);

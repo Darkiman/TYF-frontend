@@ -1,10 +1,9 @@
 import React, {Component} from "react";
-import {Icon, ListItem, Text} from 'react-native-elements';
+import {Icon, ListItem} from 'react-native-elements';
 import {ActivityIndicator, View, Image} from 'react-native';
 import iconsService from "../../utils/iconsService";
 import IconsType from "../../constants/IconsType";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-import themeService from "../../utils/themeService";
 import imageCacheHoc from 'react-native-image-cache-hoc';
 import apiConfig from "../../utils/apiConfig";
 import i18nService from "../../utils/i18n/i18nService";
@@ -14,6 +13,22 @@ const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https']
 });
 
+const defaultImg = require('../../assets/images/avatar.jpg');
+const styles  = {
+  avatar: {
+      width: 50,
+      height: 50,
+      marginLeft: 3
+  }
+};
+
+const propOverridePlaceholderObject = {
+    component: Image,
+    props: {
+        style: styles.avatar,
+        source: defaultImg
+    }
+};
 
 export default class ContactItem extends Component {
     constructor(props) {
@@ -23,7 +38,6 @@ export default class ContactItem extends Component {
 
     render() {
         const {
-            leftAvatar,
             title,
             data,
             contacts,
@@ -45,48 +59,36 @@ export default class ContactItem extends Component {
                     fontSize: 22,
                     marginLeft: 10
                 }}
-                leftAvatar={leftAvatar ? leftAvatar : {
-                    ImageComponent: CacheableImage,
-                    rounded: true,
-                    containerStyle: {
-                        width: 50,
-                        height: 50,
-                        marginLeft: 3
-                    },
-                    size: 'medium',
-                    source: avatar ? {
-                        uri: avatar
-                    } : {
-                        uri: require('../../assets/images/avatar.jpg')
-                    }
-                }}
+                leftElement={<CacheableImage source={{uri: avatar}}
+                                             style={styles.avatar}
+                                             placeholder={propOverridePlaceholderObject}/>}
                 title={title}
                 rightElement={
                     loading ? <View style={sharedStyles.actionsContainer}>
                             <ActivityIndicator></ActivityIndicator>
                         </View> :
                         (showAdd ? <View style={sharedStyles.actionsContainer}>
-                        <Icon type={IconsType.Ionicon}
-                              name={`${this.iconPrefix}-add`}
-                              size={30}
-                              color={'rgb(144,154,165)'}
-                              onPress={async () => {
-                                  if (addContact) {
-                                      data.loadingSave = true;
-                                      this.forceUpdate();
-                                      const result = await addContact(user.id, data.key);
-                                      if (result.error) {
-                                          data.loadingSave = false;
-                                          const errorText = i18nService.t(`validation_message.${result.message}`);
-                                          messageService.showError(flashMessage, errorText);
-                                      } else {
-                                          data.loadingSave = false;
+                            <Icon type={IconsType.Ionicon}
+                                  name={`${this.iconPrefix}-add`}
+                                  size={30}
+                                  color={'rgb(144,154,165)'}
+                                  onPress={async () => {
+                                      if (addContact) {
+                                          data.loadingSave = true;
+                                          this.forceUpdate();
+                                          const result = await addContact(user.id, data.key);
+                                          if (result.error) {
+                                              data.loadingSave = false;
+                                              const errorText = i18nService.t(`validation_message.${result.message}`);
+                                              messageService.showError(flashMessage, errorText);
+                                          } else {
+                                              data.loadingSave = false;
+                                          }
+                                          this.forceUpdate();
                                       }
-                                      this.forceUpdate();
-                                  }
-                              }}
-                        />
-                    </View> : null)
+                                  }}
+                            />
+                        </View> : null)
                 }
             >
             </ListItem>

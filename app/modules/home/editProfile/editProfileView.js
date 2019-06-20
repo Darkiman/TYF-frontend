@@ -190,7 +190,7 @@ export default class EditProfileView extends Component {
                                                                     }/> :
                                             <View style={{width: '100%', height: 53, alignItems: 'center'}}>
                                                 <LargeButton type={'clear'}
-                                                             buttonStyle={{width: 250}}
+                                                             buttonStyle={{width: 280}}
                                                              title={i18nService.t('type_here_to_change_password')}
                                                              onPress={() => {
                                                                  this.setState({

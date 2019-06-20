@@ -20,6 +20,8 @@ import iconsService from "../../utils/iconsService";
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import ProfileImage from "../../components/profileImage/profileImage";
 import {NavigationEvents} from "react-navigation";
+import firebase from "react-native-firebase";
+import networkService from "../../utils/networkService";
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -50,8 +52,6 @@ export default class HomeView extends Component {
     }
 
     componentDidMount() {
-        this.initialize();
-
         this.options = {
             title: i18nService.t('select_avatar'),
             cancelButtonTitle: i18nService.t('cancel'),
@@ -62,6 +62,11 @@ export default class HomeView extends Component {
                 path: 'images',
             },
         };
+
+        this.checkPermission();
+        this.createNotificationListeners();
+        this.initialize();
+
     }
 
     async initialize() {
@@ -74,7 +79,7 @@ export default class HomeView extends Component {
             distanceFilter: 100,
             // Activity Recognition
             stopTimeout: 1,
-            debug: __DEV__, // <-- enable this hear sounds for background-geolocation life-cycle.
+            debug: false, // <-- enable this hear sounds for background-geolocation life-cycle.
             logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
             stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
             startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
@@ -106,9 +111,86 @@ export default class HomeView extends Component {
         SplashScreen.hide();
     }
 
+    async checkPermission() {
+        const enabled = await firebase.messaging().hasPermission();
+        if (enabled) {
+            this.getToken();
+        } else {
+            this.requestPermission();
+        }
+    }
+
+    async getToken() {
+        let fcmToken = await asyncStorageService.getItem('fcmToken');
+        if (!fcmToken) {
+            fcmToken = await firebase.messaging().getToken();
+            if (fcmToken) {
+                await asyncStorageService.setItem('fcmToken', fcmToken);
+            }
+        }
+        console.log(fcmToken);
+    }
+
+    async requestPermission() {
+        try {
+            await firebase.messaging().requestPermission();
+            this.getToken();
+        } catch (error) {
+            console.log('permission rejected');
+        }
+    }
+
+    async createNotificationListeners() {
+        /*
+        * Triggered when a particular notification has been received in foreground
+        * */
+        this.notificationListener = firebase.notifications().onNotification((notification) => {
+            console.log('foreground', notification);
+            const { title, body } = notification;
+            this.showAlert(title, body);
+        });
+
+        /*
+        * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+        * */
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            console.log('background',notificationOpen);
+            const { title, body } = notificationOpen.notification;
+            this.showAlert(title, body);
+        });
+
+        /*
+        * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+        * */
+        const notificationOpen = await firebase.notifications().getInitialNotification();
+        if (notificationOpen) {
+            console.log('closed', notificationOpen);
+            const { title, body } = notificationOpen.notification;
+            this.showAlert(title, body);
+        }
+        /*
+        * Triggered for data only payload in foreground
+        * */
+        this.messageListener = firebase.messaging().onMessage((message) => {
+            console.log(4, JSON.stringify(message));
+        });
+    }
+
+    showAlert(title, body) {
+        console.log(title, body);
+    }
+
     componentWillMount() {
         BackgroundGeolocation.onLocation(this.onLocation, this.onError);
         BackgroundGeolocation.onProviderChange(this.onProviderChange);
+
+        if(this.notificationListener) {
+            this.notificationListener();
+        }
+        if(this.notificationOpenedListener) {
+            this.notificationOpenedListener();
+        }
+        networkService.removeNetworkListen();
     }
 
     onLocation(location) {

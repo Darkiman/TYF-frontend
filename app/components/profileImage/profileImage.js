@@ -158,11 +158,11 @@ export default class ProfileImage extends Component {
         } = this.state;
         const containerStyle = {...styles.view, ...(style ? style : {})};
         const avatarData = avatarSource ? avatarSource : avatar;
-        const img = changed ? <Image source={avatarSource}
-                                     style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? opacityValue : 1}}}/>
+        const img = changed ? <CacheableImage source={avatarSource}
+                                     style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? opacityValue : 1}}}
+                                     placeholder={loading || editable ? placeholderLoading : placeholder}/>
                                     : <CacheableImage
                                     style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? opacityValue : 1}}}
-                                    // placeholder={loading || editable ? placeholderLoading : placeholder}
                                     source={avatarData ? {
                                         uri: avatarData
                                     } : defaultImg}/>;

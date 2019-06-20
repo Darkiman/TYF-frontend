@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {
     View,
     SafeAreaView,
+    Image
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import NavigationRoutes from "../../constants/NavigationRoutes";
-import {Image, Text} from 'react-native-elements';
+import {Text} from 'react-native-elements';
 import i18nService from "../../utils/i18n/i18nService";
 import LargeButton from "../../components/largeButton/largeButton";
 import LinearGradient from 'react-native-linear-gradient';
@@ -21,6 +22,8 @@ const styles = {
         marginBottom: 100
     }
 };
+
+const logo = require('../../assets/images/logoIcon.png');
 
 export default class AuthView extends Component {
     constructor(props) {
@@ -42,7 +45,7 @@ export default class AuthView extends Component {
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={{...sharedStyles.safeView}}>
                     <View style={{...sharedStyles.centredColumn, ...styles.mainContainer}}>
-                        <Image style={styles.logo} source={require('../../assets/images/logoIcon.png')}/>
+                        <Image style={styles.logo} source={logo}/>
                         <Text h4 style={sharedStyles.h4}>{i18nService.t('welcome_to_app')}</Text>
                         <LargeButton title={i18nService.t('login')}
                                      buttonStyle={{

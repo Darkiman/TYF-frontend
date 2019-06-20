@@ -1,14 +1,14 @@
 import React, {Component} from "react";
-import {Image, View, Text, ImageBackground} from 'react-native';
+import {Image, View, ImageBackground} from 'react-native';
 import imageCacheHoc from "react-native-image-cache-hoc";
 import apiConfig from "../../utils/apiConfig";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-import MapView, { Marker } from 'react-native-maps';
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https']
 });
 const defaultImg = require('../../assets/images/avatar.jpg');
 const markerImg = require('../../assets/images/marker.png');
+
 
 const styles = {
     imgBg: {
@@ -25,6 +25,13 @@ const styles = {
         position: 'relative',
         left: 5,
         top: 4
+}};
+
+const propOverridePlaceholderObject = {
+    component: Image,
+    props: {
+        style: styles.avatar,
+        source: defaultImg
 }};
 
 export default class ContactMarker extends Component {
@@ -48,15 +55,22 @@ export default class ContactMarker extends Component {
         const avatar = data && data.avatar ? `${apiConfig.static}avatars/${data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
         return (
             <View style={{...sharedStyles.centredRow, position: 'relative'}}>
-                <ImageBackground source={markerImg} style={styles.imgBg} onPress={this.onMarkerPress}>
+                <ImageBackground source={markerImg}
+                                 style={styles.imgBg}
+                                 onPress={this.onMarkerPress}>
                     <CacheableImage style={styles.avatar}
                                     source={avatar ? {
                                         uri: avatar
                                     } : defaultImg}
+                                    defaultSource={defaultImg}
+                                    placeholder={propOverridePlaceholderObject}
                                     onLoad={()=> {
                                         if(onLoad) {
                                             onLoad();
                                         }
+                                    }}
+                                    onError={()=> {
+                                        console.log('Marker avatar not found');
                                     }}>
                     </CacheableImage>
                 </ImageBackground>

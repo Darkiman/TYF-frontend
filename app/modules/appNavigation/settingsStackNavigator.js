@@ -9,14 +9,14 @@ const SettingsStackNavigator = createStackNavigator({
         screen: settingsContainer,
         navigationOptions: () => ({
             title: i18nService.t('navigation.settings'),
-            headerBackTitle: i18nService.t('navigation.back'),
+            headerBackTitle: ' ',
         })
     },
     LanguageSettings: {
         screen: languageContainer,
         navigationOptions: () => ({
             title: i18nService.t('navigation.language'),
-            headerBackTitle: i18nService.t('navigation.back'),
+            headerBackTitle: ' ',
         })
     },
     AboutSettings: {

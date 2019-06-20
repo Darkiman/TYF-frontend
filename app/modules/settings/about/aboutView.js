@@ -3,10 +3,10 @@ import {
     View,
     Text,
     SafeAreaView,
-    StyleSheet
+    StyleSheet,
+    Image
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
-import {Image} from "react-native-elements";
 import i18nService from "../../../utils/i18n/i18nService";
 import LinearGradient from "react-native-linear-gradient";
 import NavigationBack from "../../../components/navigationBack/navigationBack";
