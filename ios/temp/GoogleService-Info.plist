@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>464830932288-t99haev7iu2u8t1jp38bh8ac713pdspr.apps.googleusercontent.com</string>
+	<string>464830932288-b4ldr9590un1k4s9krs71s3tnulrjmmu.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.464830932288-t99haev7iu2u8t1jp38bh8ac713pdspr</string>
+	<string>com.googleusercontent.apps.464830932288-b4ldr9590un1k4s9krs71s3tnulrjmmu</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCU_6JKE2xuxUMNBJQOU6qzhJHRwALHfT0</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>React-Native-App</string>
+	<string>com.typ-app.tyf</string>
 	<key>PROJECT_ID</key>
 	<string>react-native-app-238112</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:464830932288:ios:687c1690b361a5e6</string>
+	<string>1:464830932288:ios:45ab06ba3074f60e</string>
 	<key>DATABASE_URL</key>
 	<string>https://react-native-app-238112.firebaseio.com</string>
 </dict>

@@ -718,6 +718,7 @@
 		53645AA6226E16360064F031 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsCore.framework; path = GoogleMaps/GoogleMapsCore.framework; sourceTree = "<group>"; };
 		53645AA7226E16360064F031 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsBase.framework; path = GoogleMaps/GoogleMapsBase.framework; sourceTree = "<group>"; };
 		5377949722B8DCB7007A3348 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		5377957122BBD7A7007A3348 /* temp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = temp.entitlements; path = temp/temp.entitlements; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		68E011B084B64AE190A88A39 /* TSBackgroundFetch.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = TSBackgroundFetch.framework; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/TSBackgroundFetch.framework"; sourceTree = SDKROOT; };
 		68E163A8E40A4FB4B373BE89 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
@@ -939,6 +940,7 @@
 		13B07FAE1A68108700A75B9A /* temp */ = {
 			isa = PBXGroup;
 			children = (
+				5377957122BBD7A7007A3348 /* temp.entitlements */,
 				53083B3222733F7800362A9B /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -1487,6 +1489,9 @@
 								enabled = true;
 							};
 							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -2293,6 +2298,7 @@
 			baseConfigurationReference = E3BD429EDFDD47261BB20D2B /* Pods-temp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = temp/temp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = MVR2539BA5;
@@ -2333,7 +2339,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = TYF;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.typ-app.tyf";
 				PRODUCT_NAME = temp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2344,6 +2350,7 @@
 			baseConfigurationReference = BBE84133B1C21F1857126ECA /* Pods-temp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = temp/temp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MVR2539BA5;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2381,7 +2388,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = TYF;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.typ-app.tyf";
 				PRODUCT_NAME = temp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

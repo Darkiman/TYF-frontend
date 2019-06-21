@@ -39,6 +39,7 @@ export default class LoadingView extends Component {
         }
         try {
             const user = await userService.getUser();
+            console.log(user);
             if (user && user.token) {
                 ax.defaults.headers.common['Authorization'] = `Token ${user.token}`;
             }
@@ -61,6 +62,7 @@ export default class LoadingView extends Component {
                 this.props.navigation.navigate(NavigationRoutes.AUTH);
             }
         } catch (error) {
+            console.log(error);
             this.props.navigation.navigate(NavigationRoutes.AUTH);
         }
     }

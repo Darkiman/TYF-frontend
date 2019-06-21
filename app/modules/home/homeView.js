@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView, Platform
+    View, SafeAreaView
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
-import SplashScreen from "react-native-splash-screen";
 import BackgroundGeolocation from "react-native-background-geolocation";
 import LargeButton from "../../components/largeButton/largeButton";
 import i18nService from "../../utils/i18n/i18nService";
 import ax from "../../utils/axios";
 import userService from "../../utils/userService";
-import asyncStorageService from "../../utils/asyncStorageService";
-import userKeys from "../../constants/userKeys";
 import LinearGradient from "react-native-linear-gradient";
 import EditPage from "../../components/editPage/editPage";
 import {Icon, Text} from 'react-native-elements';
@@ -22,6 +19,7 @@ import ProfileImage from "../../components/profileImage/profileImage";
 import {NavigationEvents} from "react-navigation";
 import firebase from "react-native-firebase";
 import networkService from "../../utils/networkService";
+import apiConfig from "../../utils/apiConfig";
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -45,7 +43,8 @@ export default class HomeView extends Component {
             tracking: false,
             initialized: false,
             geoLocationReady: false,
-            sourceDisplaying: null
+            sourceDisplaying: null,
+            checkingPermission: false
         };
 
         this.iconPrefix = iconsService.getIconPrefix();
@@ -62,11 +61,7 @@ export default class HomeView extends Component {
                 path: 'images',
             },
         };
-
-        this.checkPermission();
-        this.createNotificationListeners();
         this.initialize();
-
     }
 
     async initialize() {
@@ -84,31 +79,33 @@ export default class HomeView extends Component {
             stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
             startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
             // HTTP / SQLite config
-            url: `${ax.defaults.baseURL}/location/?id=${this.user.id}`,
+            url: `${ax.defaults.baseURL}/location`,
             batchSync: false,       // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
             autoSync: true,         // <-- [Default: true] Set true to sync each location to server as it arrives.
             headers: {              // <-- Optional HTTP headers
                 ...ax.defaults.headers.common
             },
             params: {               // <-- Optional HTTP params
-                                    // 'id': this.user.id
+                id: this.user.id              // 'id': this.user.id
             }
         }, (state) => {
             console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
             this.setState({
                 geoLocationReady: true
             });
-            if (!state.enabled) {
+            if (!state.enabled && this.user.tracking) {
                 BackgroundGeolocation.start(function () {
                     console.log("- Start geo success");
                 });
             }
         });
+        this.checkPermission();
+        this.createNotificationListeners();
+
         this.setState({
             initialized: true,
             tracking: this.user.tracking,
         });
-        SplashScreen.hide();
     }
 
     async checkPermission() {
@@ -121,14 +118,20 @@ export default class HomeView extends Component {
     }
 
     async getToken() {
-        let fcmToken = await asyncStorageService.getItem('fcmToken');
-        if (!fcmToken) {
-            fcmToken = await firebase.messaging().getToken();
-            if (fcmToken) {
-                await asyncStorageService.setItem('fcmToken', fcmToken);
+        if (!this.user.notificationToken) {
+            const notificationToken = await firebase.messaging().getToken();
+            try {
+                await ax.post(`${apiConfig.url}profile/notificationToken`, {
+                    id: this.user.id,
+                    notificationToken: notificationToken
+                });
+                this.user.notificationToken = notificationToken;
+                userService.setUser(this.user);
+                console.log(notificationToken);
+            } catch (e) {
+                console.log('error while updating token: ' + e)
             }
         }
-        console.log(fcmToken);
     }
 
     async requestPermission() {
@@ -201,9 +204,32 @@ export default class HomeView extends Component {
         // console.warn('[location] ERROR -', error);
     }
 
-    onProviderChange(provider) {
-        // console.log('[providerchange] -', provider.enabled, provider.status);
-    }
+    onProviderChange = async (provider) => {
+        console.log('[providerchange] -', provider.enabled, provider.status);
+        if(!provider.enabled) {
+            this.stopTracking();
+            this.user.tracking = false;
+            this.setState({
+                tracking: false
+            });
+            await userService.setUser(this.user);
+        }
+    };
+
+    stopTracking = () => {
+        BackgroundGeolocation.removeListeners();
+        BackgroundGeolocation.stop(function () {
+            console.log("- Stop geo success");
+        });
+    };
+
+    startTracking = () => {
+        BackgroundGeolocation.onLocation(this.onLocation, this.onError);
+        BackgroundGeolocation.onProviderChange(this.onProviderChange);
+        BackgroundGeolocation.start(function () {
+            console.log("- Start geo success");
+        });
+    };
 
     afterUserInfoChange = async () => {
         this.user = await userService.getUser();
@@ -264,16 +290,9 @@ export default class HomeView extends Component {
                                                          return;
                                                      }
                                                      if (this.state.tracking) {
-                                                         BackgroundGeolocation.removeListeners();
-                                                         BackgroundGeolocation.stop(function () {
-                                                             console.log("- Stop geo success");
-                                                         });
+                                                        this.stopTracking();
                                                      } else {
-                                                         BackgroundGeolocation.onLocation(this.onLocation, this.onError);
-                                                         BackgroundGeolocation.onProviderChange(this.onProviderChange);
-                                                         BackgroundGeolocation.start(function () {
-                                                             console.log("- Start geo success");
-                                                         });
+                                                        this.startTracking();
                                                      }
                                                      const tracking = !this.state.tracking;
                                                      this.user.tracking = tracking;
