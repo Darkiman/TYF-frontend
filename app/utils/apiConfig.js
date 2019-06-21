@@ -1,6 +1,6 @@
 import {Platform} from "react-native";
 
-const url = __DEV__ ? (Platform.OS === 'ios' ? 'http://10.0.2.32:3050' : 'http://127.0.0.1:3050') : 'http://2.59.40.32:3050';
+const url = __DEV__ ? (Platform.OS === 'ios' ? 'http://10.0.2.32:3050' : 'http://10.0.2.2:3050') : 'http://2.59.40.32:3050';
 
 const apiConfig = {
     // static: Platform.OS === 'ios' ? 'http://127.0.0.1:3050/static/' : 'http://10.0.2.2:3050/static/',
