@@ -47,6 +47,10 @@
   "error_while_saving_data": "Ошибка при сохранение. Попробуйте еще раз.",
   "cant_add_more_contacts": "Вы не можете добавить больше чем %{max} контактов",
   "you_cant_add_more_contacts": "Вы не можете добавить больше контактов",
+  "access_denied": "Ошибка доступа",
+  "set_geolocation_to_always": "Установите в настройках геопозиции 'Всегда', что бы использовать приложение",
+  "enable_geolocation": "Включите геолокацию в настройках, что бы использовать приложение",
+  "go_app_to_settings": "К настройкам",
   "validation_message": {
     "internet_connection_not_available": "Интернет недоступен",
     "email_is_not_valid": "Email недействительный",

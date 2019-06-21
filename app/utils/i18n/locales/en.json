@@ -47,6 +47,10 @@
   "error_while_saving_data": "Error while saving data. Please try again.",
   "cant_add_more_contacts": "You can`t add more %{max} contacts",
   "you_cant_add_more_contacts": "You can`t add more contacts",
+  "access_denied": "Access denied",
+  "set_geolocation_to_always": "Set geolocation settings to 'Always' to use the app",
+  "enable_geolocation": "Enable geolocation in settings to use the app",
+  "go_app_to_settings": "Go to settings",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",

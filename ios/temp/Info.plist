@@ -78,8 +78,16 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+        <string>This app requires your bluetooth</string>
+        <key>NSCalendarsUsageDescription</key>
+	<string>This app requires your calendar</string>
+        <key>NSSpeechRecognitionUsageDescription</key>
+	<string>$(EXECUTABLE_NAME) would like to access to your speech</string>
 	<key>NSCameraUsageDescription</key>
-	<string>TYF would like to use your camera</string>
+	<string>$(EXECUTABLE_NAME) would like to use your camera</string>
+        <key>NSAppleMusicUsageDescription</key>
+	<string>$(EXECUTABLE_NAME) would like to access to your music</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app requires background tracking</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -87,13 +95,13 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>TYF would like to your microphone (for videos)</string>
+	<string>$(EXECUTABLE_NAME) would like to your microphone (for videos)</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Accelerometer use increases battery efficiency by intelligently toggling location-tracking</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>TYF would like to save photos to your photo gallery</string>
+	<string>$(EXECUTABLE_NAME) would like to save photos to your photo gallery</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>TYF would like access to your photo gallery to change your profile picture</string>
+	<string>$(EXECUTABLE_NAME) would like access to your photo gallery to change your profile picture</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

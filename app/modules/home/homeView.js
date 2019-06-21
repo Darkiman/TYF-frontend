@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView
+    View, SafeAreaView, Platform, Alert, Linking
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import BackgroundGeolocation from "react-native-background-geolocation";
@@ -20,6 +20,7 @@ import {NavigationEvents} from "react-navigation";
 import firebase from "react-native-firebase";
 import networkService from "../../utils/networkService";
 import apiConfig from "../../utils/apiConfig";
+import Permissions from 'react-native-permissions';
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -149,7 +150,7 @@ export default class HomeView extends Component {
         * */
         this.notificationListener = firebase.notifications().onNotification((notification) => {
             console.log('foreground', notification);
-            const { title, body } = notification;
+            const {title, body} = notification;
             this.showAlert(title, body);
         });
 
@@ -157,8 +158,8 @@ export default class HomeView extends Component {
         * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
         * */
         this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-            console.log('background',notificationOpen);
-            const { title, body } = notificationOpen.notification;
+            console.log('background', notificationOpen);
+            const {title, body} = notificationOpen.notification;
             this.showAlert(title, body);
         });
 
@@ -168,7 +169,7 @@ export default class HomeView extends Component {
         const notificationOpen = await firebase.notifications().getInitialNotification();
         if (notificationOpen) {
             console.log('closed', notificationOpen);
-            const { title, body } = notificationOpen.notification;
+            const {title, body} = notificationOpen.notification;
             this.showAlert(title, body);
         }
         /*
@@ -187,10 +188,10 @@ export default class HomeView extends Component {
         BackgroundGeolocation.onLocation(this.onLocation, this.onError);
         BackgroundGeolocation.onProviderChange(this.onProviderChange);
 
-        if(this.notificationListener) {
+        if (this.notificationListener) {
             this.notificationListener();
         }
-        if(this.notificationOpenedListener) {
+        if (this.notificationOpenedListener) {
             this.notificationOpenedListener();
         }
         networkService.removeNetworkListen();
@@ -206,7 +207,7 @@ export default class HomeView extends Component {
 
     onProviderChange = async (provider) => {
         console.log('[providerchange] -', provider.enabled, provider.status);
-        if(!provider.enabled) {
+        if (!provider.enabled) {
             this.stopTracking();
             this.user.tracking = false;
             this.setState({
@@ -231,6 +232,63 @@ export default class HomeView extends Component {
         });
     };
 
+    isLocationPermissionEnabled = async () => {
+        let locationPermission;
+        if (Platform.OS === 'ios') {
+            locationPermission = await Permissions.check('location', {type: 'always'});
+            console.log(locationPermission);
+            if (locationPermission === 'denied') {
+                return false;
+            }
+        } else {
+            locationPermission = await Permissions.check('location');
+            if (locationPermission !== 'authorized') {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    toggleTracking = async () => {
+        if (!this.state.initialized || !this.state.geoLocationReady) {
+            return;
+        }
+        if (this.state.tracking) {
+            this.stopTracking();
+        } else {
+            const locationEnabled = await this.isLocationPermissionEnabled();
+            if (locationEnabled) {
+                this.startTracking();
+            } else {
+                Alert.alert(
+                    i18nService.t('access_denied'),
+                    i18nService.t(Platform.OS === 'ios' ? 'set_geolocation_to_always' : 'enable_geolocation'),
+                    [
+                        {
+                            text: i18nService.t('go_app_to_settings'),
+                            onPress: () => {
+                                Linking.openSettings();
+                            }},
+                        {
+                            text: i18nService.t('cancel'),
+                            onPress: () => {
+
+                            }
+                        }
+                    ],
+                    {cancelable: true},
+                );
+                return;
+            }
+        }
+        const tracking = !this.state.tracking;
+        this.user.tracking = tracking;
+        await userService.setUser(this.user);
+        this.setState({
+            tracking: tracking
+        })
+    };
+
     afterUserInfoChange = async () => {
         this.user = await userService.getUser();
         this.forceUpdate();
@@ -247,67 +305,58 @@ export default class HomeView extends Component {
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={sharedStyles.safeView}>
-                {
-                    this.state.initialized ?
-                        <EditPage onPress={() => {
-                            this.props.navigation.navigate(NavigationRoutes.HOME_PROFILE, {
-                                update: () => {
-                                    this.afterUserInfoChange();
-                                }
-                            });
-                        }} /> : null
-                }
-                {
-                    this.state.initialized ?
-                        <View style={sharedStyles.centredColumn}>
-                            <NavigationEvents
-                                onWillFocus={payload => {
-                                    this.forceUpdate();
-                                }}
-                            />
-                            <View style={styles.view}>
-                                <ProfileImage style={styles.avatar}
-                                              user={this.user}>
-                                </ProfileImage>
-                                <Text h4 style={{...sharedStyles.h4, width: '100%', textAlign: 'center'}}>{this.user.name}</Text>
-                                <View style={{width: '100%'}}>
-                                    <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
-                                                 buttonStyle={{marginTop: 70}}
-                                                 titleStyle={{width: 'auto'}}
-                                                 title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
-                                                 icon={<Icon
-                                                     type={IconsType.Ionicon}
-                                                     name={this.state.tracking ? `${this.iconPrefix}-pause` : `${this.iconPrefix}-play`}
-                                                     containerStyle={{position: 'relative', top: 2, marginLeft: 7}}
-                                                     size={20}
-                                                     color={this.state.tracking ? 'white' : colors.color }
-                                                     underlayColor={'transparent'}
-                                                 />}
-                                                 iconRight={true}
-                                                 loading={!this.state.initialized || !this.state.geoLocationReady}
-                                                 onPress={async () => {
-                                                     if (!this.state.initialized || !this.state.geoLocationReady) {
-                                                         return;
-                                                     }
-                                                     if (this.state.tracking) {
-                                                        this.stopTracking();
-                                                     } else {
-                                                        this.startTracking();
-                                                     }
-                                                     const tracking = !this.state.tracking;
-                                                     this.user.tracking = tracking;
-                                                     await userService.setUser(this.user);
-                                                     this.setState({
-                                                         tracking: tracking
-                                                     })
-                                                 }}>
-                                    </LargeButton>
+                    {
+                        this.state.initialized ?
+                            <EditPage onPress={() => {
+                                this.props.navigation.navigate(NavigationRoutes.HOME_PROFILE, {
+                                    update: () => {
+                                        this.afterUserInfoChange();
+                                    }
+                                });
+                            }}/> : null
+                    }
+                    {
+                        this.state.initialized ?
+                            <View style={sharedStyles.centredColumn}>
+                                <NavigationEvents
+                                    onWillFocus={payload => {
+                                        this.forceUpdate();
+                                    }}
+                                />
+                                <View style={styles.view}>
+                                    <ProfileImage style={styles.avatar}
+                                                  user={this.user}>
+                                    </ProfileImage>
+                                    <Text h4 style={{
+                                        ...sharedStyles.h4,
+                                        width: '100%',
+                                        textAlign: 'center'
+                                    }}>{this.user.name}</Text>
+                                    <View style={{width: '100%'}}>
+                                        <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
+                                                     buttonStyle={{marginTop: 70}}
+                                                     titleStyle={{width: 'auto'}}
+                                                     title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
+                                                     icon={<Icon
+                                                         type={IconsType.Ionicon}
+                                                         name={this.state.tracking ? `${this.iconPrefix}-pause` : `${this.iconPrefix}-play`}
+                                                         containerStyle={{position: 'relative', top: 2, marginLeft: 7}}
+                                                         size={20}
+                                                         color={this.state.tracking ? 'white' : colors.color}
+                                                         underlayColor={'transparent'}
+                                                     />}
+                                                     iconRight={true}
+                                                     loading={!this.state.initialized || !this.state.geoLocationReady}
+                                                     onPress={async () => {
+                                                         this.toggleTracking();
+                                                     }}>
+                                        </LargeButton>
+                                    </View>
                                 </View>
-                            </View>
 
-                        </View> : null
-                }
-            </SafeAreaView>
+                            </View> : null
+                    }
+                </SafeAreaView>
             </LinearGradient>
         );
     }
