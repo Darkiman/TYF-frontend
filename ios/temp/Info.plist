@@ -79,21 +79,21 @@
 		</dict>
 	</dict>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-        <string>This app requires your bluetooth</string>
-        <key>NSCalendarsUsageDescription</key>
+	<string>This app requires your bluetooth</string>
+	<key>NSCalendarsUsageDescription</key>
 	<string>This app requires your calendar</string>
-        <key>NSSpeechRecognitionUsageDescription</key>
+	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>$(EXECUTABLE_NAME) would like to access to your speech</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(EXECUTABLE_NAME) would like to use your camera</string>
-        <key>NSAppleMusicUsageDescription</key>
+	<key>NSAppleMusicUsageDescription</key>
 	<string>$(EXECUTABLE_NAME) would like to access to your music</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app requires background tracking</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app requires background tracking</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>This app requires background tracking</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(EXECUTABLE_NAME) would like to your microphone (for videos)</string>
 	<key>NSMotionUsageDescription</key>

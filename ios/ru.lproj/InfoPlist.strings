@@ -1,0 +1,12 @@
+NSBluetoothPeripheralUsageDescription = "Это приложение использует bluetooth";
+NSCalendarsUsageDescription = "Это приложение использует ваш календарь";
+NSSpeechRecognitionUsageDescription = "TYF хотел бы получить доступ к вашей речи";
+NSCameraUsageDescription = "TYF хотел бы использовать вашу камеру";
+NSAppleMusicUsageDescription = "TYF хотел бы получить доступ к вашей музыке";
+NSLocationAlwaysAndWhenInUseUsageDescription = "Это приложение требует фонового отслеживания";
+NSLocationAlwaysUsageDescription = "Это приложение требует фонового отслеживания";
+NSLocationWhenInUseUsageDescription = "Это приложение требует фонового отслеживания";
+NSMicrophoneUsageDescription = "TYF хотел иметь бы иметь доступ к микрофону (для видео)";
+NSMotionUsageDescription = "Использование акселерометра повышает эффективность использования батареи благодаря интеллектуальному переключению отслеживания местоположения";
+NSPhotoLibraryAddUsageDescription = "TYF хотел бы сохранить фотографии в вашей фотогалерее";
+NSPhotoLibraryUsageDescription = "TYF хотел бы получить доступ к вашей фотогалерее, чтобы изменить изображение профиля";

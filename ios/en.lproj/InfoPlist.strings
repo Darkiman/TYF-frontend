@@ -1,0 +1,12 @@
+NSBluetoothPeripheralUsageDescription = "This app requires your bluetooth";
+NSCalendarsUsageDescription = "This app requires your calendar";
+NSSpeechRecognitionUsageDescription = "TYF would like to access to your speech";
+NSCameraUsageDescription = "TYF would like to use your camera";
+NSAppleMusicUsageDescription = "TYF would like to access to your music";
+NSLocationAlwaysAndWhenInUseUsageDescription = "This app requires background tracking";
+NSLocationAlwaysUsageDescription = "This app requires background tracking";
+NSLocationWhenInUseUsageDescription = "This app requires background tracking";
+NSMicrophoneUsageDescription = "TYF would like to your microphone (for videos)";
+NSMotionUsageDescription = "Accelerometer use increases battery efficiency by intelligently toggling location-tracking";
+NSPhotoLibraryAddUsageDescription = "TYF would like to save photos to your photo gallery";
+NSPhotoLibraryUsageDescription = "TYF would like access to your photo gallery to change your profile picture";

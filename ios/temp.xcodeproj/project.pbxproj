@@ -129,6 +129,8 @@
 		53645AA8226E16360064F031 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645AA5226E16360064F031 /* GoogleMaps.framework */; };
 		53645AA9226E16360064F031 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645AA6226E16360064F031 /* GoogleMapsCore.framework */; };
 		53645AAA226E16360064F031 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53645AA7226E16360064F031 /* GoogleMapsBase.framework */; };
+		536DC9E322BD0EDE0092ED1A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 536DC9E522BD0EDE0092ED1A /* InfoPlist.strings */; };
+		536DC9ED22BD14910092ED1A /* libReact Native Open Settings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 536DC9EC22BD14830092ED1A /* libReact Native Open Settings.a */; };
 		5377949822B8DCB7007A3348 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5377949722B8DCB7007A3348 /* Storyboard.storyboard */; };
 		5377957822BCC9D7007A3348 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5377957722BCC9C3007A3348 /* libReactNativePermissions.a */; };
 		53B870ED229BD6340063D85B /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 530E0B5E2269C3E10054DDE6 /* libRNCAsyncStorage.a */; };
@@ -458,6 +460,13 @@
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
 		};
+		536DC9EB22BD14830092ED1A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 536DC9E722BD14830092ED1A /* React Native Open Settings.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 190C8BAA1BEAADCC00CD505E;
+			remoteInfo = "React Native Open Settings";
+		};
 		5377957622BCC9C3007A3348 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5377957222BCC9C3007A3348 /* ReactNativePermissions.xcodeproj */;
@@ -578,7 +587,6 @@
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = temp/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = temp/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = temp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = temp/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		2192881519A0427F97175597 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
@@ -725,6 +733,11 @@
 		53645AA5226E16360064F031 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = GoogleMaps/GoogleMaps.framework; sourceTree = "<group>"; };
 		53645AA6226E16360064F031 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsCore.framework; path = GoogleMaps/GoogleMapsCore.framework; sourceTree = "<group>"; };
 		53645AA7226E16360064F031 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMapsBase.framework; path = GoogleMaps/GoogleMapsBase.framework; sourceTree = "<group>"; };
+		536DC9E022BD0EC50092ED1A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		536DC9E122BD0ED30092ED1A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ru; path = ru.lproj/Info.plist; sourceTree = "<group>"; };
+		536DC9E422BD0EDE0092ED1A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		536DC9E622BD0EE50092ED1A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		536DC9E722BD14830092ED1A /* React Native Open Settings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "React Native Open Settings.xcodeproj"; path = "../node_modules/react-native-open-settings/React Native Open Settings.xcodeproj"; sourceTree = "<group>"; };
 		5377949722B8DCB7007A3348 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		5377957122BBD7A7007A3348 /* temp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = temp.entitlements; path = temp/temp.entitlements; sourceTree = "<group>"; };
 		5377957222BCC9C3007A3348 /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ios/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
@@ -781,6 +794,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				536DC9ED22BD14910092ED1A /* libReact Native Open Settings.a in Frameworks */,
 				5377957822BCC9D7007A3348 /* libReactNativePermissions.a in Frameworks */,
 				5308DC5F229D27770021089F /* libBVLinearGradient.a in Frameworks */,
 				53B870ED229BD6340063D85B /* libRNCAsyncStorage.a in Frameworks */,
@@ -956,11 +970,12 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				13B07FB61A68108700A75B9A /* Info.plist */,
+				536DC9E222BD0ED30092ED1A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				B9E253E71DB245988EA005CB /* RNBackgroundFetch+AppDelegate.m */,
 				5377949722B8DCB7007A3348 /* Storyboard.storyboard */,
+				536DC9E522BD0EDE0092ED1A /* InfoPlist.strings */,
 			);
 			name = temp;
 			sourceTree = "<group>";
@@ -1239,6 +1254,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		536DC9E822BD14830092ED1A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				536DC9EC22BD14830092ED1A /* libReact Native Open Settings.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5377957322BCC9C3007A3348 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1326,6 +1349,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				536DC9E722BD14830092ED1A /* React Native Open Settings.xcodeproj */,
 				5377957222BCC9C3007A3348 /* ReactNativePermissions.xcodeproj */,
 				5308DC21229D27590021089F /* BVLinearGradient.xcodeproj */,
 				53258EB82293ED33009DDEDF /* RNImagePicker.xcodeproj */,
@@ -1534,6 +1558,7 @@
 				English,
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -1590,6 +1615,10 @@
 				{
 					ProductGroup = 139FDEE71B06529A00C62182 /* Products */;
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
+				},
+				{
+					ProductGroup = 536DC9E822BD14830092ED1A /* Products */;
+					ProjectRef = 536DC9E722BD14830092ED1A /* React Native Open Settings.xcodeproj */;
 				},
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
@@ -1938,6 +1967,13 @@
 			remoteRef = 53258EC22293ED4B009DDEDF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		536DC9EC22BD14830092ED1A /* libReact Native Open Settings.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReact Native Open Settings.a";
+			remoteRef = 536DC9EB22BD14830092ED1A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		5377957722BCC9C3007A3348 /* libReactNativePermissions.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2051,6 +2087,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				536DC9E322BD0EDE0092ED1A /* InfoPlist.strings in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				00D14BC9566241788061A7B5 /* AntDesign.ttf in Resources */,
 				35AF49702659421193EF9424 /* Entypo.ttf in Resources */,
@@ -2250,9 +2287,28 @@
 			isa = PBXVariantGroup;
 			children = (
 				13B07FB21A68108700A75B9A /* Base */,
+				536DC9E022BD0EC50092ED1A /* ru */,
 			);
 			name = LaunchScreen.xib;
 			path = temp;
+			sourceTree = "<group>";
+		};
+		536DC9E222BD0ED30092ED1A /* Info.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				536DC9E122BD0ED30092ED1A /* ru */,
+			);
+			name = Info.plist;
+			path = temp;
+			sourceTree = "<group>";
+		};
+		536DC9E522BD0EDE0092ED1A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				536DC9E422BD0EDE0092ED1A /* ru */,
+				536DC9E622BD0EE50092ED1A /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

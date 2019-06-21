@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView, Platform, Alert, Linking
+    View, SafeAreaView, Platform, Alert
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import BackgroundGeolocation from "react-native-background-geolocation";
@@ -21,6 +21,7 @@ import firebase from "react-native-firebase";
 import networkService from "../../utils/networkService";
 import apiConfig from "../../utils/apiConfig";
 import Permissions from 'react-native-permissions';
+import OpenSettings from 'react-native-open-settings';
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -267,7 +268,7 @@ export default class HomeView extends Component {
                         {
                             text: i18nService.t('go_app_to_settings'),
                             onPress: () => {
-                                Linking.openSettings();
+                                OpenSettings.openSettings();
                             }},
                         {
                             text: i18nService.t('cancel'),
