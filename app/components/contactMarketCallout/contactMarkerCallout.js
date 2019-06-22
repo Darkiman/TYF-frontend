@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Text, View} from 'react-native';
+import {Text, View, Platform} from 'react-native';
 import MapView from 'react-native-maps';
 import moment from 'moment';
 import CommonConstant from "../../constants/CommonConstant";
@@ -12,7 +12,7 @@ const colors = themeService.currentThemeColors;
 
 const styles = {
     container: {
-        backgroundColor: 'rgba(255,255,255,0.7)',
+        backgroundColor: Platform.OS === 'ios' ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,1)',
         width: 120,
         height: 75,
         alignItems: 'center',
