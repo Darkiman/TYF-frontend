@@ -120,8 +120,9 @@ export default class HomeView extends Component {
     }
 
     async getToken() {
-        if (!this.user.notificationToken) {
-            const notificationToken = await firebase.messaging().getToken();
+        const notificationToken = await firebase.messaging().getToken();
+        console.log('Notification token: ' + notificationToken);
+        if (!this.user.notificationToken || this.user.notificationToken !== notificationToken) {
             try {
                 await ax.post(`${apiConfig.url}profile/notificationToken`, {
                     id: this.user.id,
@@ -146,54 +147,44 @@ export default class HomeView extends Component {
     }
 
     async createNotificationListeners() {
-        /*
-        * Triggered when a particular notification has been received in foreground
-        * */
-        this.notificationListener = firebase.notifications().onNotification((notification) => {
-            console.log('foreground', notification);
-            const {title, body} = notification;
-            this.showAlert(title, body);
+        this.removeNotificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
+            // Process your notification as required
+            // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+            console.log('On notification displayed', notification);
+        });
+        this.removeNotificationListener = firebase.notifications().onNotification((notification: Notification) => {
+            // Process your notification as required
+            console.log('On notification', notification);
         });
 
-        /*
-        * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
-        * */
-        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-            console.log('background', notificationOpen);
-            const {title, body} = notificationOpen.notification;
-            this.showAlert(title, body);
+        this.removeNotificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen: NotificationOpen) => {
+            // Get the action triggered by the notification being opened
+            const action = notificationOpen.action;
+            // Get information about the notification that was opened
+            const notification: Notification = notificationOpen.notification;
+            console.log('On notification opened', notification);
         });
 
-        /*
-        * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
-        * */
-        const notificationOpen = await firebase.notifications().getInitialNotification();
-        if (notificationOpen) {
-            console.log('closed', notificationOpen);
-            const {title, body} = notificationOpen.notification;
-            this.showAlert(title, body);
-        }
-        /*
-        * Triggered for data only payload in foreground
-        * */
-        this.messageListener = firebase.messaging().onMessage((message) => {
-            console.log(4, JSON.stringify(message));
+        this.messageListener = firebase.messaging().onMessage((message: RemoteMessage) => {
+            // Process your message as required
+            console.log(RemoteMessage);
         });
     }
 
-    showAlert(title, body) {
-        console.log(title, body);
-    }
 
     componentWillMount() {
         BackgroundGeolocation.onLocation(this.onLocation, this.onError);
         BackgroundGeolocation.onProviderChange(this.onProviderChange);
 
-        if (this.notificationListener) {
-            this.notificationListener();
+        if (this.removeNotificationOpenedListener) {
+            this.removeNotificationOpenedListener();
         }
-        if (this.notificationOpenedListener) {
-            this.notificationOpenedListener();
+        if (this.removeNotificationListener) {
+            this.removeNotificationListener();
+        }
+
+        if(this.removeNotificationDisplayedListener) {
+            this.removeNotificationDisplayedListener();
         }
         networkService.removeNetworkListen();
     }
