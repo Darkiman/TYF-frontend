@@ -103,7 +103,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.tyf"
+        applicationId "com.tyfapp.tyf"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

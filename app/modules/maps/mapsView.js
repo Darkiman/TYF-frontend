@@ -203,7 +203,7 @@ export default class MapsView extends Component {
                                                    coordinate={this.convertCoords(item.data.geoPosition.coords)}>
                                         <ContactMarker data={item.data}
                                                        onLoad={this.onImageLoad}/>
-                                        <ContactMarkerCallout data={item.data}></ContactMarkerCallout>
+                                        <ContactMarkerCallout data={item.data}/>
                                     </Marker>
                                 }
                             })
