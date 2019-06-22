@@ -12,7 +12,7 @@ const colors = themeService.currentThemeColors;
 
 const styles = {
     container: {
-        backgroundColor: Platform.OS === 'ios' ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,1)',
+        backgroundColor: Platform.OS === 'ios' ? 'rgba(255,255,255,0.7)' : 'white',
         width: 120,
         height: 75,
         alignItems: 'center',
