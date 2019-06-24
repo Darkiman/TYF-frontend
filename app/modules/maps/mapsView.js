@@ -89,7 +89,6 @@ export default class MapsView extends Component {
                 const errorText = i18nService.t(`validation_message.${result.message}`);
                 messageService.showError(this.refs.flashMessage, errorText);
                 this.setState({
-                    tracksViewChanges: true,
                     refreshing: true
                 });
             } else {
