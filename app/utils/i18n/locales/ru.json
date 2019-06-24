@@ -29,6 +29,8 @@
   "forgot_password": "Забыли пароль?",
   "recover_password": "Восстановить пароль",
   "new_password_sent_to_your_email": "Новый пароль отправлен вам на почту",
+  "new_email_verification_sent_to_your_email": "Новое письмо с подтверждением отправлено вам на почту",
+  "please_verify_your_email": "Подтвердите вам email перед входом",
   "exit": "Выход",
   "cancel": "Отменить",
   "search" : "Поиск",
@@ -51,6 +53,9 @@
   "set_geolocation_to_always": "Установите в настройках геопозиции 'Всегда', что бы использовать приложение",
   "enable_geolocation": "Включите геолокацию в настройках, что бы использовать приложение",
   "go_app_to_settings": "К настройкам",
+  "email_not_verified": "Email не подтвержден",
+  "verify_your_email": "Вы должны подтвердить email перед использованием приложения. Если вы не получили письмо, выберите 'Отправить еще раз'",
+  "resent_verification_email": "Отправить еще раз",
   "validation_message": {
     "internet_connection_not_available": "Интернет недоступен",
     "email_is_not_valid": "Email недействительный",

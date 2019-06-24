@@ -139,7 +139,7 @@ export default class ContactsView extends Component {
                 });
             }
         } catch (e) {
-            messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available}`));
+            messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available`));
             this.setState({
                 refreshing: false
             });

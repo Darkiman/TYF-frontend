@@ -34,7 +34,8 @@ const userService = {
                 tracking: result.tracking,
                 avatar: result.avatar,
                 language: result.language,
-                notificationToken: result.notificationToken
+                notificationToken: result.notificationToken,
+                verified: result.verified
             };
         }
         _currentUser = user;

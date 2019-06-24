@@ -27,7 +27,7 @@ const messageService = {
                 type: "info",
                 backgroundColor: '#2eb0fb',
                 color: "white",
-                duration: 3000
+                duration: 4000
             });
         } else {
             showMessage({
@@ -35,7 +35,7 @@ const messageService = {
                 type: "info",
                 backgroundColor: '#2eb0fb',
                 color: "white",
-                duration: 3000
+                duration: 4000
             })
         }
     }

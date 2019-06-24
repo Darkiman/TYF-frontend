@@ -4,7 +4,7 @@ import {
     SafeAreaView,
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
-import {Button, Text, Icon} from 'react-native-elements';
+import {Text, Icon} from 'react-native-elements';
 import i18nService from "../../../utils/i18n/i18nService";
 import TextInput from "../../../components/textInput/textInput";
 import LargeButton from "../../../components/largeButton/largeButton";
@@ -45,7 +45,7 @@ export default class SignupView extends Component {
     }
 
     componentDidMount() {
-        this.initialize()
+        this.initialize();
     }
 
     componentWillUnmount() {
@@ -210,16 +210,20 @@ export default class SignupView extends Component {
                                              } else {
                                                  const user = {
                                                      id: result.source.key,
-                                                     email: result.source[0].data.email,
-                                                     name: result.source[0].data.name[0],
+                                                     email: result.source.data.email,
+                                                     name: result.source.data.name[0],
                                                      password: password,
-                                                     token: result.source[0].data.token,
+                                                     token: result.source.data.token,
                                                      tracking: false,
-                                                     avatar: result.source[0].data.avatar,
-                                                     language: currentLocale
+                                                     avatar: result.source.data.avatar,
+                                                     language: currentLocale,
+                                                     verified: false
                                                  };
                                                  userService.setUser(user);
-                                                 this.props.navigation.navigate(NavigationRoutes.HOME);
+                                                 this.props.navigation.navigate(NavigationRoutes.AUTH_LOGIN, {
+                                                     email: user.email,
+                                                     password: user.password
+                                                 });
                                              }
                                          }}
                             />

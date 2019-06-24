@@ -56,7 +56,11 @@ export default class LoadingView extends Component {
             ax.defaults.headers.common['Authorization'] = `Token ${user.token}`;
         }
         if (user) {
-            this.props.navigation.navigate(NavigationRoutes.HOME);
+            if(!user.verified) {
+                this.props.navigation.navigate(NavigationRoutes.AUTH_LOGIN);
+            } else {
+                this.props.navigation.navigate(NavigationRoutes.HOME);
+            }
         } else {
             this.props.navigation.navigate(NavigationRoutes.AUTH);
         }

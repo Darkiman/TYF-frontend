@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {
     View,
-    SafeAreaView
+    SafeAreaView,
+    Alert,
+    Platform
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import i18nService from "../../../utils/i18n/i18nService";
@@ -16,24 +18,41 @@ import LinearGradient from "react-native-linear-gradient";
 import NavigationBack from "../../../components/navigationBack/navigationBack";
 import CommonConstant from "../../../constants/CommonConstant";
 import asyncStorageService from "../../../utils/asyncStorageService";
+import ax from "../../../utils/axios";
+import apiConfig from "../../../utils/apiConfig";
 
 export default class LoginView extends Component {
     constructor(props) {
         super(props);
+        const { navigation } = this.props;
         this.state = {
             login: {
-                email: '',
-                password: ''
+                email: navigation.getParam('email'),
+                password: navigation.getParam('password')
             }
         }
     }
 
     componentDidMount() {
-        this.initialize()
+        this.initialize();
     }
 
     async initialize() {
         this.notificationToken = await asyncStorageService.getItem('fcmToken');
+        let {email, password} = this.state.login;
+        if(email) {
+            messageService.showInfo(this.refs.flashMessage, i18nService.t(`please_verify_your_email`));
+        } else {
+            this.user = await userService.getUser();
+            if(this.user) {
+                email = this.user.email;
+                password = this.user.password;
+            }
+        }
+        if(email && password) {
+            this.handleEmailChange(email);
+            this.handlePasswordChange(password);
+        }
     }
 
     handleEmailChange = (text) => {
@@ -55,6 +74,22 @@ export default class LoginView extends Component {
             login: login,
             passwordValid: isPasswordValid
         });
+    };
+
+    resentEmailVerification = async (user) => {
+        try {
+            const result = await ax.post(`${apiConfig.url}auth/resent-verify-email`, {
+                id: user.id
+            });
+            if(result.error) {
+                messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available`));
+            } else {
+                messageService.showInfo(this.refs.flashMessage, i18nService.t(`new_email_verification_sent_to_your_email`));
+            }
+        } catch (e) {
+            messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available`));
+            console.log(e);
+        }
     };
 
     back = () => {
@@ -107,6 +142,7 @@ export default class LoginView extends Component {
                                          onPress={async () => {
                                              const password = this.state.login.password;
                                              const currentLocale = i18nService.getCurrentLocale();
+                                             ax.defaults.headers.common['Authorization'] = ``;
                                              const result = await login({
                                                  ...this.state.login,
                                                  notificationToken: this.notificationToken,
@@ -124,10 +160,32 @@ export default class LoginView extends Component {
                                                      token: result.source[0].data.token,
                                                      tracking: false,
                                                      avatar: result.source[0].data.avatar,
-                                                     language: currentLocale
+                                                     language: currentLocale,
+                                                     verified: result.source[0].data.verified
                                                  };
-                                                 userService.setUser(user);
-                                                 this.props.navigation.navigate(NavigationRoutes.HOME);
+                                                 if(!user.verified) {
+                                                     Alert.alert(
+                                                         i18nService.t('email_not_verified'),
+                                                         i18nService.t('verify_your_email'),
+                                                         [
+                                                             {
+                                                                 text: i18nService.t('resent_verification_email'),
+                                                                 onPress: () => {
+                                                                    this.resentEmailVerification(user);
+                                                                 }},
+                                                             {
+                                                                 text: i18nService.t('cancel'),
+                                                                 onPress: () => {
+
+                                                                 }
+                                                             }
+                                                         ],
+                                                         {cancelable: true},
+                                                     );
+                                                 } else {
+                                                     userService.setUser(user);
+                                                     this.props.navigation.navigate(NavigationRoutes.HOME);
+                                                 }
                                              }
                                          }}
                             />
