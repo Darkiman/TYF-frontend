@@ -19,7 +19,7 @@ const styles  = {
       width: 50,
       height: 50,
       marginLeft: 3,
-      borderRadius: 20
+      borderRadius: 25
   }
 };
 

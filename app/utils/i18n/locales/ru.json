@@ -27,7 +27,7 @@
   "new_password": "Новый пароль",
   "confirm_password": "Подтвердите пароль",
   "forgot_password": "Забыли пароль?",
-  "recover_password": "Восстановить пароль?",
+  "recover_password": "Восстановить пароль",
   "new_password_sent_to_your_email": "Новый пароль отправлен вам на почту",
   "exit": "Выход",
   "cancel": "Отменить",
