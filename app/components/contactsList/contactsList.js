@@ -48,7 +48,7 @@ export default class ContactsList extends Component {
                 }}
                 renderHiddenItem={(data, rowMap) => {
                     const contact = data.item;
-                    const isInContacts = contacts && contacts.find(item => item.key === contact.key);
+                    const isInContacts = contacts && contacts.find && contacts.find(item => item.key === contact.key);
                     const loading = contact.data.loading;
                     const showDelete = isInContacts && !loading;
                     return <View style={{position: 'absolute', right: 0}}>

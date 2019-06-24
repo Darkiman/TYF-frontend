@@ -19,7 +19,7 @@ const styles  = {
       width: 50,
       height: 50,
       marginLeft: 3,
-      borderRadius: 30
+      borderRadius: 20
   }
 };
 
@@ -47,7 +47,7 @@ export default class ContactItem extends Component {
             flashMessage
         } = this.props;
         const avatar = data.data && data.data.avatar ? `${apiConfig.static}avatars/${data.data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
-        const isInContacts = contacts && contacts.find(item => item.key === data.key);
+        const isInContacts = contacts && contacts.find && contacts.find(item => item.key === data.key);
         const loading = data.loadingSave;
         const showAdd = !isInContacts && !loading;
         return (

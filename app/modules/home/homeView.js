@@ -20,8 +20,8 @@ import {NavigationEvents} from "react-navigation";
 import firebase from "react-native-firebase";
 import networkService from "../../utils/networkService";
 import apiConfig from "../../utils/apiConfig";
-import Permissions from 'react-native-permissions';
 import OpenSettings from 'react-native-open-settings';
+import PermissionsService from '../../utils/permissionsService'
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -186,6 +186,9 @@ export default class HomeView extends Component {
         if(this.removeNotificationDisplayedListener) {
             this.removeNotificationDisplayedListener();
         }
+        if(this.messageListener) {
+            this.messageListener();
+        }
         networkService.removeNetworkListen();
     }
 
@@ -224,23 +227,6 @@ export default class HomeView extends Component {
         });
     };
 
-    isLocationPermissionEnabled = async () => {
-        let locationPermission;
-        if (Platform.OS === 'ios') {
-            locationPermission = await Permissions.check('location', {type: 'always'});
-            console.log(locationPermission);
-            if (locationPermission === 'denied') {
-                return false;
-            }
-        } else {
-            locationPermission = await Permissions.check('location');
-            if (locationPermission !== 'authorized') {
-                return false;
-            }
-        }
-        return true;
-    };
-
     toggleTracking = async () => {
         if (!this.state.initialized || !this.state.geoLocationReady) {
             return;
@@ -248,28 +234,11 @@ export default class HomeView extends Component {
         if (this.state.tracking) {
             this.stopTracking();
         } else {
-            const locationEnabled = await this.isLocationPermissionEnabled();
+            const locationEnabled = await PermissionsService.isLocationPermissionEnabled();
             if (locationEnabled) {
                 this.startTracking();
             } else {
-                Alert.alert(
-                    i18nService.t('access_denied'),
-                    i18nService.t(Platform.OS === 'ios' ? 'set_geolocation_to_always' : 'enable_geolocation'),
-                    [
-                        {
-                            text: i18nService.t('go_app_to_settings'),
-                            onPress: () => {
-                                OpenSettings.openSettings();
-                            }},
-                        {
-                            text: i18nService.t('cancel'),
-                            onPress: () => {
-
-                            }
-                        }
-                    ],
-                    {cancelable: true},
-                );
+                PermissionsService.enableGeoLocation();
                 return;
             }
         }

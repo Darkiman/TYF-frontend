@@ -117,20 +117,30 @@ export default class ContactsView extends Component {
             }
             return result
         } else {
-            return contacts;
+            return contacts ? contacts : [];
         }
     }
 
     onRefresh = async () => {
         this.setState({refreshing: true});
-        const result = await this.props.getContacts(this.user.id);
-        if (result.error) {
-            const errorText = i18nService.t(`validation_message.${result.message}`);
-            messageService.showError(errorText);
-        } else {
+        try {
+            const result = await this.props.getContacts(this.user.id);
+            if (result.error) {
+                const errorText = i18nService.t(`validation_message.${result.message}`);
+                messageService.showError(this.refs.flashMessage, errorText);
+                this.setState({
+                    refreshing: false
+                });
+            } else {
+                this.setState({
+                    contacts: result.source.contacts.slice(),
+                    contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts).slice(),
+                    refreshing: false
+                });
+            }
+        } catch (e) {
+            messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available}`));
             this.setState({
-                contacts: result.source.contacts.slice(),
-                contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts).slice(),
                 refreshing: false
             });
         }

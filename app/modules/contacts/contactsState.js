@@ -167,7 +167,7 @@ const contactsState = (state: Object = initialState, action: Object) => {
       return {
         isLoading: false,
         error: true,
-        contacts: action.payload
+        contacts: action.payload.contacts
       };
     case DELETE_CONTACT_SUCCESS:
       const item = state.contacts.find(item => item.key === action.payload.contact);

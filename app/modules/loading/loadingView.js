@@ -36,22 +36,6 @@ export default class LoadingView extends Component {
         this.initialize();
     }
 
-    tryLogin = async (user) => {
-        try {
-            const response = await ax.post(`${apiConfig.url}auth/login`, {
-                id: user.id,
-                token: user.token
-            });
-            if(response.error) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch(error) {
-            return false;
-        }
-    };
-
     async initialize() {
         if (!i18nService.initialized) {
             await i18nService.initialize();
@@ -72,31 +56,7 @@ export default class LoadingView extends Component {
             ax.defaults.headers.common['Authorization'] = `Token ${user.token}`;
         }
         if (user) {
-            try {
-                if(!networkService.isConnected) {
-                    this.props.navigation.navigate(NavigationRoutes.HOME);
-                }
-                setTimeout(() => {
-                    this.props.navigation.navigate(NavigationRoutes.HOME);
-                }, 3000);
-                const response = await ax({
-                    method: "post",
-                    url: `${apiConfig.url}auth/checkToken`,
-                    timeout: timeout,
-                    data: {
-                        id: user.id,
-                        token: user.token
-                    }
-                });
-                if (response && response.data.key) {
-                    this.props.navigation.navigate(NavigationRoutes.HOME);
-                } else {
-                    this.props.navigation.navigate(NavigationRoutes.AUTH);
-                }
-            } catch (error) {
-                console.log(error);
-                this.props.navigation.navigate(NavigationRoutes.AUTH);
-            }
+            this.props.navigation.navigate(NavigationRoutes.HOME);
         } else {
             this.props.navigation.navigate(NavigationRoutes.AUTH);
         }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Animated, View, SafeAreaView, Easing, Platform} from 'react-native';
+import {StyleSheet, Animated, View, SafeAreaView, Easing, Platform, AppState} from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import {Icon} from 'react-native-elements';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
@@ -11,6 +11,12 @@ import userService from "../../utils/userService";
 import ContactMarkerCallout from "../../components/contactMarketCallout/contactMarkerCallout";
 import firebase from 'react-native-firebase';
 import mapStyle from './mapStyle';
+import PermissionsService from "../../utils/permissionsService";
+import NavigationRoutes from "../../constants/NavigationRoutes";
+import {NavigationEvents} from "react-navigation";
+import FlashMessage from "react-native-flash-message";
+import messageService from "../../utils/messageService";
+import i18nService from "../../utils/i18n/i18nService";
 
 const colors = themeService.currentThemeColors;
 
@@ -49,6 +55,7 @@ export default class MapsView extends Component {
     componentDidMount() {
         this.initialize();
         this.getCurrentPosition();
+        AppState.addEventListener('change', this.handleAppStateChange);
     }
 
     startAnimation = () => {
@@ -66,7 +73,8 @@ export default class MapsView extends Component {
                 } else {
                     this.setState({
                         startAnimation: false,
-                        tracksViewChanges: false
+                        tracksViewChanges: false,
+                        refreshing: false
                     })
                 }
             })
@@ -75,35 +83,68 @@ export default class MapsView extends Component {
 
     async initialize() {
         this.user = await userService.getUser();
-        const result = await this.props.getContactsPosition(this.user.id);
+        try {
+            const result = await this.props.getContactsPosition(this.user.id);
+            if(result.error) {
+                const errorText = i18nService.t(`validation_message.${result.message}`);
+                messageService.showError(this.refs.flashMessage, errorText);
+                this.setState({
+                    tracksViewChanges: true,
+                    refreshing: true
+                });
+            } else {
+                this.loadedImagesCount = 0;
+                this.setState({
+                    contacts: result.source.positions,
+                });
+            }
+        } catch (e) {
+            messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available}`));
+            this.setState({
+                contacts: [],
+            });
+        }
         this.loadedImagesCount = 0;
         this.setState({
             refreshingRotate: new Animated.Value(0),
-            contacts: result.source.positions,
         });
     }
 
-    getCurrentPosition() {
-        try {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const region = {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        latitudeDelta: LATITUDE_DELTA,
-                        longitudeDelta: LONGITUDE_DELTA,
-                    };
-                    this.setState({
-                        region: region
-                    });
-                    this.setRegion(region);
-                },
-                (error) => {
-                    alert(error);
-                }
-            );
-        } catch(e) {
-            alert(e.message || "");
+    handleAppStateChange = (nextAppState) => {
+        if(nextAppState === 'active') {
+            if(this.state.ready) {
+                this.onFocus();
+            }
+        }
+    };
+
+    getCurrentPosition = async () => {
+        const locationEnabled = await PermissionsService.isLocationPermissionEnabled();
+        if (locationEnabled) {
+            try {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const region = {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            latitudeDelta: LATITUDE_DELTA,
+                            longitudeDelta: LONGITUDE_DELTA,
+                        };
+                        this.setState({
+                            region: region
+                        });
+                        this.setRegion(region);
+                    },
+                    (error) => {
+                        alert(error);
+                    }
+                );
+            } catch(e) {
+                alert(e.message || "");
+            }
+        } else {
+            // this.props.navigation.navigate(NavigationRoutes.HOME);
+            PermissionsService.enableGeoLocation();
         }
     };
 
@@ -118,7 +159,9 @@ export default class MapsView extends Component {
             this.setState({
                 ready: true
             });
-            this.getCurrentPosition();
+            if(!this.state.region) {
+                this.getCurrentPosition();
+            }
         }
     };
 
@@ -141,12 +184,30 @@ export default class MapsView extends Component {
             startAnimation: true
         });
         this.startAnimation();
-        const result = await this.props.getContactsPosition(this.user.id);
-        this.setState({
-            contacts: result.source.positions,
-            tracksViewChanges: true,
-            refreshing: true,
-        });
+        try {
+            const result = await this.props.getContactsPosition(this.user.id);
+            if(result.error) {
+                const errorText = i18nService.t(`validation_message.${result.message}`);
+                messageService.showError(this.refs.flashMessage, errorText);
+                this.setState({
+                    tracksViewChanges: true,
+                    refreshing: true,
+                });
+            } else {
+                this.setState({
+                    contacts: result.source.positions,
+                    tracksViewChanges: true,
+                    refreshing: true,
+                });
+            }
+        }
+        catch (e) {
+            messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available}`));
+            this.setState({
+                tracksViewChanges: true,
+                refreshing: true,
+            });
+        }
     };
 
     toCurrentPosition = () => {
@@ -156,6 +217,13 @@ export default class MapsView extends Component {
     convertCoords(coords) {
         return {latitude : coords._latitude, longitude: coords._longitude}
     }
+
+    onFocus = async () => {
+        const locationEnabled = await PermissionsService.isLocationPermissionEnabled();
+        if(!locationEnabled) {
+            PermissionsService.enableGeoLocation();
+        }
+    };
 
     render() {
         const { region, contacts, tracksViewChanges } = this.state;
@@ -182,6 +250,13 @@ export default class MapsView extends Component {
 
         return (
             <View style={sharedStyles.safeView}>
+                <NavigationEvents
+                    onWillFocus={payload => {
+                        if(this.state.ready) {
+                            this.onFocus();
+                        }
+                    }}
+                />
                 <View style={styles.mapContainer}>
                     <MapView
                         showsUserLocation
@@ -246,6 +321,7 @@ export default class MapsView extends Component {
                 {/*        console.log('Advert loaded');*/}
                 {/*    }}*/}
                 {/*/>*/}
+                <FlashMessage position="top" ref={'flashMessage'}/>
             </View>
         );
     }
