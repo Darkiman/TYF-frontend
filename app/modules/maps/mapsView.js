@@ -50,12 +50,20 @@ export default class MapsView extends Component {
             contacts: [],
             refreshingRotate: new Animated.Value(0),
         };
+        this.region = null;
     }
 
     componentDidMount() {
         this.initialize();
         this.getCurrentPosition();
         AppState.addEventListener('change', this.handleAppStateChange);
+    }
+
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
+        if(this.watchId) {
+            navigator.geolocation.clearWatch(this.watchId);
+        }
     }
 
     startAnimation = () => {
@@ -117,29 +125,46 @@ export default class MapsView extends Component {
         }
     };
 
+    handlePosition = (position) => {
+         this.region = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+        };
+    };
+
     getCurrentPosition = async () => {
         const locationEnabled = await PermissionsService.isLocationPermissionEnabled();
         if (locationEnabled) {
-            try {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const region = {
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                            latitudeDelta: LATITUDE_DELTA,
-                            longitudeDelta: LONGITUDE_DELTA,
-                        };
-                        this.setState({
-                            region: region
-                        });
-                        this.setRegion(region);
-                    },
-                    (error) => {
-                        alert(error);
-                    }
-                );
-            } catch(e) {
-                alert(e.message || "");
+            if(!this.watchId) {
+                this.watchId = navigator.geolocation.watchPosition(this.handlePosition);
+                try {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const region = {
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude,
+                                latitudeDelta: LATITUDE_DELTA,
+                                longitudeDelta: LONGITUDE_DELTA,
+                            };
+                            this.setState({
+                                region: region
+                            });
+                            this.setRegion(region);
+                        },
+                        (error) => {
+                            alert(error);
+                        }
+                    );
+                } catch(e) {
+                    alert(e.message || "");
+                }
+            } else {
+                this.setState({
+                    region: this.region
+                });
+                this.setRegion(this.region);
             }
         } else {
             // this.props.navigation.navigate(NavigationRoutes.HOME);
