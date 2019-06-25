@@ -163,7 +163,7 @@ export default class ProfileImage extends Component {
                                      placeholder={loading || editable ? placeholderLoading : placeholder}/>
                                     : <CacheableImage
                                     style={{...styles.avatar, ...{opacity: (editable && !this.state.changed) || loading ? opacityValue : 1}}}
-                                    placeholder={loading || editable ? placeholderLoading : placeholder}
+                                    // placeholder={loading || editable ? placeholderLoading : placeholder}
                                     source={avatarData ? {
                                         uri: avatarData
                                     } : defaultImg}/>;
