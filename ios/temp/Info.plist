@@ -7,16 +7,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>TYF</string>
 	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>MKDirectionsRequest</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.apple.maps.directionsrequest</string>
-			</array>
-		</dict>
-	</array>
+	<array/>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -32,10 +23,12 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>1.0.1</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-4318279887762361~2973867378</string>
 	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array>
@@ -78,16 +71,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>$(EXECUTABLE_NAME) would like to access to your music</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>This app requires your bluetooth</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>This app requires your calendar</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>$(EXECUTABLE_NAME) would like to access to your speech</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(EXECUTABLE_NAME) would like to use your camera</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>$(EXECUTABLE_NAME) would like to access to your music</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app requires background tracking</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -102,6 +93,8 @@
 	<string>$(EXECUTABLE_NAME) would like to save photos to your photo gallery</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(EXECUTABLE_NAME) would like access to your photo gallery to change your profile picture</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>$(EXECUTABLE_NAME) would like to access to your speech</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

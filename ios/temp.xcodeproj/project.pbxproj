@@ -2425,7 +2425,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.typ-app.tyf";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tyf-app.tyf";
 				PRODUCT_NAME = temp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2476,7 +2476,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.typ-app.tyf";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tyf-app.tyf";
 				PRODUCT_NAME = temp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
