@@ -129,6 +129,7 @@ export default class SignupView extends Component {
                                        icon={'mail'}
                                        value={this.state.signup.email}
                                        maxLength={CommonConstant.MAX_EMAIL_LENGTH}
+                                       keyboardType={'email'}
                                        valid={this.state.emailValid}
                                        onChangeText={this.handleEmailChange}
                             />

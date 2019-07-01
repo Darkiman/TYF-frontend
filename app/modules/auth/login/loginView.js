@@ -119,6 +119,7 @@ export default class LoginView extends Component {
                                        disabled={isLoading || user}
                                        icon={'mail'}
                                        value={this.state.login.email}
+                                       keyboardType={'email'}
                                        maxLength={CommonConstant.MAX_EMAIL_LENGTH}
                                        valid={this.state.emailValid}
                                        onChangeText={this.handleEmailChange}

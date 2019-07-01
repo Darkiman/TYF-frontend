@@ -9,6 +9,7 @@ import i18nService from "../../utils/i18n/i18nService";
 import messageService from "../../utils/messageService";
 import LinearGradient from "react-native-linear-gradient";
 import {SwipeListView} from "react-native-swipe-list-view";
+import NavigationRoutes from "../../constants/NavigationRoutes";
 
 export default class ContactsList extends Component {
     constructor(props) {
@@ -24,7 +25,8 @@ export default class ContactsList extends Component {
             deleteContact,
             flashMessage,
             user,
-            disableLeftSwipe
+            disableLeftSwipe,
+            onItemPress
         } = this.props;
         return (
             <SwipeListView
@@ -43,7 +45,9 @@ export default class ContactsList extends Component {
                                         data={contact}
                                         addContact={addContact}
                                         contacts={contacts}
-                                        user={user}>
+                                        user={user}
+                                        onPress={onItemPress}
+                    >
                     </ContactItem>
                 }}
                 renderHiddenItem={(data, rowMap) => {

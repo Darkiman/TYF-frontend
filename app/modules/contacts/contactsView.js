@@ -3,7 +3,7 @@ import {
     View,
     SafeAreaView,
     ScrollView,
-    RefreshControl, Platform
+    RefreshControl, Platform, ActivityIndicator
 } from 'react-native';
 import NavigationRoutes from "../../constants/NavigationRoutes";
 import {sharedStyles} from "../../shared/styles/sharedStyles";
@@ -67,7 +67,7 @@ export default class ContactsView extends Component {
         this.state = {
             search: '',
             refreshing: false,
-
+            loading: false,
             contacts: [],
             contactsToShow: []
         };
@@ -79,13 +79,13 @@ export default class ContactsView extends Component {
         if (this.props.getContacts) {
             userService.getUser().then(user => {
                 this.user = user;
+                this.setState({
+                    loading: true
+                });
                 this.props.getContacts(user.id).then(result => {
-                    this.setState({
-                        refreshing: true
-                    });
                     if (result.error) {
                         const errorText = i18nService.t(`validation_message.${result.message}`);
-                        messageService.showError(this.refs.flashMessage ,errorText);
+                        messageService.showError(this.refs.flashMessage, errorText);
                     } else {
                         this.setState({
                             contacts: result.source.contacts,
@@ -93,11 +93,11 @@ export default class ContactsView extends Component {
                         });
                     }
                     this.setState({
-                        refreshing: false
+                        loading: false
                     });
                 }).catch(error => {
                     this.setState({
-                        refreshing: false
+                        loading: false
                     });
                 })
             });
@@ -173,7 +173,7 @@ export default class ContactsView extends Component {
             deleteContact,
             addContact
         } = this.props;
-
+        const {loading, search, refreshing} = this.state;
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             start={sharedStyles.headerGradient.start}
@@ -185,7 +185,7 @@ export default class ContactsView extends Component {
                             onWillFocus={payload => {
                                 this.setState({
                                     contacts: this.props.contacts,
-                                    contactsToShow: this.getContactsToShow(this.state.search, this.props.contacts).slice()
+                                    contactsToShow: this.getContactsToShow(search, this.props.contacts).slice()
                                 })
                             }}
                         />
@@ -198,8 +198,8 @@ export default class ContactsView extends Component {
                                       color={'white'}
                                       containerStyle={styles.personIconContainer}
                                       onPress={() => {
-                                          if(contacts && contacts.length >= CommonConstant.CONTACTS_MAX_COUNT) {
-                                              messageService.showError(this.refs.flashMessage, i18nService.t( 'cant_add_more_contacts', {max: CommonConstant.CONTACTS_MAX_COUNT}));
+                                          if (contacts && contacts.length >= CommonConstant.CONTACTS_MAX_COUNT) {
+                                              messageService.showError(this.refs.flashMessage, i18nService.t('cant_add_more_contacts', {max: CommonConstant.CONTACTS_MAX_COUNT}));
                                               return;
                                           }
                                           this.props.navigation.navigate(NavigationRoutes.SEARCH_CONTACTS);
@@ -218,28 +218,33 @@ export default class ContactsView extends Component {
                                     placeholder={i18nService.t('search')}
                                     onChangeText={this.handleSearchChange}
                                     onClear={this.handleClearClick}
-                                    value={this.state.search}
+                                    value={search}
                                 />
                             </View>
                         </View>
                         <ScrollView style={{backgroundColor: 'white'}}
                                     refreshControl={
                                         <RefreshControl
-                                            refreshing={this.state.refreshing}
+                                            refreshing={refreshing}
                                             onRefresh={this.onRefresh}
                                         />
                                     }>
                             {
-                                contacts && contacts.length ?
+                                loading ? <View style={styles.emptyTextContainer}>
+                                    <ActivityIndicator/>
+                                </View> : (contacts && contacts.length ?
                                     <ContactsList contacts={contacts}
                                                   contactsToShow={this.state.contactsToShow}
+                                                  onItemPress={(id) => {
+                                                      this.props.navigation.navigate(NavigationRoutes.CONTACT_OPTIONS, {id: id});
+                                                  }}
                                                   deleteContact={deleteContact}
                                                   addContact={addContact}
                                                   user={this.user}
                                                   flashMessage={this.refs.flashMessage}>
                                     </ContactsList> : <View style={styles.emptyTextContainer}>
                                         <Text style={styles.emptyText}>{i18nService.t('contact_list_empty')}</Text>
-                                    </View>
+                                    </View>)
                             }
 
                         </ScrollView>

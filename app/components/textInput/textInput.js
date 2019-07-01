@@ -34,8 +34,10 @@ export default class TextInput extends Component {
             rightIcon,
             rightIconContainerStyle,
             valid,
-            maxLength
+            maxLength,
+            keyboardType
         } = this.props;
+        let keyboardTypeValue = keyboardType ? keyboardType : 'default';
         return (
             <Input name={name}
                    placeholder={placeholder}
@@ -46,6 +48,7 @@ export default class TextInput extends Component {
                    errorStyle={{position: 'absolute', top: 25, left: 10}}
                    secureTextEntry={secureTextEntry}
                    onChangeText={onChangeText}
+                   keyboardType={keyboardTypeValue}
                    onFocus={this.setFocus.bind(this, true)}
                    onBlur={this.setFocus.bind(this, false)}
                    inputStyle={textInputStyle.inputStyle}

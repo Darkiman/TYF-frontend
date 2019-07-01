@@ -8,6 +8,7 @@ import imageCacheHoc from 'react-native-image-cache-hoc';
 import apiConfig from "../../utils/apiConfig";
 import i18nService from "../../utils/i18n/i18nService";
 import messageService from "../../utils/messageService";
+import NavigationRoutes from "../../constants/NavigationRoutes";
 
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https']
@@ -44,7 +45,8 @@ export default class ContactItem extends Component {
             contacts,
             addContact,
             user,
-            flashMessage
+            flashMessage,
+            onPress
         } = this.props;
         const avatar = data.data && data.data.avatar ? `${apiConfig.static}avatars/${data.data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
         const isInContacts = contacts && contacts.find && contacts.find(item => item.key === data.key);
@@ -91,6 +93,11 @@ export default class ContactItem extends Component {
                             />
                         </View> : null)
                 }
+                onPress={() => {
+                    if(onPress) {
+                        onPress(data.key);
+                    }
+                }}
             >
             </ListItem>
         );

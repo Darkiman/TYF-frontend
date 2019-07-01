@@ -12,6 +12,7 @@ export default NavigationRoutes = {
     // Contacts
     CONTACTS: 'Contacts',
     SEARCH_CONTACTS: 'SearchContacts',
+    CONTACT_OPTIONS: 'ContactOptions',
     // Profile
     PROFILE: 'Profile',
     PROFILE_DATA: 'ProfileData',

@@ -1,6 +1,7 @@
 import {createStackNavigator} from "react-navigation";
 import contactsContainer from "../contacts/contactsContainer";
 import searchContactsContainer from "../contacts/searchContacts/searchContactsContainer";
+import contactOptionsContainer from "../contacts/contactOptions/contactOptionsView";
 
 const ContactsStackNavigator = createStackNavigator({
     Contacts: {
@@ -11,6 +12,12 @@ const ContactsStackNavigator = createStackNavigator({
     },
     SearchContacts: {
         screen: searchContactsContainer,
+        navigationOptions: () => ({
+            header: null,
+        })
+    },
+    ContactOptions: {
+        screen: contactOptionsContainer,
         navigationOptions: () => ({
             header: null,
         })

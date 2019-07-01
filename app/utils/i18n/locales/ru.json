@@ -59,6 +59,7 @@
   "contact_list_empty": "Ваш список контактов пуст",
   "start_typing_to_search_contacts": "Начните печатать для поиска контактов.\nПоиск чувствителен к регистру",
   "no_contacts_with_that_name": "Контактов с этим именем не найдено",
+  "enable_notification": "Включить уведомления",
   "validation_message": {
     "internet_connection_not_available": "Интернет недоступен",
     "email_is_not_valid": "Email недействительный",
