@@ -30,6 +30,11 @@ import com.airbnb.android.react.maps.MapsPackage;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.security.ProviderInstaller;
+
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -76,6 +81,14 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+
+    try {
+      ProviderInstaller.installIfNeeded(getApplicationContext());
+    } catch (GooglePlayServicesRepairableException e) {
+      e.printStackTrace();
+    } catch (GooglePlayServicesNotAvailableException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override

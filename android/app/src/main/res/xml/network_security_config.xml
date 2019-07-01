@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- For React Native Hot-reloading system -->
+        <!-- If you are running on a device insert your computer IP -->
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">https://tyf-app.com</domain>
+        <domain includeSubdomains="true">http://10.0.2.32</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">10.0.1.1</domain>
+
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </domain-config>
+
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>
