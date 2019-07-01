@@ -21,6 +21,7 @@ import NavigationRoutes from "../../../constants/NavigationRoutes";
 import LinearGradient from "react-native-linear-gradient";
 import NavigationBack from "../../../components/navigationBack/navigationBack";
 import CommonConstant from "../../../constants/CommonConstant";
+import ax from "../../../utils/axios";
 
 export default class SignupView extends Component {
     constructor(props) {
@@ -199,6 +200,7 @@ export default class SignupView extends Component {
                                          onPress={async () => {
                                              const password = this.state.signup.password;
                                              const currentLocale = i18nService.getCurrentLocale();
+                                             ax.defaults.headers.common['Authorization'] = ``;
                                              const result = await signup({
                                                  ...this.state.signup,
                                                  notificationToken: this.notificationToken,
