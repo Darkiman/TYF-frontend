@@ -48,6 +48,14 @@ const styles = {
         width: '100%',
         position: 'relative',
         paddingRight: 0,
+    },
+    emptyTextContainer: {
+        width: '100%',
+        textAlign: 'center',
+        marginTop: 20
+    },
+    emptyText: {
+        textAlign: 'center', color: colors.textLightColor
     }
 };
 
@@ -72,6 +80,9 @@ export default class ContactsView extends Component {
             userService.getUser().then(user => {
                 this.user = user;
                 this.props.getContacts(user.id).then(result => {
+                    this.setState({
+                        refreshing: true
+                    });
                     if (result.error) {
                         const errorText = i18nService.t(`validation_message.${result.message}`);
                         messageService.showError(this.refs.flashMessage ,errorText);
@@ -81,6 +92,13 @@ export default class ContactsView extends Component {
                             contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts).slice()
                         });
                     }
+                    this.setState({
+                        refreshing: false
+                    });
+                }).catch(error => {
+                    this.setState({
+                        refreshing: false
+                    });
                 })
             });
         }
@@ -211,13 +229,19 @@ export default class ContactsView extends Component {
                                             onRefresh={this.onRefresh}
                                         />
                                     }>
-                            <ContactsList contacts={contacts}
-                                          contactsToShow={this.state.contactsToShow}
-                                          deleteContact={deleteContact}
-                                          addContact={addContact}
-                                          user={this.user}
-                                          flashMessage={this.refs.flashMessage}>
-                            </ContactsList>
+                            {
+                                contacts && contacts.length ?
+                                    <ContactsList contacts={contacts}
+                                                  contactsToShow={this.state.contactsToShow}
+                                                  deleteContact={deleteContact}
+                                                  addContact={addContact}
+                                                  user={this.user}
+                                                  flashMessage={this.refs.flashMessage}>
+                                    </ContactsList> : <View style={styles.emptyTextContainer}>
+                                        <Text style={styles.emptyText}>{i18nService.t('contact_list_empty')}</Text>
+                                    </View>
+                            }
+
                         </ScrollView>
                     </View>
                     <FlashMessage position="top" ref={'flashMessage'}/>

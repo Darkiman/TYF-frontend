@@ -56,6 +56,9 @@
   "email_not_verified": "Email не подтвержден",
   "verify_your_email": "Вы должны подтвердить email перед использованием приложения. Если вы не получили письмо, выберите 'Отправить еще раз'",
   "resent_verification_email": "Отправить еще раз",
+  "contact_list_empty": "Ваш список контактов пуст",
+  "start_typing_to_search_contacts": "Начните печатать для поиска контактов.\nПоиск чувствителен к регистру",
+  "no_contacts_with_that_name": "Контактов с этим именем не найдено",
   "validation_message": {
     "internet_connection_not_available": "Интернет недоступен",
     "email_is_not_valid": "Email недействительный",

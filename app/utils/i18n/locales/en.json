@@ -56,6 +56,9 @@
   "email_not_verified": "Email is not verified",
   "verify_your_email": "You have to verify your email. If you did not receive mail with verification instructions please select 'Resent verification email'",
   "resent_verification_email": "Resent verification email",
+  "contact_list_empty": "Your contact list is empty",
+  "start_typing_to_search_contacts": "Start typing to search contacts.\nSearch is case sensitive",
+  "no_contacts_with_that_name": "No contacts found with this name",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",

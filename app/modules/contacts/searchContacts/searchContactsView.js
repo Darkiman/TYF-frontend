@@ -3,7 +3,7 @@ import {
     View,
     SafeAreaView,
     ScrollView,
-    RefreshControl
+    RefreshControl, ActivityIndicator
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import { Text} from "react-native-elements";
@@ -39,7 +39,17 @@ const styles = {
         marginBottom: 5
     },
     backContainerStyle: {marginTop: 3, width: 35},
+    emptyTextContainer: {
+        width: '100%',
+        textAlign: 'center',
+        marginTop: 20
+    },
+    emptyText: {
+        textAlign: 'center', color: colors.textLightColor
+    }
 };
+
+const MIN_SEARCH_LENGTH = 5;
 
 export default class SearchContactsView extends Component {
     constructor(props) {
@@ -49,11 +59,11 @@ export default class SearchContactsView extends Component {
         this.state = {
             search: '',
             refreshing: false,
-
+            loading: false,
             searchResult: [],
         };
 
-        this.debounceSearch = _.debounce(this.searchContacts, 300);
+        this.debounceSearch = _.debounce(this.searchContacts, 600);
     }
 
     componentDidMount() {
@@ -70,23 +80,35 @@ export default class SearchContactsView extends Component {
     };
 
     async searchContacts() {
-        if (this.state.search.length < 5) {
+        if (this.state.search.length < MIN_SEARCH_LENGTH) {
             return;
         }
-        const result = await this.props.searchContacts(this.user.id, this.state.search);
-        if (result.error) {
-            const errorText = i18nService.t(`validation_message.${result.message}`);
-            messageService.showError(errorText);
-        } else {
+        this.setState({
+            loading: true
+        });
+        try {
+            const result = await this.props.searchContacts(this.user.id, this.state.search);
+            if (result.error) {
+                const errorText = i18nService.t(`validation_message.${result.message}`);
+                messageService.showError(errorText);
+            } else {
+                this.setState({
+                    searchResult: result.source.contacts,
+                });
+            }
             this.setState({
-                searchResult: result.source.contacts,
+                loading: false
+            });
+        } catch (error) {
+            this.setState({
+                loading: false
             });
         }
     }
 
     onRefresh = async () => {
         this.setState({refreshing: true});
-        if (this.state.search.length < 5) {
+        if (this.state.search.length < MIN_SEARCH_LENGTH) {
             this.setState({refreshing: false});
             return;
         }
@@ -118,6 +140,7 @@ export default class SearchContactsView extends Component {
             deleteContact,
             addContact
         } = this.props;
+        const {searchResult, search, loading} = this.state;
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             start={sharedStyles.headerGradient.start}
@@ -145,14 +168,24 @@ export default class SearchContactsView extends Component {
                                 refreshing={this.state.refreshing}
                                 onRefresh={this.onRefresh}
                             />}>
-                            <ContactsList contacts={contacts}
-                                          contactsToShow={this.state.searchResult}
-                                          disableLeftSwipe={true}
-                                          deleteContact={deleteContact}
-                                          addContact={addContact}
-                                          user={this.user}
-                                          flashMessage={this.refs.flashMessage}>
-                            </ContactsList>
+                            {
+                                search && search.length >= MIN_SEARCH_LENGTH ? (loading ? <View style={styles.emptyTextContainer}>
+                                        <ActivityIndicator/>
+                                    </View> : (searchResult && searchResult.length ? <ContactsList contacts={contacts}
+                                                                                                   contactsToShow={this.state.searchResult}
+                                                                                                   disableLeftSwipe={true}
+                                                                                                   deleteContact={deleteContact}
+                                                                                                   addContact={addContact}
+                                                                                                   user={this.user}
+                                                                                                   flashMessage={this.refs.flashMessage}>
+                                    </ContactsList> : <View style={styles.emptyTextContainer}>
+                                        <Text style={styles.emptyText}>{i18nService.t('no_contacts_with_that_name')}</Text>
+                                    </View>))
+                                    :
+                                <View style={styles.emptyTextContainer}>
+                                    <Text style={styles.emptyText}>{i18nService.t('start_typing_to_search_contacts')}</Text>
+                                </View>
+                            }
                         </ScrollView>
                     </View>
                     <FlashMessage position="top" ref={'flashMessage'}/>
