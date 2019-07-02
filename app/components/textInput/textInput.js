@@ -30,14 +30,21 @@ export default class TextInput extends Component {
             onChangeText,
             placeholder,
             icon,
+            iconContainerStyle,
             secureTextEntry,
             rightIcon,
             rightIconContainerStyle,
             valid,
             maxLength,
-            keyboardType
+            keyboardType,
+            type,
         } = this.props;
         let keyboardTypeValue = keyboardType ? keyboardType : 'default';
+        let containerStyleValue = type === 'outline' ? textInputStyle.containerOutlineStyle: textInputStyle.containerStyle;
+        let inputStyleValue = type === 'outline' ? textInputStyle.inputOutlineStyle : textInputStyle.inputStyle;
+        let inputContainerStyleValue = type === 'outline' ? textInputStyle.inputOutlineContainerStyle : textInputStyle.inputContainerStyle;
+        let placeHolderTextColorValue = type === 'outline' ? '#808080' : 'rgba(255,255,255,0.4)';
+        let leftIconColorValue = type === 'outline' ? textInputStyle.leftIconOutlineColor : textInputStyle.leftIconColor;
         return (
             <Input name={name}
                    placeholder={placeholder}
@@ -51,14 +58,14 @@ export default class TextInput extends Component {
                    keyboardType={keyboardTypeValue}
                    onFocus={this.setFocus.bind(this, true)}
                    onBlur={this.setFocus.bind(this, false)}
-                   inputStyle={textInputStyle.inputStyle}
-                   placeholderTextColor={'rgba(255,255,255,0.4)'}
-                   containerStyle={this.state.hasFocus || (valid && value) ? textInputStyle.containerStyleFocused : textInputStyle.containerStyle}
-                   inputContainerStyle={textInputStyle.inputContainerStyle}
-                   leftIconContainerStyle={textInputStyle.leftIconContainerStyle}
+                   inputStyle={inputStyleValue}
+                   placeholderTextColor={placeHolderTextColorValue}
+                   containerStyle={containerStyleValue}
+                   inputContainerStyle={inputContainerStyleValue}
+                   leftIconContainerStyle={{...textInputStyle.leftIconContainerStyle, ...iconContainerStyle}}
                    leftIcon={<Icon type={IconsType.Ionicon}
                                    name={`${this.iconPrefix}-${icon}`}
-                                   color={valid && value ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
+                                   color={leftIconColorValue}
                                    underlayColor={'transparent'}/>}
                    rightIconContainerStyle={rightIconContainerStyle}
                    rightIcon={rightIcon ? rightIcon : {}}

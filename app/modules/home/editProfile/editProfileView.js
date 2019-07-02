@@ -155,7 +155,7 @@ export default class EditProfileView extends Component {
                                                        type={IconsType.Ionicon}
                                                        name={`${this.iconPrefix}-${'help-circle-outline'}`}
                                                        size={24}
-                                                       color={this.state.nameValid ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
+                                                       color={'white'}
                                                        underlayColor={'transparent'}
                                                        onPress={() => {
                                                            this.setState({
@@ -179,7 +179,7 @@ export default class EditProfileView extends Component {
                                                                             type={IconsType.Ionicon}
                                                                             name={`${this.iconPrefix}-${'help-circle-outline'}`}
                                                                             size={24}
-                                                                            color={this.state.passwordValid ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
+                                                                            color={'white'}
                                                                             underlayColor={'transparent'}
                                                                             onPress={() => {
                                                                                 this.setState({

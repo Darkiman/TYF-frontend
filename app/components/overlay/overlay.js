@@ -21,7 +21,7 @@ export default class ModalOverlay extends Component {
                 onBackdropPress={onBackdropPress}
                 windowBackgroundColor={windowBackgroundColor ? windowBackgroundColor : "rgba(0, 0, 0, 0.35)"}
                 overlayBackgroundColor={overlayBackgroundColor ? overlayBackgroundColor : "#ffffff"}
-                width={width ? width : 'auto'}
+                width={width ? width : '90%'}
                 height={height ? height : 'auto'}>
               {this.props.children}
             </Overlay>

@@ -52,6 +52,7 @@ export default class ContactItem extends Component {
         const isInContacts = contacts && contacts.find && contacts.find(item => item.key === data.key);
         const loading = data.loadingSave;
         const showAdd = !isInContacts && !loading;
+        console.log(data);
         return (
             <ListItem
                 containerStyle={{
@@ -95,7 +96,7 @@ export default class ContactItem extends Component {
                 }
                 onPress={() => {
                     if(onPress) {
-                        onPress(data.key);
+                        onPress(data.key, data.data);
                     }
                 }}
             >

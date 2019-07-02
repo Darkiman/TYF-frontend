@@ -60,6 +60,8 @@
   "start_typing_to_search_contacts": "Start typing to search contacts.\nSearch is case sensitive",
   "no_contacts_with_that_name": "No contacts found with this name",
   "enable_notification": "Enable notification",
+  "distance": "Distance",
+  "set_distance_value": "You will receive a push notification when the distance between you and your friend is less than the specified value",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",
