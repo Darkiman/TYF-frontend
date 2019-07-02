@@ -17,28 +17,29 @@ export default class LargeButton extends Component {
             type,
             icon,
             iconRight,
+            loadingProps,
             // iconContainerStyle
         } = this.props;
         const fromPropsButtonStyle = this.props.buttonStyle ? this.props.buttonStyle : {};
         const fromPropsTitleStyle = this.props.titleStyle ? this.props.titleStyle : {};
         let buttonStyle;
         let titleStyle;
-        let loadingProps;
+        let loadingPropsValue;
         switch (type) {
             case 'outline':
                 buttonStyle = largeButtonStyles.outlineButtonStyle;
                 titleStyle = largeButtonStyles.outlineButtonText;
-                loadingProps = largeButtonStyles.outlineButtonLoadingProps;
+                loadingPropsValue = {...largeButtonStyles.outlineButtonLoadingProps, ...loadingProps};
                 break;
             case 'clear':
                 buttonStyle = largeButtonStyles.clearButtonStyle;
                 titleStyle = largeButtonStyles.clearButtonText;
-                loadingProps = largeButtonStyles.clearButtonLoadingProps;
+                loadingPropsValue = {...largeButtonStyles.clearButtonLoadingProps, ...loadingProps};
                 break;
             default:
                 buttonStyle = largeButtonStyles.buttonStyle;
                 titleStyle = largeButtonStyles.buttonText;
-                loadingProps = largeButtonStyles.clearButtonLoadingProps;
+                loadingPropsValue = {...largeButtonStyles.clearButtonLoadingProps, ...loadingProps};
         }
         return (
             <Button type={type}
@@ -56,7 +57,7 @@ export default class LargeButton extends Component {
                     icon={icon ? icon : {}}
                     iconRight={iconRight ? true : false}
                     loadingStyle={largeButtonStyles.loadingStyle}
-                    loadingProps={loadingProps}
+                    loadingProps={loadingPropsValue}
                     disabled={disabled}
                     loading={loading}
                     onPress={onPress}

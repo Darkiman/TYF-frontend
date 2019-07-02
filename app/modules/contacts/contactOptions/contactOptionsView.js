@@ -18,6 +18,8 @@ import imageCacheHoc from "react-native-image-cache-hoc";
 import themeService from "../../../utils/themeService";
 import apiConfig from "../../../utils/apiConfig";
 import LinearGradient from "react-native-linear-gradient";
+import LargeButton from "../../../components/largeButton/largeButton";
+import messageService from "../../../utils/messageService";
 
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https']
@@ -103,8 +105,12 @@ export default class ContactOptionsView extends Component {
         this.state = {
             enableNotifications: false,
             distance: '',
-            showDistanceTooltip: false
+            showDistanceTooltip: false,
+            changed: false
         };
+
+        this.data = this.props.navigation.getParam('data');
+        this.contactId = this.props.navigation.getParam('id');
     }
 
     componentDidMount() {
@@ -119,16 +125,34 @@ export default class ContactOptionsView extends Component {
 
     onNotificationChange = (value) => {
         this.setState({
-            enableNotifications: value
-        })
+            enableNotifications: value,
+            changed: true
+        });
     };
 
     handleDistanceChange = (value) => {
         const valid = onlyNumberRegex.test(value);
         if (valid) {
             this.setState({
-                distance: value
+                distance: value,
+                changed: true
             })
+        }
+    };
+
+    save = async () => {
+        try {
+            const {enableNotifications, distance} = this.state;
+            console.log(this.props.saveContactOptions);
+            const result = await this.props.saveContactOptions(this.user.id, this.contactId,enableNotifications, distance);
+            if (result.error) {
+                const errorText = i18nService.t(`validation_message.${result.message}`);
+                messageService.showError(this.refs.flashMessage, errorText);
+            } else {
+                this.props.navigation.goBack();
+            }
+        } catch (e) {
+
         }
     };
 
@@ -137,9 +161,9 @@ export default class ContactOptionsView extends Component {
             isLoading,
             error,
         } = this.props;
-        const {enableNotifications, distance, showDistanceTooltip} = this.state;
-        const data = this.props.navigation.getParam('data');
-        const avatar = data && data.avatar ? `${apiConfig.static}avatars/${data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
+        const {enableNotifications, distance, showDistanceTooltip, changed} = this.state;
+        const avatar = this.data && this.data.avatar ? `${apiConfig.static}avatars/${this.data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
+        const name = this.data && this.data.name[0];
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             start={sharedStyles.headerGradient.start}
@@ -158,7 +182,7 @@ export default class ContactOptionsView extends Component {
                             <CacheableImage source={{uri: avatar}}
                                             style={styles.avatar}
                                             placeholder={propOverridePlaceholderObject}/>
-                            <Text style={styles.headerText}>{data.name[0]}</Text>
+                            <Text style={styles.headerText}>{name}</Text>
                         </View>
                         <Icon type={IconsType.Ionicon}
                               name={`${this.iconPrefix}-arrow-back`}
@@ -203,6 +227,26 @@ export default class ContactOptionsView extends Component {
                                                                      }}
                                                                  />
                                                              }
+                            /> : null
+                        }
+                        {
+                            changed ? <LargeButton type={'solid'}
+                                                   title={i18nService.t('save')}
+                                                   disabled={enableNotifications ? !distance || distance == 0 : changed}
+                                                   buttonStyle={{
+                                                       marginTop: 40,
+                                                       backgroundColor: colors.backgroundColor
+                                                   }}
+                                                   titleStyle={{
+                                                       color: 'white'
+                                                   }}
+                                                   loading={isLoading}
+                                                   loadingProps={{color: 'white'}}
+                                                   onPress={async () => {
+                                                       if(!isLoading) {
+                                                           await this.save();
+                                                       }
+                                                   }}
                             /> : null
                         }
                         <ModalOverlay

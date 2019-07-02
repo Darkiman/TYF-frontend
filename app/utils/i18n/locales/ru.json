@@ -61,7 +61,7 @@
   "no_contacts_with_that_name": "Контактов с этим именем не найдено",
   "enable_notification": "Включить уведомления",
   "distance": "Дистанция",
-  "set_distance_value": "Вы получите push уведомление, когда дистанция между вами и вашим другом будет меньше заданного значения",
+  "set_distance_value": "Вы получите push-уведомление, если расстояние (в километрах) между вами и вашим другом меньше указанного значения",
   "validation_message": {
     "internet_connection_not_available": "Интернет недоступен",
     "email_is_not_valid": "Email недействительный",

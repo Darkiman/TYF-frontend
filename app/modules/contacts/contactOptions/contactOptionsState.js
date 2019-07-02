@@ -8,31 +8,37 @@ const initialState = {
 };
 
 
-export const CHANGE_OPTIONS_SUCCESS = 'contactOptions/CHANGE_OPTIONS_SUCCESS';
-export const CHANGE_OPTIONS_LOADING = 'contactOptions/CHANGE_OPTIONS_LOADING';
-export const CHANGE_OPTIONS_ERROR = 'contactOptions/CHANGE_OPTIONS_ERROR';
+export const SAVE_OPTIONS_SUCCESS = 'contactOptions/SAVE_OPTIONS_SUCCESS';
+export const SAVE_OPTIONS_LOADING = 'contactOptions/SAVE_OPTIONS_LOADING';
+export const SAVE_OPTIONS_ERROR = 'contactOptions/SAVE_OPTIONS_ERROR';
 
 
-export const changeOptions = (id, query) => {
+export const saveContactOptions = (id, contactId, enableNotifications, distance) => {
   return dispatch => {
     if(!networkService.isConnected) {
       dispatch({
-        type: CHANGE_OPTIONS_ERROR,
+        type: SAVE_OPTIONS_ERROR,
         payload: { data: 'internet_connection_not_available' }
       });
       return;
     }
     dispatch({
-      type: CHANGE_OPTIONS_LOADING,
+      type: SAVE_OPTIONS_LOADING,
     });
-    return ax.get(`contacts/search?id=${id}&query=${query}`)
+    const data = {
+      id: id,
+      contactId: contactId,
+      enableNotifications: enableNotifications,
+      distance: distance
+    };
+    return ax.post(`contacts/contactOptions`, data)
         .then(({data}) => {
           const result = {
             source: data,
             error: false
           };
           dispatch({
-            type: CHANGE_OPTIONS_SUCCESS,
+            type: SAVE_OPTIONS_SUCCESS,
             payload: data
           });
           return result;
@@ -44,7 +50,7 @@ export const changeOptions = (id, query) => {
             message: text
           };
           dispatch({
-            type: CHANGE_OPTIONS_LOADING,
+            type: SAVE_OPTIONS_ERROR,
             payload: result
           });
           return result;
@@ -54,19 +60,19 @@ export const changeOptions = (id, query) => {
 
 const contactOptionsState = (state: Object = initialState, action: Object) => {
   switch (action.type) {
-    case CHANGE_OPTIONS_SUCCESS:
+    case SAVE_OPTIONS_SUCCESS:
       return {
         isLoading: false,
         error: false,
         data: action.payload
       };
-    case CHANGE_OPTIONS_LOADING:
+    case SAVE_OPTIONS_LOADING:
       return {
         ...state,
         error: false,
         isLoading: true
       };
-    case CHANGE_OPTIONS_ERROR:
+    case SAVE_OPTIONS_ERROR:
       return {
         isLoading: false,
         error: true,

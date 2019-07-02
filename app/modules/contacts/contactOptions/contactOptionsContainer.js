@@ -2,18 +2,17 @@ import { connect } from 'react-redux';
 import ContactOptionsView from './contactOptionsView';
 import { bindActionCreators } from 'redux';
 import {
-  changeOptions
+  saveContactOptions
 } from './contactOptionsState';
 
 const mapStateToProps = state => ({
-  data: state.contactsState.data,
-  isLoading: state.contactsState.isLoading,
-  error: state.contactsState.error,
-  contacts: state.contactsState.contacts
+  data: state.contactOptionsState.data,
+  isLoading: state.contactOptionsState.isLoading,
+  error: state.contactOptionsState.error,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  changeOptions
+  saveContactOptions
 }, dispatch);
 
 export default connect(
