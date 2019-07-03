@@ -140,9 +140,10 @@ export default class HomeView extends Component {
     async requestPermission() {
         try {
             await firebase.messaging().requestPermission();
+            await PermissionsService.requestGelocationPermission();
             this.getToken();
         } catch (error) {
-            console.log('permission rejected');
+            console.log('permissions rejected');
         }
     }
 

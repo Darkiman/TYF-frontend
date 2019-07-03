@@ -56,11 +56,11 @@ export default class MapsView extends Component {
     componentDidMount() {
         this.initialize();
         this.getCurrentPosition();
-        AppState.addEventListener('change', this.handleAppStateChange);
+        // AppState.addEventListener('change', this.handleAppStateChange);
     }
 
     componentWillUnmount() {
-        AppState.removeEventListener('change', this.handleAppStateChange);
+        // AppState.removeEventListener('change', this.handleAppStateChange);
         if(this.watchId) {
             navigator.geolocation.clearWatch(this.watchId);
         }
@@ -117,13 +117,13 @@ export default class MapsView extends Component {
         });
     }
 
-    handleAppStateChange = (nextAppState) => {
-        if(nextAppState === 'active') {
-            if(this.state.ready) {
-                this.onFocus();
-            }
-        }
-    };
+    // handleAppStateChange = (nextAppState) => {
+    //     if(nextAppState === 'active') {
+    //         if(this.state.ready) {
+    //             this.onFocus();
+    //         }
+    //     }
+    // };
 
     handlePosition = (position) => {
          this.region = {
@@ -135,7 +135,10 @@ export default class MapsView extends Component {
     };
 
     getCurrentPosition = async () => {
-        const locationEnabled = await PermissionsService.isLocationPermissionEnabled();
+        let locationEnabled = await PermissionsService.isLocationPermissionEnabled();
+        if(!locationEnabled && Platform.OS === 'ios') {
+            locationEnabled = await PermissionsService.isWhenInUseLocationPermissionEnabled();
+        }
         if (locationEnabled) {
             if(!this.watchId) {
                 this.watchId = navigator.geolocation.watchPosition(this.handlePosition);
@@ -168,7 +171,7 @@ export default class MapsView extends Component {
             }
         } else {
             // this.props.navigation.navigate(NavigationRoutes.HOME);
-            PermissionsService.enableGeoLocation();
+            PermissionsService.enableGeoLocation('see_you_position_on_map');
         }
     };
 
@@ -243,10 +246,10 @@ export default class MapsView extends Component {
     }
 
     onFocus = async () => {
-        const locationEnabled = await PermissionsService.isLocationPermissionEnabled();
-        if(!locationEnabled) {
-            PermissionsService.enableGeoLocation();
-        }
+        // const locationEnabled = await PermissionsService.isLocationPermissionEnabled();
+        // if(!locationEnabled) {
+        //     PermissionsService.enableGeoLocation();
+        // }
     };
 
     render() {
@@ -276,9 +279,7 @@ export default class MapsView extends Component {
             <View style={sharedStyles.safeView}>
                 <NavigationEvents
                     onWillFocus={payload => {
-                        if(this.state.ready) {
-                            this.onFocus();
-                        }
+                        this.onFocus();
                     }}
                 />
                 <View style={styles.mapContainer}>
