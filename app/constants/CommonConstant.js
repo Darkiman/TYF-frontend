@@ -11,6 +11,9 @@ const CommonConstant = {
 
     DATE_TIME_FORMAT: 'YYYY-DD-MM HH:mm',
     DATE_FORMAT: 'YYYY-DD-MM',
-    TIME_FORMAT: 'HH:mm'
+    TIME_FORMAT: 'HH:mm',
+
+    PRIVACY_LINK : 'https://tyf-app.com/privacy',
+    TERMS_OF_USE_LINK: 'https://tyf-app.com/terms'
 };
 export default CommonConstant;

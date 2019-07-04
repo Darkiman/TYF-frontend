@@ -162,7 +162,12 @@ export default class LoginView extends Component {
                                                      tracking: false,
                                                      avatar: result.source[0].data.avatar,
                                                      language: currentLocale,
-                                                     verified: result.source[0].data.verified
+                                                     verified: result.source[0].data.verified,
+                                                     confidentiality: {
+                                                         showPositionOnMap: true,
+                                                         showPositionOnlyToContacts: true,
+                                                         accepted: false
+                                                     }
                                                  };
                                                  if(!user.verified) {
                                                      Alert.alert(

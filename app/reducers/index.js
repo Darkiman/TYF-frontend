@@ -3,6 +3,7 @@ import homeSate from '../modules/home/homeState';
 import profileState from '../modules/profile/profileState';
 import profileDataState from '../modules/profile/data/profileDataState';
 import settingsState from '../modules/settings/settingsState';
+import confidentialityState from '../modules/settings/confidentiality/confidentialityState';
 import languageState from '../modules/settings/language/languageState';
 import aboutState from '../modules/settings/about/aboutState';
 import authState from '../modules/auth/authState';
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   profile: profileState,
   profileData: profileDataState,
   settings: settingsState,
+  confidentiality: confidentialityState,
   language: languageState,
   about: aboutState,
   auth: authState,

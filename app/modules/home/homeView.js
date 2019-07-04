@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView, Platform, Alert
+    View, SafeAreaView, Platform, Alert, Linking, TouchableOpacity
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import BackgroundGeolocation from "react-native-background-geolocation";
@@ -20,8 +20,11 @@ import {NavigationEvents} from "react-navigation";
 import firebase from "react-native-firebase";
 import networkService from "../../utils/networkService";
 import apiConfig from "../../utils/apiConfig";
-import OpenSettings from 'react-native-open-settings';
 import PermissionsService from '../../utils/permissionsService'
+import ModalOverlay from "../../components/overlay/overlay";
+import FlashMessage from "react-native-flash-message";
+import messageService from "../../utils/messageService";
+import CommonConstant from "../../constants/CommonConstant";
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -36,6 +39,7 @@ const styles = {
     }
 };
 
+
 export default class HomeView extends Component {
     constructor(props) {
         super(props);
@@ -46,7 +50,8 @@ export default class HomeView extends Component {
             initialized: false,
             geoLocationReady: false,
             sourceDisplaying: null,
-            checkingPermission: false
+            checkingPermission: false,
+            showPrivacyModal: false,
         };
 
         this.iconPrefix = iconsService.getIconPrefix();
@@ -62,6 +67,7 @@ export default class HomeView extends Component {
                 skipBackup: true,
                 path: 'images',
             },
+            showPrivacyModal: false
         };
         this.initialize();
     }
@@ -166,9 +172,9 @@ export default class HomeView extends Component {
             console.log('On notification opened', notification);
         });
 
-        this.messageListener = firebase.messaging().onMessage((message: RemoteMessage) => {
+        this.messageListener = firebase.messaging().onMessage((message) => {
             // Process your message as required
-            console.log(RemoteMessage);
+            console.log(message);
         });
     }
 
@@ -184,10 +190,10 @@ export default class HomeView extends Component {
             this.removeNotificationListener();
         }
 
-        if(this.removeNotificationDisplayedListener) {
+        if (this.removeNotificationDisplayedListener) {
             this.removeNotificationDisplayedListener();
         }
-        if(this.messageListener) {
+        if (this.messageListener) {
             this.messageListener();
         }
         networkService.removeNetworkListen();
@@ -237,7 +243,12 @@ export default class HomeView extends Component {
         } else {
             const locationEnabled = await PermissionsService.isLocationPermissionEnabled();
             if (locationEnabled) {
-                this.startTracking();
+                if (this.user.confidentiality && this.user.confidentiality.accepted) {
+                    this.startTracking();
+                } else {
+                    this.showPrivacy();
+                    return;
+                }
             } else {
                 PermissionsService.enableGeoLocation();
                 return;
@@ -251,9 +262,40 @@ export default class HomeView extends Component {
         })
     };
 
+    showPrivacy = () => {
+        this.setState({
+            showPrivacyModal: true
+        })
+    };
+
     afterUserInfoChange = async () => {
         this.user = await userService.getUser();
         this.forceUpdate();
+    };
+
+    accept = async () => {
+        try {
+            const confidentiality = {
+                showPositionOnlyToContacts: true,
+                showPositionOnMap: true,
+                accepted: true
+            };
+            const result = await this.props.saveConfidentiality(this.user.id, confidentiality);
+            if (result.error) {
+                const errorText = i18nService.t(`validation_message.${result.message}`);
+                messageService.showError(this.refs.flashMessage, errorText);
+            } else {
+                this.user = await userService.getUser();
+                this.user.confidentiality = confidentiality;
+                await userService.setUser(this.user);
+                this.setState({
+                    showPrivacyModal: false
+                });
+                this.toggleTracking()
+            }
+        } catch (e) {
+
+        }
     };
 
     render() {
@@ -263,6 +305,7 @@ export default class HomeView extends Component {
             data,
         } = this.props;
 
+        const {showPrivacyModal, initialized, tracking, geoLocationReady} = this.state;
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
@@ -295,20 +338,20 @@ export default class HomeView extends Component {
                                         textAlign: 'center'
                                     }}>{this.user.name}</Text>
                                     <View style={{width: '100%'}}>
-                                        <LargeButton type={this.state.tracking ? 'outline' : 'solid'}
+                                        <LargeButton type={tracking ? 'outline' : 'solid'}
                                                      buttonStyle={{marginTop: 70}}
                                                      titleStyle={{width: 'auto'}}
                                                      title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
                                                      icon={<Icon
                                                          type={IconsType.Ionicon}
-                                                         name={this.state.tracking ? `${this.iconPrefix}-pause` : `${this.iconPrefix}-play`}
+                                                         name={tracking ? `${this.iconPrefix}-pause` : `${this.iconPrefix}-play`}
                                                          containerStyle={{position: 'relative', top: 2, marginLeft: 7}}
                                                          size={20}
-                                                         color={this.state.tracking ? 'white' : colors.color}
+                                                         color={tracking ? 'white' : colors.color}
                                                          underlayColor={'transparent'}
                                                      />}
                                                      iconRight={true}
-                                                     loading={!this.state.initialized || !this.state.geoLocationReady}
+                                                     loading={!initialized || !geoLocationReady}
                                                      onPress={async () => {
                                                          this.toggleTracking();
                                                      }}>
@@ -318,6 +361,49 @@ export default class HomeView extends Component {
 
                             </View> : null
                     }
+                    <ModalOverlay
+                        isVisible={showPrivacyModal}
+                        windowBackgroundColor={'transparent'}
+                        onBackdropPress={() => {
+                            this.setState({
+                                showPrivacyModal: !showPrivacyModal
+                            })
+                        }}>
+                        <View>
+                            <Text style={{fontSize: 15, marginTop: 20}}>{i18nService.t('before_share_my_geolocation_i_agree')}
+                            </Text>
+                            <View style={{flexDirection: 'row', alignItems: 'flex-end', marginTop: 20}}>
+                                <Text>- {i18nService.t('accept_with')} </Text>
+                                <TouchableOpacity onPress={() => {
+                                    Linking.openURL(CommonConstant.PRIVACY_LINK);
+                                }}>
+                                    <Text style={{color: colors.color}}>{i18nService.t('privacy_policy_accept')}</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{flexDirection: 'row', alignItems: 'flex-end', marginTop: 10}}>
+                                <Text>- {i18nService.t('allow_other_users_to_see_my_geolocation')}</Text>
+                            </View>
+                            <LargeButton type={'solid'}
+                                         title={i18nService.t('accept')}
+                                         buttonStyle={{
+                                             marginTop: 95,
+                                             marginBottom: 60,
+                                             backgroundColor: colors.backgroundColor
+                                         }}
+                                         titleStyle={{
+                                             color: 'white'
+                                         }}
+                                         loading={isLoading}
+                                         loadingProps={{color: 'white'}}
+                                         onPress={async () => {
+                                             if (!isLoading) {
+                                                 await this.accept();
+                                             }
+                                         }}
+                            />
+                        </View>
+                    </ModalOverlay>
+                    <FlashMessage position="top" ref={'flashMessage'}/>
                 </SafeAreaView>
             </LinearGradient>
         );

@@ -19,6 +19,7 @@ export default NavigationRoutes = {
     // Settings
     SETTINGS: 'Settings',
     LANGUAGE_SETTINGS: 'LanguageSettings',
+    CONFIDENTIALITY_SETTINGS: 'ConfidentialitySettings',
     ABOUT_SETTINGS: 'AboutSettings',
     //
     MAPS: 'Maps'

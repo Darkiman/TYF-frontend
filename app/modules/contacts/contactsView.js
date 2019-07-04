@@ -236,8 +236,8 @@ export default class ContactsView extends Component {
                                     <ContactsList contacts={contacts}
                                                   contactsToShow={this.state.contactsToShow}
                                                   onItemPress={(id, data) => {
-                                                      console.log(id, data);
-                                                      this.props.navigation.navigate(NavigationRoutes.CONTACT_OPTIONS, {id: id , data: data});
+                                                      // console.log(id, data);
+                                                      // this.props.navigation.navigate(NavigationRoutes.CONTACT_OPTIONS, {id: id , data: data});
                                                   }}
                                                   deleteContact={deleteContact}
                                                   addContact={addContact}

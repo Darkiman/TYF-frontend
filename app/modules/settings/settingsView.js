@@ -41,6 +41,17 @@ export default class SettingsView extends Component {
                         }}
                     />
                     <ListItem
+                        title={i18nService.t('confidentiality')}
+                        onPress={() => {
+                            this.props.navigation.navigate(NavigationRoutes.CONFIDENTIALITY_SETTINGS, {
+                                from: NavigationRoutes.SETTINGS,
+                                update: () => {
+                                    this.forceUpdate();
+                                }
+                            });
+                        }}
+                    />
+                    <ListItem
                         title={i18nService.t('about_application')}
                         onPress={() => {
                             this.props.navigation.navigate(NavigationRoutes.ABOUT_SETTINGS);

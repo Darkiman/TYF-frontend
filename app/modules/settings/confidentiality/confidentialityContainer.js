@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import HomeView from './homeView';
+import confidentiality from './confidentialityView';
 import { bindActionCreators } from 'redux';
 import {
-  saveConfidentiality,
-} from './../settings/confidentiality/confidentialityState';
+  saveConfidentiality
+} from "./confidentialityState";
 
 const mapStateToProps = state => ({
   data: state.confidentiality.data,
@@ -18,4 +18,4 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HomeView);
+)(confidentiality);

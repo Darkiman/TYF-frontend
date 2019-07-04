@@ -220,7 +220,12 @@ export default class SignupView extends Component {
                                                      tracking: false,
                                                      avatar: result.source.data.avatar,
                                                      language: currentLocale,
-                                                     verified: false
+                                                     verified: false,
+                                                     confidentiality: {
+                                                         showPositionOnMap: true,
+                                                         showPositionOnlyToContacts: true,
+                                                         accepted: false
+                                                     }
                                                  };
                                                  userService.setUser(user);
                                                  this.props.navigation.navigate(NavigationRoutes.AUTH_LOGIN, {

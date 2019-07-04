@@ -9,7 +9,8 @@
     "back": "Back",
     "language": "Language",
     "about": "About application",
-    "contacts": "Contacts"
+    "contacts": "Contacts",
+    "confidentiality": "Confidentiality"
   },
   "language": "Language",
   "change_language": "Change language",
@@ -63,6 +64,16 @@
   "enable_notification": "Enable notification",
   "distance": "Distance",
   "set_distance_value": "You will receive a push notification when the distance (kilometers) between you and your friend is less than the specified value",
+  "confidentiality": "Confidentiality",
+  "show_position_on_map": "Show my geolocation on the map",
+  "show_position_only_to_friends": "Show my geolocation only to my contacts",
+  "accept_with": "Accept",
+  "privacy_policy": "Privacy Policy",
+  "privacy_policy_accept": "Privacy Policy",
+  "allow_other_users_to_see_my_geolocation": "Allow to show my geolocation on the map, and other users can see it (You can change this option in Settings - Confidentiality)",
+  "before_share_my_geolocation_i_agree": "Before I share my geolocation, I agree that I:",
+  "accept": "Accept",
+  "terms_of_use": "Terms of use",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",
