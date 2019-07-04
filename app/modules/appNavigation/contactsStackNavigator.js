@@ -25,5 +25,3 @@ const ContactsStackNavigator = createStackNavigator({
 });
 
 export default ContactsStackNavigator;
-
-
