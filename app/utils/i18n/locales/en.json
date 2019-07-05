@@ -74,6 +74,7 @@
   "before_share_my_geolocation_i_agree": "Before I share my geolocation, I agree that I:",
   "accept": "Accept",
   "terms_of_use": "Terms of use",
+  "notifications_disabled_to_this_app": "Notifications disabled for this app. To see push notifications enable it in settings",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",

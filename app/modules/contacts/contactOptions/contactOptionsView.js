@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {
     View,
     SafeAreaView,
-    Image
+    Image, Platform
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import {Icon, ListItem, Text} from "react-native-elements";
@@ -20,6 +20,7 @@ import apiConfig from "../../../utils/apiConfig";
 import LinearGradient from "react-native-linear-gradient";
 import LargeButton from "../../../components/largeButton/largeButton";
 import messageService from "../../../utils/messageService";
+import PermissionsService from "../../../utils/permissionsService";
 
 const CacheableImage = imageCacheHoc(Image, {
     validProtocols: ['http', 'https']
@@ -123,7 +124,22 @@ export default class ContactOptionsView extends Component {
         this.props.navigation.navigate(NavigationRoutes.CONTACTS);
     };
 
-    onNotificationChange = (value) => {
+    onNotificationChange = async (value) => {
+        if(value && Platform.OS === 'ios') {
+            const response = await PermissionsService.checkNotificationPermissions();
+            console.log(response);
+            if(response === 'undetermined') {
+                const notificationsResponse = await PermissionsService.enableNotifications();
+                if(notificationsResponse !== 'authorized') {
+                    await PermissionsService.enableNotificationsFromSettings();
+                    return
+                }
+            }
+            if(response === 'denied') {
+                await PermissionsService.enableNotificationsFromSettings();
+                return;
+            }
+        }
         this.setState({
             enableNotifications: value,
             changed: true
@@ -232,7 +248,7 @@ export default class ContactOptionsView extends Component {
                         {
                             changed ? <LargeButton type={'solid'}
                                                    title={i18nService.t('save')}
-                                                   disabled={enableNotifications ? !distance || distance == 0 : changed}
+                                                   disabled={enableNotifications ? !distance || distance == 0 : !changed}
                                                    buttonStyle={{
                                                        marginTop: 40,
                                                        backgroundColor: colors.backgroundColor

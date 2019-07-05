@@ -74,6 +74,7 @@
   "before_share_my_geolocation_i_agree": "Перед тем как поделиться своей геолокацией, вы подтверждаете что согласы с :",
   "accept": "Принять",
   "terms_of_use": "Правила использования",
+  "notifications_disabled_to_this_app": "Уведомления выключены для этого приложения. Чтобы увидеть уведомления включите их в настройках",
   "validation_message": {
     "internet_connection_not_available": "Интернет недоступен",
     "email_is_not_valid": "Email недействительный",

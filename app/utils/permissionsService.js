@@ -5,6 +5,7 @@ import OpenSettings from "react-native-open-settings";
 
 const PermissionsService = {
     isEnableGeoLocationAlertVisible: false,
+    isEnableNotificationsAlertVisible: false,
     isLocationPermissionEnabled: async () => {
         let locationPermission;
         if (Platform.OS === 'ios') {
@@ -83,6 +84,36 @@ const PermissionsService = {
             } catch (err) {
                return false;
             }
+        }
+    },
+    checkNotificationPermissions:  async () => {
+      return await Permissions.check('notification', { type: ['alert'] });
+    },
+    enableNotifications: async () => {
+       return await Permissions.request('notification', { type: ['alert'] });
+    },
+    enableNotificationsFromSettings: async () => {
+        if(!this.isEnableNotificationsAlertVisible) {
+            this.isEnableNotificationsAlertVisible = true;
+            Alert.alert(
+                i18nService.t('access_denied'),
+                i18nService.t( 'notifications_disabled_to_this_app'),
+                [
+                    {
+                        text: i18nService.t('go_app_to_settings'),
+                        onPress: () => {
+                            this.isEnableNotificationsAlertVisible = false;
+                            OpenSettings.openSettings();
+                        }},
+                    {
+                        text: i18nService.t('cancel'),
+                        onPress: () => {
+                            this.isEnableNotificationsAlertVisible = false;
+                        }
+                    }
+                ],
+                {cancelable: true},
+            );
         }
     }
 };
