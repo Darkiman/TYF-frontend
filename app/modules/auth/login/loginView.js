@@ -104,7 +104,8 @@ export default class LoginView extends Component {
             user,
             login
         } = this.props;
-
+        const {email, password} = this.state.login;
+        const {passwordValid, emailValid} = this.state;
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
@@ -118,10 +119,10 @@ export default class LoginView extends Component {
                                        placeholder={i18nService.t('email')}
                                        disabled={isLoading || user}
                                        icon={'mail'}
-                                       value={this.state.login.email}
+                                       value={email}
                                        keyboardType={'email-address'}
                                        maxLength={CommonConstant.MAX_EMAIL_LENGTH}
-                                       valid={this.state.emailValid}
+                                       valid={emailValid}
                                        onChangeText={this.handleEmailChange}
                             />
                             <TextInput name={'password'}
@@ -129,9 +130,9 @@ export default class LoginView extends Component {
                                        disabled={isLoading || user}
                                        icon={'lock'}
                                        secureTextEntry={true}
-                                       value={this.state.login.password}
+                                       value={password}
                                        maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
-                                       valid={this.state.passwordValid}
+                                       valid={passwordValid}
                                        onChangeText={this.handlePasswordChange}
                             />
                         </View>
@@ -139,9 +140,9 @@ export default class LoginView extends Component {
                             <LargeButton title={i18nService.t('login')}
                                          buttonStyle={{marginTop: 20}}
                                          loading={isLoading || user}
-                                         disabled={!this.state.emailValid || !this.state.passwordValid}
+                                         disabled={!emailValid || !passwordValid}
                                          onPress={async () => {
-                                             const password = this.state.login.password;
+                                             const currentPassword = this.state.login.password;
                                              const currentLocale = i18nService.getCurrentLocale();
                                              ax.defaults.headers.common['Authorization'] = ``;
                                              const result = await login({
@@ -157,7 +158,7 @@ export default class LoginView extends Component {
                                                      id: result.source[0].key,
                                                      email: result.source[0].data.email,
                                                      name: result.source[0].data.name[0],
-                                                     password: password,
+                                                     password: currentPassword,
                                                      token: result.source[0].data.token,
                                                      tracking: false,
                                                      avatar: result.source[0].data.avatar,

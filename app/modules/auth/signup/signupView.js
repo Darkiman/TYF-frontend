@@ -94,7 +94,7 @@ export default class SignupView extends Component {
     handleConfirmPasswordChange = (text) => {
         let signup = this.state.signup;
         signup.confirmPassword = text;
-        const isConfirmPasswordValid = signup.password === text ? true : false ;
+        const isConfirmPasswordValid = commonService.validatePassword(text);
         this.setState({
             signup: signup,
             confirmPasswordValid: isConfirmPasswordValid
@@ -114,6 +114,8 @@ export default class SignupView extends Component {
             signup
         } = this.props;
 
+        const {email, name, password, confirmPassword} = this.state.signup;
+        const {emailValid, passwordValid, nameValid, confirmPasswordValid, showPasswordTooltip, showNameTooltip} = this.state;
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
@@ -127,10 +129,10 @@ export default class SignupView extends Component {
                                        placeholder={i18nService.t('email')}
                                        disabled={isLoading || user}
                                        icon={'mail'}
-                                       value={this.state.signup.email}
+                                       value={email}
                                        maxLength={CommonConstant.MAX_EMAIL_LENGTH}
                                        keyboardType={'email-address'}
-                                       valid={this.state.emailValid}
+                                       valid={emailValid}
                                        onChangeText={this.handleEmailChange}
                             />
                             <TextInput ref={(ref) => this.nameRef = ref}
@@ -138,20 +140,20 @@ export default class SignupView extends Component {
                                        placeholder={i18nService.t('name')}
                                        disabled={isLoading || user}
                                        icon={'contact'}
-                                       value={this.state.signup.name}
+                                       value={name}
                                        maxLength={CommonConstant.MAX_NAME_LENGTH}
-                                       valid={this.state.nameValid}
+                                       valid={nameValid}
                                        onChangeText={this.handleNameChange}
                                        rightIcon={
                                            <Icon
                                                type={IconsType.Ionicon}
                                                name={`${this.iconPrefix}-${'help-circle-outline'}`}
                                                size={24}
-                                               color={this.state.nameValid ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
+                                               color={textInputStyle.leftIconColor}
                                                underlayColor={'transparent'}
                                                onPress={() => {
                                                    this.setState({
-                                                       showNameTooltip: !this.state.showNameTooltip
+                                                       showNameTooltip: !showNameTooltip
                                                    })
                                                }}
                                            />
@@ -163,20 +165,20 @@ export default class SignupView extends Component {
                                        disabled={isLoading || user}
                                        icon={'lock'}
                                        secureTextEntry={true}
-                                       value={this.state.signup.password}
+                                       value={password}
                                        maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
-                                       valid={this.state.passwordValid}
+                                       valid={passwordValid}
                                        onChangeText={this.handlePasswordChange}
                                        rightIcon={
                                            <Icon
                                                type={IconsType.Ionicon}
                                                name={`${this.iconPrefix}-${'help-circle-outline'}`}
                                                size={24}
-                                               color={this.state.passwordValid ? textInputStyle.leftIconColorFocused : textInputStyle.leftIconColor}
+                                               color={textInputStyle.leftIconColor}
                                                underlayColor={'transparent'}
                                                onPress={() => {
                                                    this.setState({
-                                                       showPasswordTooltip: !this.state.showPasswordTooltip
+                                                       showPasswordTooltip: !showPasswordTooltip
                                                    })
                                                }}
                                            />
@@ -187,9 +189,9 @@ export default class SignupView extends Component {
                                        disabled={isLoading || user}
                                        icon={'lock'}
                                        secureTextEntry={true}
-                                       value={this.state.signup.confirmPassword}
+                                       value={confirmPassword}
                                        maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
-                                       valid={this.state.confirmPasswordValid}
+                                       valid={confirmPasswordValid}
                                        onChangeText={this.handleConfirmPasswordChange}
                             />
                         </View>
@@ -197,9 +199,9 @@ export default class SignupView extends Component {
                             <LargeButton title={i18nService.t('sign_up')}
                                          buttonStyle={{marginTop: 20}}
                                          loading={isLoading || user}
-                                         disabled={!this.state.emailValid || !this.state.nameValid || !this.state.passwordValid || !this.state.confirmPasswordValid}
+                                         disabled={!emailValid || !nameValid || !passwordValid || !confirmPasswordValid || password !== confirmPassword}
                                          onPress={async () => {
-                                             const password = this.state.signup.password;
+                                             const currentPassword = this.state.signup.password;
                                              const currentLocale = i18nService.getCurrentLocale();
                                              ax.defaults.headers.common['Authorization'] = ``;
                                              const result = await signup({
@@ -215,7 +217,7 @@ export default class SignupView extends Component {
                                                      id: result.source.key,
                                                      email: result.source.data.email,
                                                      name: result.source.data.name[0],
-                                                     password: password,
+                                                     password: currentPassword,
                                                      token: result.source.data.token,
                                                      tracking: false,
                                                      avatar: result.source.data.avatar,
@@ -238,19 +240,19 @@ export default class SignupView extends Component {
                         </View>
 
                         <ModalOverlay
-                            isVisible={this.state.showNameTooltip}
+                            isVisible={showNameTooltip}
                             onBackdropPress={()=> {
                                 this.setState({
-                                    showNameTooltip: !this.state.showNameTooltip
+                                    showNameTooltip: !showNameTooltip
                                 })
                             }}>
                             <Text>{i18nService.t('validation_message.name_should_be_more_symbols', {symbols: CommonConstant.MIN_NAME_LENGTH})}</Text>
                         </ModalOverlay>
                         <ModalOverlay
-                            isVisible={this.state.showPasswordTooltip}
+                            isVisible={showPasswordTooltip}
                             onBackdropPress={()=> {
                                 this.setState({
-                                    showPasswordTooltip: !this.state.showPasswordTooltip
+                                    showPasswordTooltip: !showPasswordTooltip
                                 })
                             }}>
                             <Text style={{fontSize: 16}}>{i18nService.t('validation_message.password_requirements', {symbols: CommonConstant.MIN_PASSWORD_LENGTH})}</Text>

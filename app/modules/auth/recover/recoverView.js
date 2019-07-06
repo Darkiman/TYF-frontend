@@ -72,6 +72,7 @@ export default class RecoverView extends Component {
     };
 
     render() {
+        const {isLoading, emailValid, done} = this.state;
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
@@ -83,22 +84,22 @@ export default class RecoverView extends Component {
                         <View style={{width: '90%'}}>
                             <TextInput name={'email'}
                                        placeholder={i18nService.t('email')}
-                                       disabled={this.state.isLoading}
+                                       disabled={isLoading}
                                        icon={'mail'}
                                        value={this.state.recover.email}
                                        maxLength={CommonConstant.MAX_EMAIL_LENGTH}
-                                       valid={this.state.emailValid}
+                                       valid={emailValid}
                                        onChangeText={this.handleEmailChange}
                             />
                         </View>
                         <View style={{width: '90%'}}>
                             <LargeButton
-                                title={this.state.done ? i18nService.t('go_to_login') : i18nService.t('recover_password')}
+                                title={done ? i18nService.t('go_to_login') : i18nService.t('recover_password')}
                                 buttonStyle={{marginTop: 20}}
-                                loading={this.state.isLoading}
-                                disabled={!this.state.emailValid}
+                                loading={isLoading}
+                                disabled={!emailValid}
                                 onPress={async () => {
-                                    if (!this.state.done && !this.state.isLoading) {
+                                    if (!done && !isLoading) {
                                         this.setState({
                                             isLoading: true
                                         });
