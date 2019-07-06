@@ -36,7 +36,7 @@ const AuthStack = createStackNavigator({
         screen: languageContainer,
         navigationOptions: () => ({
             title: i18nService.t('navigation.language'),
-            headerBackTitle: i18nService.t('navigation.back'),
+            headerBackTitle: ' ',
         })
     },
 });
