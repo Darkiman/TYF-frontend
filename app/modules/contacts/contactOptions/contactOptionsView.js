@@ -107,8 +107,9 @@ export default class ContactOptionsView extends Component {
         this.contactId = this.props.navigation.getParam('id');
         console.log(this.data);
         this.state = {
-            enableNotifications: this.data && this.data.notificationOptions ? this.data.notificationOptions.enableNotifications : false,
-            distance: this.data && this.data.notificationOptions ? this.data.notificationOptions.distance : 'false',
+            dontShowPosition: this.data && this.data.options ? this.data.options.dontShowPosition : false,
+            enableNotifications: this.data && this.data.options ? this.data.options.enableNotifications : false,
+            distance: this.data && this.data.options ? this.data.options.distance : '',
             showDistanceTooltip: false,
             changed: false
         };
@@ -123,6 +124,13 @@ export default class ContactOptionsView extends Component {
 
     back = () => {
         this.props.navigation.navigate(NavigationRoutes.CONTACTS);
+    };
+
+    handlePositionOptionChange = (value) => {
+        this.setState({
+            dontShowPosition: value,
+            changed: true
+        });
     };
 
     onNotificationChange = async (value) => {
@@ -159,9 +167,8 @@ export default class ContactOptionsView extends Component {
 
     save = async () => {
         try {
-            const {enableNotifications, distance} = this.state;
-            console.log(this.props.saveContactOptions);
-            const result = await this.props.saveContactOptions(this.user.id, this.contactId,enableNotifications, distance);
+            const {dontShowPosition, enableNotifications, distance} = this.state;
+            const result = await this.props.saveContactOptions(this.user.id, this.contactId, dontShowPosition, enableNotifications, distance);
             if (result.error) {
                 const errorText = i18nService.t(`validation_message.${result.message}`);
                 messageService.showError(this.refs.flashMessage, errorText);
@@ -178,7 +185,7 @@ export default class ContactOptionsView extends Component {
             isLoading,
             error,
         } = this.props;
-        const {enableNotifications, distance, showDistanceTooltip, changed} = this.state;
+        const {dontShowPosition, enableNotifications, distance, showDistanceTooltip, changed} = this.state;
         const avatar = this.data && this.data.avatar ? `${apiConfig.static}avatars/${this.data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
         const name = this.data && this.data.name[0];
         return (
@@ -210,6 +217,16 @@ export default class ContactOptionsView extends Component {
                         />
                     </View>
                     <View style={{...styles.mainView, ...styles.container}}>
+                        <ListItem
+                            containerStyle={styles.switchContainer}
+                            titleStyle={styles.switchTitle}
+                            title={i18nService.t('dont_show_position_on_map_for_this_contact')}
+                            switch={{
+                                onValueChange: this.handlePositionOptionChange,
+                                value: dontShowPosition
+                            }}
+                        >
+                        </ListItem>
                         <ListItem
                             containerStyle={styles.switchContainer}
                             titleStyle={styles.switchTitle}

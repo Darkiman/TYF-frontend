@@ -1,5 +1,6 @@
 import networkService from "../../../utils/networkService";
 import ax from "../../../utils/axios";
+import {CHANGE_CONTACT_OPTIONS} from '../contactsState';
 
 const initialState = {
   data: {},
@@ -13,7 +14,7 @@ export const SAVE_OPTIONS_LOADING = 'contactOptions/SAVE_OPTIONS_LOADING';
 export const SAVE_OPTIONS_ERROR = 'contactOptions/SAVE_OPTIONS_ERROR';
 
 
-export const saveContactOptions = (id, contactId, enableNotifications, distance) => {
+export const saveContactOptions = (id, contactId, dontShowPosition, enableNotifications, distance) => {
   return dispatch => {
     if(!networkService.isConnected) {
       dispatch({
@@ -28,6 +29,7 @@ export const saveContactOptions = (id, contactId, enableNotifications, distance)
     const data = {
       id: id,
       contactId: contactId,
+      dontShowPosition: dontShowPosition,
       enableNotifications: enableNotifications,
       distance: distance
     };
@@ -40,6 +42,13 @@ export const saveContactOptions = (id, contactId, enableNotifications, distance)
           dispatch({
             type: SAVE_OPTIONS_SUCCESS,
             payload: data
+          });
+          dispatch({
+            type: CHANGE_CONTACT_OPTIONS,
+            payload: {
+              id: contactId,
+              data: data
+            }
           });
           return result;
         }).catch(error => {

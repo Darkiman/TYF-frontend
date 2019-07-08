@@ -133,9 +133,9 @@ export default class ContactsView extends Component {
                     result.push(contact);
                 }
             }
-            return result
+            return result;
         } else {
-            return contacts ? contacts : [];
+            return contacts ? contacts.slice() : [];
         }
     }
 
@@ -152,7 +152,7 @@ export default class ContactsView extends Component {
             } else {
                 this.setState({
                     contacts: result.source.contacts.slice(),
-                    contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts).slice(),
+                    contactsToShow: this.getContactsToShow(this.state.search, result.source.contacts),
                     refreshing: false
                 });
             }
@@ -174,6 +174,7 @@ export default class ContactsView extends Component {
             addContact
         } = this.props;
         const {loading, search, refreshing} = this.state;
+        const contactsToShow = this.getContactsToShow(search, contacts);
         return (
             <LinearGradient style={{...sharedStyles.safeView}}
                             start={sharedStyles.headerGradient.start}
@@ -185,7 +186,6 @@ export default class ContactsView extends Component {
                             onWillFocus={payload => {
                                 this.setState({
                                     contacts: this.props.contacts,
-                                    contactsToShow: this.getContactsToShow(search, this.props.contacts).slice()
                                 })
                             }}
                         />
@@ -205,7 +205,6 @@ export default class ContactsView extends Component {
                                           this.props.navigation.navigate(NavigationRoutes.SEARCH_CONTACTS);
                                           setTimeout(() => {
                                               this.setState({
-                                                  contactsToShow: this.state.contacts.slice(),
                                                   search: ''
                                               });
                                           }, 500)
@@ -234,7 +233,7 @@ export default class ContactsView extends Component {
                                     <ActivityIndicator/>
                                 </View> : (contacts && contacts.length ?
                                     <ContactsList contacts={contacts}
-                                                  contactsToShow={this.state.contactsToShow}
+                                                  contactsToShow={contactsToShow}
                                                   onItemPress={(id, data) => {
                                                       this.props.navigation.navigate(NavigationRoutes.CONTACT_OPTIONS, {id: id , data: data});
                                                   }}

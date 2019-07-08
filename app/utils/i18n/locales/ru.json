@@ -36,7 +36,7 @@
   "cancel": "Отменить",
   "search" : "Поиск",
   "refresh": "Refresh",
-  "save_changes": "Сохрнаить",
+  "save_changes": "Сохранить",
   "save": "Сохранить",
   "search_contacts": "Поиск контактов",
   "start_tracking": "Запустить",
@@ -75,6 +75,7 @@
   "accept": "Принять",
   "terms_of_use": "Правила использования",
   "notifications_disabled_to_this_app": "Уведомления выключены для этого приложения. Чтобы увидеть уведомления включите их в настройках",
+  "dont_show_position_on_map_for_this_contact": "Не показывать позицию на карте для этого контакта",
   "validation_message": {
     "internet_connection_not_available": "Интернет недоступен",
     "email_is_not_valid": "Email недействительный",

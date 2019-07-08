@@ -22,6 +22,8 @@ export const ADD_CONTACT_SUCCESS = 'contracts/ADD_CONTACT_SUCCESS';
 export const ADD_CONTACT_LOADING = 'contracts/ADD_CONTACT_LOADING';
 export const ADD_CONTACT_ERROR = 'contracts/ADD_CONTACT_ERROR';
 
+export const CHANGE_CONTACT_OPTIONS = 'contracts/CHANGE_CONTACT_OPTIONS';
+
 export const getContacts = (id) => {
   return dispatch => {
     if(!networkService.isConnected) {
@@ -212,6 +214,17 @@ const contactsState = (state: Object = initialState, action: Object) => {
       return {
         isLoading: false,
         error: true,
+        data: action.payload,
+        contacts: state.contacts
+      };
+    case CHANGE_CONTACT_OPTIONS:
+      let contact = state.contacts.find(item => item.key === action.payload.id);
+      if(contact) {
+        contact.data.options = action.payload.data.options;
+      }
+      return {
+        isLoading: false,
+        error: false,
         data: action.payload,
         contacts: state.contacts
       };
