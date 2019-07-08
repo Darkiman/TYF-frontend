@@ -1,5 +1,15 @@
 import React, {Component} from "react";
-import { Overlay} from 'react-native-elements';
+import Modal from "react-native-modal";
+import {View} from "react-native";
+
+
+const styles = {
+    container: {
+        backgroundColor: 'white',
+        padding: 16,
+        borderRadius: 4
+    }
+};
 
 export default class ModalOverlay extends Component {
     constructor(props) {
@@ -9,6 +19,7 @@ export default class ModalOverlay extends Component {
     render() {
         const {
             isVisible,
+            containerStyle,
             onBackdropPress,
             windowBackgroundColor,
             overlayBackgroundColor,
@@ -16,15 +27,21 @@ export default class ModalOverlay extends Component {
             height,
         } = this.props;
         return (
-            <Overlay
+            <Modal
                 isVisible={isVisible}
                 onBackdropPress={onBackdropPress}
-                windowBackgroundColor={windowBackgroundColor ? windowBackgroundColor : "rgba(0, 0, 0, 0.35)"}
-                overlayBackgroundColor={overlayBackgroundColor ? overlayBackgroundColor : "#ffffff"}
-                width={width ? width : '90%'}
-                height={height ? height : 'auto'}>
-              {this.props.children}
-            </Overlay>
+                swipeDirection={['left', 'right']}
+                animationIn="slideInLeft"
+                animationOut="slideOutRight"
+                onSwipeComplete={onBackdropPress}
+                backdropColor={windowBackgroundColor ? windowBackgroundColor : "rgba(0, 0, 0, 0.35)"}
+                // width={width ? width : '90%'}
+                // height={height ? height : 'auto'}
+            >
+               <View style={{...styles.container, ...containerStyle}}>
+                   {this.props.children}
+               </View>
+            </Modal>
         );
     }
 }
