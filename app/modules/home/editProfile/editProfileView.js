@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView
+    View, SafeAreaView, KeyboardAvoidingView
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import userService from "../../../utils/userService";
@@ -118,102 +118,104 @@ export default class EditProfileView extends Component {
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={sharedStyles.safeView}>
-                    <NavigationBack onPress={() => {
-                        this.back();
-                    }}/>
-                    {
-                        this.state.initialized ?
-                            <View style={sharedStyles.centredColumn}>
-                                <NavigationEvents
-                                    onWillFocus={payload => {
-                                        this.forceUpdate();
-                                    }}
-                                />
-                                <View style={styles.view}>
-                                    <ProfileImage ref={(ref) => this.profileImageRef = ref}
-                                                  style={styles.avatar}
-                                                  user={this.user}
-                                                  editable={true}
-                                                  stateChanged={(value) => {
-                                                      this.setState({
-                                                          imageLoading: value
-                                                      })
-                                                  }}
-                                                  showError={(text) => {
-                                                      messageService.showError(this.refs.flashMessage, text);
-                                                  }}>
-                                    </ProfileImage>
-                                    <TextInput name={'name'}
-                                               placeholder={i18nService.t('name')}
-                                               disabled={isLoading || !nameValid || !nameChanged}
-                                               icon={'contact'}
-                                               value={name}
-                                               maxLength={CommonConstant.MAX_NAME_LENGTH}
-                                               onChangeText={this.handleNameChange}
-                                               rightIcon={
-                                                   <Icon
-                                                       type={IconsType.Ionicon}
-                                                       name={`${this.iconPrefix}-${'help-circle-outline'}`}
-                                                       size={24}
-                                                       color={'white'}
-                                                       underlayColor={'transparent'}
-                                                       onPress={() => {
-                                                           this.setState({
-                                                               showNameTooltip: !showNameTooltip
-                                                           })
-                                                       }}
-                                                   />
-                                               }
+                    <KeyboardAvoidingView style={sharedStyles.safeView} behavior="padding" enabled>
+                        <NavigationBack onPress={() => {
+                            this.back();
+                        }}/>
+                        {
+                            this.state.initialized ?
+                                <View style={sharedStyles.centredColumn}>
+                                    <NavigationEvents
+                                        onWillFocus={payload => {
+                                            this.forceUpdate();
+                                        }}
                                     />
-                                    {
-                                        changePassword ? <TextInput name={'password'}
-                                                                    placeholder={i18nService.t('new_password')}
-                                                                    disabled={isLoading}
-                                                                    icon={'lock'}
-                                                                    secureTextEntry={true}
-                                                                    value={this.state.password}
-                                                                    maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
-                                                                    onChangeText={this.handlePasswordChange}
-                                                                    rightIcon={
-                                                                        <Icon
-                                                                            type={IconsType.Ionicon}
-                                                                            name={`${this.iconPrefix}-${'help-circle-outline'}`}
-                                                                            size={24}
-                                                                            color={'white'}
-                                                                            underlayColor={'transparent'}
-                                                                            onPress={() => {
-                                                                                this.setState({
-                                                                                    showPasswordTooltip: !this.state.showPasswordTooltip
-                                                                                })
-                                                                            }}
-                                                                        />
-                                                                    }/> :
-                                            <View style={{width: '100%', height: 53, alignItems: 'center'}}>
-                                                <LargeButton type={'clear'}
-                                                             buttonStyle={{width: 280}}
-                                                             title={i18nService.t('type_here_to_change_password')}
-                                                             onPress={() => {
-                                                                 this.setState({
-                                                                     changePassword: true
-                                                                 })
-                                                             }}
-                                                />
-                                            </View>
-                                    }
-                                    <View style={{width: '100%', height: 50}}>
-                                        <LargeButton title={i18nService.t('save_changes')}
-                                                     disabled={isLoading || imageLoading || !nameValid || !passwordValid}
-                                                     loading={isLoading}
-                                                     buttonStyle={{
-                                                         marginTop: 72,
-                                                         marginBottom: 20,
-                                                     }}
-                                                     onPress={this.saveChanges}
+                                    <View style={styles.view}>
+                                        <ProfileImage ref={(ref) => this.profileImageRef = ref}
+                                                      style={styles.avatar}
+                                                      user={this.user}
+                                                      editable={true}
+                                                      stateChanged={(value) => {
+                                                          this.setState({
+                                                              imageLoading: value
+                                                          })
+                                                      }}
+                                                      showError={(text) => {
+                                                          messageService.showError(this.refs.flashMessage, text);
+                                                      }}>
+                                        </ProfileImage>
+                                        <TextInput name={'name'}
+                                                   placeholder={i18nService.t('name')}
+                                                   disabled={isLoading || !nameValid || !nameChanged}
+                                                   icon={'contact'}
+                                                   value={name}
+                                                   maxLength={CommonConstant.MAX_NAME_LENGTH}
+                                                   onChangeText={this.handleNameChange}
+                                                   rightIcon={
+                                                       <Icon
+                                                           type={IconsType.Ionicon}
+                                                           name={`${this.iconPrefix}-${'help-circle-outline'}`}
+                                                           size={24}
+                                                           color={'white'}
+                                                           underlayColor={'transparent'}
+                                                           onPress={() => {
+                                                               this.setState({
+                                                                   showNameTooltip: !showNameTooltip
+                                                               })
+                                                           }}
+                                                       />
+                                                   }
                                         />
+                                        {
+                                            changePassword ? <TextInput name={'password'}
+                                                                        placeholder={i18nService.t('new_password')}
+                                                                        disabled={isLoading}
+                                                                        icon={'lock'}
+                                                                        secureTextEntry={true}
+                                                                        value={this.state.password}
+                                                                        maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
+                                                                        onChangeText={this.handlePasswordChange}
+                                                                        rightIcon={
+                                                                            <Icon
+                                                                                type={IconsType.Ionicon}
+                                                                                name={`${this.iconPrefix}-${'help-circle-outline'}`}
+                                                                                size={24}
+                                                                                color={'white'}
+                                                                                underlayColor={'transparent'}
+                                                                                onPress={() => {
+                                                                                    this.setState({
+                                                                                        showPasswordTooltip: !this.state.showPasswordTooltip
+                                                                                    })
+                                                                                }}
+                                                                            />
+                                                                        }/> :
+                                                <View style={{width: '100%', height: 53, alignItems: 'center'}}>
+                                                    <LargeButton type={'clear'}
+                                                                 buttonStyle={{width: 280}}
+                                                                 title={i18nService.t('type_here_to_change_password')}
+                                                                 onPress={() => {
+                                                                     this.setState({
+                                                                         changePassword: true
+                                                                     })
+                                                                 }}
+                                                    />
+                                                </View>
+                                        }
+                                        <View style={{width: '100%', height: 50}}>
+                                            <LargeButton title={i18nService.t('save_changes')}
+                                                         disabled={isLoading || imageLoading || !nameValid || !passwordValid}
+                                                         loading={isLoading}
+                                                         buttonStyle={{
+                                                             marginTop: 72,
+                                                             marginBottom: 20,
+                                                         }}
+                                                         onPress={this.saveChanges}
+                                            />
+                                        </View>
                                     </View>
-                                </View>
-                            </View> : null
-                    }
+                                </View> : null
+                        }
+                    </KeyboardAvoidingView>
                     <ModalOverlay
                         isVisible={showNameTooltip}
                         onBackdropPress={() => {

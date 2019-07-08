@@ -3,7 +3,8 @@ import {
     View,
     SafeAreaView,
     Alert,
-    Platform
+    Platform,
+    KeyboardAvoidingView
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import i18nService from "../../../utils/i18n/i18nService";
@@ -110,101 +111,103 @@ export default class LoginView extends Component {
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={sharedStyles.safeView}>
-                    <NavigationBack onPress={() => {
-                        this.back();
-                    }}/>
-                    <View style={sharedStyles.centredColumn}>
-                        <View style={{width: '90%'}}>
-                            <TextInput name={'email'}
-                                       placeholder={i18nService.t('email')}
-                                       disabled={isLoading || user}
-                                       icon={'mail'}
-                                       value={email}
-                                       keyboardType={'email-address'}
-                                       maxLength={CommonConstant.MAX_EMAIL_LENGTH}
-                                       valid={emailValid}
-                                       onChangeText={this.handleEmailChange}
-                            />
-                            <TextInput name={'password'}
-                                       placeholder={i18nService.t('password')}
-                                       disabled={isLoading || user}
-                                       icon={'lock'}
-                                       secureTextEntry={true}
-                                       value={password}
-                                       maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
-                                       valid={passwordValid}
-                                       onChangeText={this.handlePasswordChange}
-                            />
-                        </View>
-                        <View style={{width: '90%', alignItems: 'center'}}>
-                            <LargeButton title={i18nService.t('login')}
-                                         buttonStyle={{marginTop: 20}}
-                                         loading={isLoading || user}
-                                         disabled={!emailValid || !passwordValid}
-                                         onPress={async () => {
-                                             const currentPassword = this.state.login.password;
-                                             const currentLocale = i18nService.getCurrentLocale();
-                                             ax.defaults.headers.common['Authorization'] = ``;
-                                             const result = await login({
-                                                 ...this.state.login,
-                                                 notificationToken: this.notificationToken,
-                                                 language: currentLocale
-                                             });
-                                             if (result.error) {
-                                                 const errorText = i18nService.t(`validation_message.${result.message}`);
-                                                 messageService.showError(this.refs.flashMessage, errorText);
-                                             } else {
-                                                 const user = {
-                                                     id: result.source[0].key,
-                                                     email: result.source[0].data.email,
-                                                     name: result.source[0].data.name[0],
-                                                     password: currentPassword,
-                                                     token: result.source[0].data.token,
-                                                     tracking: false,
-                                                     avatar: result.source[0].data.avatar,
-                                                     language: currentLocale,
-                                                     verified: result.source[0].data.verified,
-                                                     confidentiality: {
-                                                         showPositionOnMap: true,
-                                                         showPositionOnlyToContacts: true,
-                                                         accepted: false
-                                                     }
-                                                 };
-                                                 if(!user.verified) {
-                                                     Alert.alert(
-                                                         i18nService.t('email_not_verified'),
-                                                         i18nService.t('verify_your_email'),
-                                                         [
-                                                             {
-                                                                 text: i18nService.t('resent_verification_email'),
-                                                                 onPress: () => {
-                                                                    this.resentEmailVerification(user);
-                                                                 }},
-                                                             {
-                                                                 text: i18nService.t('cancel'),
-                                                                 onPress: () => {
-
-                                                                 }
-                                                             }
-                                                         ],
-                                                         {cancelable: true},
-                                                     );
+                    <KeyboardAvoidingView style={sharedStyles.safeView} behavior="padding" enabled>
+                        <NavigationBack onPress={() => {
+                            this.back();
+                        }}/>
+                        <View style={sharedStyles.centredColumn}>
+                            <View style={{width: '90%'}}>
+                                <TextInput name={'email'}
+                                           placeholder={i18nService.t('email')}
+                                           disabled={isLoading || user}
+                                           icon={'mail'}
+                                           value={email}
+                                           keyboardType={'email-address'}
+                                           maxLength={CommonConstant.MAX_EMAIL_LENGTH}
+                                           valid={emailValid}
+                                           onChangeText={this.handleEmailChange}
+                                />
+                                <TextInput name={'password'}
+                                           placeholder={i18nService.t('password')}
+                                           disabled={isLoading || user}
+                                           icon={'lock'}
+                                           secureTextEntry={true}
+                                           value={password}
+                                           maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
+                                           valid={passwordValid}
+                                           onChangeText={this.handlePasswordChange}
+                                />
+                            </View>
+                            <View style={{width: '90%', alignItems: 'center'}}>
+                                <LargeButton title={i18nService.t('login')}
+                                             buttonStyle={{marginTop: 20}}
+                                             loading={isLoading || user}
+                                             disabled={!emailValid || !passwordValid}
+                                             onPress={async () => {
+                                                 const currentPassword = this.state.login.password;
+                                                 const currentLocale = i18nService.getCurrentLocale();
+                                                 ax.defaults.headers.common['Authorization'] = ``;
+                                                 const result = await login({
+                                                     ...this.state.login,
+                                                     notificationToken: this.notificationToken,
+                                                     language: currentLocale
+                                                 });
+                                                 if (result.error) {
+                                                     const errorText = i18nService.t(`validation_message.${result.message}`);
+                                                     messageService.showError(this.refs.flashMessage, errorText);
                                                  } else {
-                                                     userService.setUser(user);
-                                                     this.props.navigation.navigate(NavigationRoutes.HOME);
+                                                     const user = {
+                                                         id: result.source[0].key,
+                                                         email: result.source[0].data.email,
+                                                         name: result.source[0].data.name[0],
+                                                         password: currentPassword,
+                                                         token: result.source[0].data.token,
+                                                         tracking: false,
+                                                         avatar: result.source[0].data.avatar,
+                                                         language: currentLocale,
+                                                         verified: result.source[0].data.verified,
+                                                         confidentiality: {
+                                                             showPositionOnMap: true,
+                                                             showPositionOnlyToContacts: true,
+                                                             accepted: false
+                                                         }
+                                                     };
+                                                     if(!user.verified) {
+                                                         Alert.alert(
+                                                             i18nService.t('email_not_verified'),
+                                                             i18nService.t('verify_your_email'),
+                                                             [
+                                                                 {
+                                                                     text: i18nService.t('resent_verification_email'),
+                                                                     onPress: () => {
+                                                                         this.resentEmailVerification(user);
+                                                                     }},
+                                                                 {
+                                                                     text: i18nService.t('cancel'),
+                                                                     onPress: () => {
+
+                                                                     }
+                                                                 }
+                                                             ],
+                                                             {cancelable: true},
+                                                         );
+                                                     } else {
+                                                         userService.setUser(user);
+                                                         this.props.navigation.navigate(NavigationRoutes.HOME);
+                                                     }
                                                  }
-                                             }
-                                         }}
-                            />
-                            <LargeButton type={'clear'}
-                                         buttonStyle={{width: 200, marginTop: 40}}
-                                         title={i18nService.t('forgot_password')}
-                                         onPress={() => {
-                                             this.props.navigation.navigate(NavigationRoutes.AUTH_RECOVER)
-                                         }}
-                            />
+                                             }}
+                                />
+                                <LargeButton type={'clear'}
+                                             buttonStyle={{width: 200, marginTop: 40}}
+                                             title={i18nService.t('forgot_password')}
+                                             onPress={() => {
+                                                 this.props.navigation.navigate(NavigationRoutes.AUTH_RECOVER)
+                                             }}
+                                />
+                            </View>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                     <FlashMessage position="top" ref={'flashMessage'}/>
                 </SafeAreaView>
             </LinearGradient>

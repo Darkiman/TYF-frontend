@@ -31,7 +31,7 @@ export const saveContactOptions = (id, contactId, enableNotifications, distance)
       enableNotifications: enableNotifications,
       distance: distance
     };
-    return ax.post(`contacts/contactOptions`, data)
+    return ax.post(`contacts/saveOptions`, data)
         .then(({data}) => {
           const result = {
             source: data,

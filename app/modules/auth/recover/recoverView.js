@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
     View,
-    SafeAreaView
+    SafeAreaView, KeyboardAvoidingView
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import i18nService from "../../../utils/i18n/i18nService";
@@ -77,54 +77,56 @@ export default class RecoverView extends Component {
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={sharedStyles.safeView}>
-                    <NavigationBack onPress={() => {
-                        this.back();
-                    }}/>
-                    <View style={sharedStyles.centredColumn}>
-                        <View style={{width: '90%'}}>
-                            <TextInput name={'email'}
-                                       placeholder={i18nService.t('email')}
-                                       disabled={isLoading}
-                                       icon={'mail'}
-                                       value={this.state.recover.email}
-                                       maxLength={CommonConstant.MAX_EMAIL_LENGTH}
-                                       valid={emailValid}
-                                       onChangeText={this.handleEmailChange}
-                            />
-                        </View>
-                        <View style={{width: '90%'}}>
-                            <LargeButton
-                                title={done ? i18nService.t('go_to_login') : i18nService.t('recover_password')}
-                                buttonStyle={{marginTop: 20}}
-                                loading={isLoading}
-                                disabled={!emailValid}
-                                onPress={async () => {
-                                    if (!done && !isLoading) {
-                                        this.setState({
-                                            isLoading: true
-                                        });
-                                        const result = await this.recoverPassword(this.state.recover);
-                                        if (result.error) {
-                                            const errorText = i18nService.t(`validation_message.${result.message}`);
+                    <KeyboardAvoidingView style={sharedStyles.safeView} behavior="padding" enabled>
+                        <NavigationBack onPress={() => {
+                            this.back();
+                        }}/>
+                        <View style={sharedStyles.centredColumn}>
+                            <View style={{width: '90%'}}>
+                                <TextInput name={'email'}
+                                           placeholder={i18nService.t('email')}
+                                           disabled={isLoading}
+                                           icon={'mail'}
+                                           value={this.state.recover.email}
+                                           maxLength={CommonConstant.MAX_EMAIL_LENGTH}
+                                           valid={emailValid}
+                                           onChangeText={this.handleEmailChange}
+                                />
+                            </View>
+                            <View style={{width: '90%'}}>
+                                <LargeButton
+                                    title={done ? i18nService.t('go_to_login') : i18nService.t('recover_password')}
+                                    buttonStyle={{marginTop: 20}}
+                                    loading={isLoading}
+                                    disabled={!emailValid}
+                                    onPress={async () => {
+                                        if (!done && !isLoading) {
                                             this.setState({
-                                                isLoading: false
+                                                isLoading: true
                                             });
-                                            messageService.showError(this.refs.flashMessage, errorText);
+                                            const result = await this.recoverPassword(this.state.recover);
+                                            if (result.error) {
+                                                const errorText = i18nService.t(`validation_message.${result.message}`);
+                                                this.setState({
+                                                    isLoading: false
+                                                });
+                                                messageService.showError(this.refs.flashMessage, errorText);
+                                            } else {
+                                                // userService.setUser(result.source[0].key, result.source[0].data.email, password, result.source[0].data.token, result.source[0].data.contacts);
+                                                this.setState({
+                                                    isLoading: false,
+                                                    done: true
+                                                });
+                                                messageService.showInfo(this.refs.flashMessage, i18nService.t(`new_password_sent_to_your_email`));
+                                            }
                                         } else {
-                                            // userService.setUser(result.source[0].key, result.source[0].data.email, password, result.source[0].data.token, result.source[0].data.contacts);
-                                            this.setState({
-                                                isLoading: false,
-                                                done: true
-                                            });
-                                            messageService.showInfo(this.refs.flashMessage, i18nService.t(`new_password_sent_to_your_email`));
+                                            this.props.navigation.goBack();
                                         }
-                                    } else {
-                                        this.props.navigation.goBack();
-                                    }
-                                }}
-                            />
+                                    }}
+                                />
+                            </View>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                     <FlashMessage position="top" ref={'flashMessage'}/>
                 </SafeAreaView>
             </LinearGradient>

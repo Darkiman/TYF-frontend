@@ -103,15 +103,16 @@ export default class ContactOptionsView extends Component {
         super(props);
         this.iconPrefix = iconsService.getIconPrefix();
 
+        this.data = this.props.navigation.getParam('data');
+        this.contactId = this.props.navigation.getParam('id');
+        console.log(this.data);
         this.state = {
-            enableNotifications: false,
-            distance: '',
+            enableNotifications: this.data && this.data.notificationOptions ? this.data.notificationOptions.enableNotifications : false,
+            distance: this.data && this.data.notificationOptions ? this.data.notificationOptions.distance : 'false',
             showDistanceTooltip: false,
             changed: false
         };
 
-        this.data = this.props.navigation.getParam('data');
-        this.contactId = this.props.navigation.getParam('id');
     }
 
     componentDidMount() {
