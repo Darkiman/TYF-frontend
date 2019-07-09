@@ -132,6 +132,7 @@ export default class SignupView extends Component {
                                            disabled={isLoading || user}
                                            icon={'mail'}
                                            value={email}
+                                           textContentType={'username'}
                                            maxLength={CommonConstant.MAX_EMAIL_LENGTH}
                                            keyboardType={'email-address'}
                                            valid={emailValid}
@@ -164,6 +165,7 @@ export default class SignupView extends Component {
                                 <TextInput ref={(ref) => this.passwordRef = ref}
                                            name={'password'}
                                            placeholder={i18nService.t('password')}
+                                           textContentType={'password'}
                                            disabled={isLoading || user}
                                            icon={'lock'}
                                            secureTextEntry={true}

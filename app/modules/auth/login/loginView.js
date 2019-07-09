@@ -123,6 +123,7 @@ export default class LoginView extends Component {
                                            icon={'mail'}
                                            value={email}
                                            keyboardType={'email-address'}
+                                           textContentType={'username'}
                                            maxLength={CommonConstant.MAX_EMAIL_LENGTH}
                                            valid={emailValid}
                                            onChangeText={this.handleEmailChange}
@@ -133,6 +134,7 @@ export default class LoginView extends Component {
                                            icon={'lock'}
                                            secureTextEntry={true}
                                            value={password}
+                                           textContentType={'password'}
                                            maxLength={CommonConstant.MAX_PASSWORD_LENGTH}
                                            valid={passwordValid}
                                            onChangeText={this.handlePasswordChange}

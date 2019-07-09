@@ -1,6 +1,5 @@
 import i18n from 'i18n-js';
 import DeviceInfo from 'react-native-device-info';
-
 import en from './locales/en.json';
 import ru from './locales/ru.json';
 import Languages from "../../constants/Languages";

@@ -35,6 +35,7 @@ export default class TextInput extends Component {
             rightIcon,
             rightIconContainerStyle,
             valid,
+            textContentType,
             maxLength,
             keyboardType,
             type,
@@ -62,6 +63,7 @@ export default class TextInput extends Component {
                    placeholderTextColor={placeHolderTextColorValue}
                    containerStyle={containerStyleValue}
                    inputContainerStyle={inputContainerStyleValue}
+                   textContentType={textContentType}
                    leftIconContainerStyle={{...textInputStyle.leftIconContainerStyle, ...iconContainerStyle}}
                    leftIcon={<Icon type={IconsType.Ionicon}
                                    name={`${this.iconPrefix}-${icon}`}

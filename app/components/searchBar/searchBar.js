@@ -30,6 +30,7 @@ export default class CustomSearchBar extends Component {
                 containerStyle={searchBarStyle.searchBarContainer}
                 inputContainerStyle={searchBarStyle.searchBarInput}
                 placeholderTextColor={'white'}
+                textContentType={'none'}
                 maxLength={maxLength ? maxLength : CommonConstant.MAX_NAME_LENGTH}
                 searchIcon={
                     <Icon type={IconsType.Ionicon}
