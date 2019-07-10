@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {
     View,
-    SafeAreaView, KeyboardAvoidingView
+    SafeAreaView,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import i18nService from "../../../utils/i18n/i18nService";
@@ -77,7 +79,7 @@ export default class RecoverView extends Component {
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={sharedStyles.safeView}>
-                    <KeyboardAvoidingView style={sharedStyles.safeView} behavior="padding" enabled>
+                    <KeyboardAvoidingView style={sharedStyles.safeView} behavior={(Platform.OS === 'ios') ? 'padding' : null} enabled>
                         <NavigationBack onPress={() => {
                             this.back();
                         }}/>

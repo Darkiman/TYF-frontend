@@ -111,7 +111,7 @@ export default class LoginView extends Component {
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={sharedStyles.safeView}>
-                    <KeyboardAvoidingView style={sharedStyles.safeView} behavior="padding" enabled>
+                    <KeyboardAvoidingView style={sharedStyles.safeView} behavior={(Platform.OS === 'ios') ? 'padding' : null} enabled>
                         <NavigationBack onPress={() => {
                             this.back();
                         }}/>

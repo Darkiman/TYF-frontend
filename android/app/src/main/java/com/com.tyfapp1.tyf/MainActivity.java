@@ -1,4 +1,4 @@
-package com.tyfapp.tyf;
+package com.tyfapp1.tyf;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle; // here

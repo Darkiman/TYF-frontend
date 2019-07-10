@@ -1,4 +1,4 @@
-package com.tyfapp.tyf;
+package com.tyfapp1.tyf;
 
 import android.app.Application;
 import android.support.multidex.MultiDex;

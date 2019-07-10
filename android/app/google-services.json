@@ -8,42 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:464830932288:android:17938f3df5fbd909",
-        "android_client_info": {
-          "package_name": "com.tyf"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "464830932288-dgt9558c1ru4mcq977oqkt52v57afhpj.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC24eBQIZkCRbFf0RbZ4j_SvdWH_OLCnjk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "464830932288-dgt9558c1ru4mcq977oqkt52v57afhpj.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "464830932288-b4ldr9590un1k4s9krs71s3tnulrjmmu.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.typ-app.tyf"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:464830932288:android:32a8c3c65cde8a1b",
         "android_client_info": {
           "package_name": "com.tyfapp.tyf"
@@ -68,10 +32,54 @@
               "client_type": 3
             },
             {
-              "client_id": "464830932288-b4ldr9590un1k4s9krs71s3tnulrjmmu.apps.googleusercontent.com",
+              "client_id": "464830932288-fpgp38mrncjm7ooii24bkc9lruse3n0t.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.typ-app.tyf"
+                "bundle_id": "com.tyf-app.tyf"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464830932288:android:7bf03aa515e442f4",
+        "android_client_info": {
+          "package_name": "com.tyfapp1.tyf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464830932288-j2mjrugbbl7r3pa1aam9ol5p516cah64.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tyfapp1.tyf",
+            "certificate_hash": "dd9cc75f5a61b65d688065abfc78a151c4fdd62c"
+          }
+        },
+        {
+          "client_id": "464830932288-dgt9558c1ru4mcq977oqkt52v57afhpj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC24eBQIZkCRbFf0RbZ4j_SvdWH_OLCnjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464830932288-dgt9558c1ru4mcq977oqkt52v57afhpj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "464830932288-fpgp38mrncjm7ooii24bkc9lruse3n0t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tyf-app.tyf"
               }
             }
           ]

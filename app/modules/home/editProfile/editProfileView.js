@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView, KeyboardAvoidingView
+    View,
+    SafeAreaView,
+    KeyboardAvoidingView,
+    Platform
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import userService from "../../../utils/userService";
@@ -85,15 +88,15 @@ export default class EditProfileView extends Component {
         const {name, password} = this.state;
         try {
             const result = await changeInfo(this.user.id, this.profileImageRef.state.response, name, password, i18nService.getCurrentLocale());
-            if(result.error) {
+            if (result.error) {
                 const errorText = i18nService.t(`validation_message.${result.message}`);
                 messageService.showError(this.refs.flashMessage, errorText);
             } else {
-                let updatedUser = {...this.user, ... result.source.user.data};
+                let updatedUser = {...this.user, ...result.source.user.data};
                 updatedUser.name = updatedUser.name[0];
                 await userService.setUser(updatedUser);
                 const update = this.props.navigation.getParam('update');
-                if(update) {
+                if (update) {
                     update();
                 }
                 this.back();
@@ -118,7 +121,8 @@ export default class EditProfileView extends Component {
             <LinearGradient style={{...sharedStyles.safeView}}
                             colors={[sharedStyles.gradient.start, sharedStyles.gradient.end]}>
                 <SafeAreaView style={sharedStyles.safeView}>
-                    <KeyboardAvoidingView style={sharedStyles.safeView} behavior="padding" enabled>
+                    <KeyboardAvoidingView style={sharedStyles.safeView}
+                                          behavior={(Platform.OS === 'ios') ? 'padding' : null} enabled>
                         <NavigationBack onPress={() => {
                             this.back();
                         }}/>
