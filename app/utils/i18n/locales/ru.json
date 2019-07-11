@@ -76,6 +76,9 @@
   "terms_of_use": "Правила использования",
   "notifications_disabled_to_this_app": "Уведомления выключены для этого приложения. Чтобы увидеть уведомления включите их в настройках",
   "dont_show_position_on_map_for_this_contact": "Не показывать позицию на карте для этого контакта",
+  "start_sharing_my_location": "Начать делиться геопозицией",
+  "stop_sharing": "Остановить",
+  "start_sharing": "Запустить",
   "validation_message": {
     "internet_connection_not_available": "Интернет недоступен",
     "email_is_not_valid": "Email недействительный",

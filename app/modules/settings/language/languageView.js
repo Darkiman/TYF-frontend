@@ -11,6 +11,7 @@ import IconsType from "../../../constants/IconsType";
 import userService from "../../../utils/userService";
 import LargeButton from '../../../components/largeButton/largeButton';
 import themeService from "../../../utils/themeService";
+import ShortCutsService from "../../../utils/shortCutsService";
 
 const colors = themeService.currentThemeColors;
 
@@ -57,6 +58,9 @@ export default class LanguageView extends Component {
         // add date param to rerender stack navigator
         await i18nService.setLocale(currentLocale);
         this.props.navigation.navigate(this.from, {date: new Date()});
+        if(ShortCutsService.initialized) {
+            ShortCutsService.setShortCuts();
+        }
     };
 
     render() {

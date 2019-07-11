@@ -1,6 +1,7 @@
 import asyncStorageService from "./asyncStorageService";
 import ax from '../utils/axios';
 import userKeys from "../constants/userKeys";
+import ShortCutsService from "./shortCutsService";
 
 let _currentUser = null;
 
@@ -45,6 +46,7 @@ const userService = {
     deleteCurrentUser: function () {
         ax.defaults.headers.common['Authorization'] = '';
         _currentUser = null;
+        ShortCutsService.clearShortCuts();
         return Promise.all([
             asyncStorageService.removeItem(userKeys.USER_KEY),
         ])

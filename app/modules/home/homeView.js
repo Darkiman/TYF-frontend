@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
-    View, SafeAreaView, Platform, Alert, Linking, TouchableOpacity
+    View, SafeAreaView, Platform, Alert, Linking, TouchableOpacity,
+    DeviceEventEmitter
 } from 'react-native';
 import {sharedStyles} from "../../shared/styles/sharedStyles";
 import BackgroundGeolocation from "react-native-background-geolocation";
@@ -25,6 +26,7 @@ import ModalOverlay from "../../components/overlay/overlay";
 import FlashMessage from "react-native-flash-message";
 import messageService from "../../utils/messageService";
 import CommonConstant from "../../constants/CommonConstant";
+import ShortCutsService from "../../utils/shortCutsService";
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -110,6 +112,8 @@ export default class HomeView extends Component {
         this.checkPermission();
         this.createNotificationListeners();
 
+        ShortCutsService.initialize(this.handleShortCutPress);
+
         this.setState({
             initialized: true,
             tracking: this.user.tracking,
@@ -178,7 +182,6 @@ export default class HomeView extends Component {
         });
     }
 
-
     componentWillMount() {
         BackgroundGeolocation.onLocation(this.onLocation, this.onError);
         BackgroundGeolocation.onProviderChange(this.onProviderChange);
@@ -216,6 +219,7 @@ export default class HomeView extends Component {
                 tracking: false
             });
             await userService.setUser(this.user);
+            this.setShortCuts();
         }
     };
 
@@ -232,6 +236,14 @@ export default class HomeView extends Component {
         BackgroundGeolocation.start(function () {
             console.log("- Start geo success");
         });
+    };
+
+    handleShortCutPress = (data) => {
+        if(data) {
+            console.log(data.type);
+            this.props.navigation.navigate(NavigationRoutes.HOME);
+            this.toggleTracking();
+        }
     };
 
     toggleTracking = async () => {
@@ -259,7 +271,8 @@ export default class HomeView extends Component {
         await userService.setUser(this.user);
         this.setState({
             tracking: tracking
-        })
+        });
+        ShortCutsService.setShortCuts();
     };
 
     showPrivacy = () => {
@@ -341,7 +354,7 @@ export default class HomeView extends Component {
                                         <LargeButton type={tracking ? 'outline' : 'solid'}
                                                      buttonStyle={{marginTop: 70}}
                                                      titleStyle={{width: 'auto'}}
-                                                     title={i18nService.t(this.state.tracking ? 'stop_tracking' : 'start_tracking')}
+                                                     title={i18nService.t(this.state.tracking ? 'stop_sharing' : 'start_sharing_my_location' )}
                                                      icon={<Icon
                                                          type={IconsType.Ionicon}
                                                          name={tracking ? `${this.iconPrefix}-pause` : `${this.iconPrefix}-play`}

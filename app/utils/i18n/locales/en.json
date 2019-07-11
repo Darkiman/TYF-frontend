@@ -76,6 +76,9 @@
   "terms_of_use": "Terms of use",
   "notifications_disabled_to_this_app": "Notifications disabled for this app. To see push notifications enable it in settings",
   "dont_show_position_on_map_for_this_contact": "Do not show the position on the map for this contact",
+  "start_sharing_my_location": "Start sharing my location",
+  "stop_sharing": "Stop sharing",
+  "start_sharing": "Start sharing",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",
