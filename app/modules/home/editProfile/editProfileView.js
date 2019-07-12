@@ -13,7 +13,6 @@ import NavigationBack from "../../../components/navigationBack/navigationBack";
 import i18nService from "../../../utils/i18n/i18nService";
 import LargeButton from "../../../components/largeButton/largeButton";
 import IconsType from "../../../constants/IconsType";
-import {textInputStyle} from "../../../components/textInput/textInputStyle";
 import TextInput from "../../../components/textInput/textInput";
 import ModalOverlay from "../../../components/overlay/overlay";
 import iconsService from "../../../utils/iconsService";

@@ -92,6 +92,8 @@ export default class ProfileImage extends Component {
                 skipBackup: true,
                 path: 'images',
             },
+            quality: Platform.OS === 'ios' ? 0.75 : 1,
+            allowsEditing: true
         };
     }
 
