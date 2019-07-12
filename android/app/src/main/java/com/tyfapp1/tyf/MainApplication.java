@@ -28,6 +28,7 @@ import com.facebook.soloader.SoLoader;
 import com.airbnb.android.react.maps.MapsPackage;
 
 import com.reactNativeQuickActions.AppShortcutsPackage;
+import com.swmansion.reanimated.ReanimatedPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -65,7 +66,8 @@ public class MainApplication extends Application implements ReactApplication {
             new VectorIconsPackage(),
             new RNGestureHandlerPackage(),
             new MapsPackage(),
-            new AppShortcutsPackage()
+            new AppShortcutsPackage(),
+            new ReanimatedPackage()
       );
     }
 
