@@ -50,11 +50,12 @@ const styles = {
         justifyContent: 'space-between',
         paddingRight: 16,
         paddingLeft: 16,
+        paddingTop: 11
     },
     headerText: {
-        marginTop: 10,
+        marginTop: 5,
         fontSize: 19,
-        marginBottom: 12,
+        marginBottom: 5,
         color: 'white'
     },
     contactContainer: {
