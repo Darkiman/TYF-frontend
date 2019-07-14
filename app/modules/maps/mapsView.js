@@ -51,6 +51,7 @@ export default class MapsView extends Component {
             refreshingRotate: new Animated.Value(0),
         };
         this.region = null;
+        this.markers = {};
     }
 
     componentDidMount() {
@@ -116,14 +117,6 @@ export default class MapsView extends Component {
             refreshingRotate: new Animated.Value(0),
         });
     }
-
-    // handleAppStateChange = (nextAppState) => {
-    //     if(nextAppState === 'active') {
-    //         if(this.state.ready) {
-    //             this.onFocus();
-    //         }
-    //     }
-    // };
 
     handlePosition = (position) => {
          this.region = {
@@ -210,6 +203,10 @@ export default class MapsView extends Component {
             refreshing: true,
             startAnimation: true
         });
+        const keys = Object.keys(this.markers);
+        for(let key of keys) {
+            this.markers[key].hideCallout();
+        }
         this.startAnimation();
         try {
             const result = await this.props.getContactsPosition(this.user.id);
@@ -299,6 +296,7 @@ export default class MapsView extends Component {
                                     return null;
                                 } else {
                                     return <Marker key={item.key}
+                                                   ref={ref => this.markers[item.key] = ref}
                                                    tracksViewChanges={tracksViewChanges}
                                                    coordinate={this.convertCoords(item.data.geoPosition.coords)}>
                                         <ContactMarker data={item.data}
