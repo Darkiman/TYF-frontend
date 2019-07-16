@@ -67,7 +67,7 @@ export default class AboutView extends Component {
                     }}/>
                     <View style={{...sharedStyles.centredColumn, ...styles.mainContainer}}>
                         <Image style={styles.logo} source={require('../../../assets/images/logoIcon.png')}/>
-                        <Text style={styles.versionText}>{i18nService.t('app_version', {version: '1.0.0' })}</Text>
+                        <Text style={styles.versionText}>{i18nService.t('app_version', {version: '1.1.0' })}</Text>
 
                         <View style={{marginTop: 60, flexDirection: 'column'}}>
                             <TouchableOpacity>
