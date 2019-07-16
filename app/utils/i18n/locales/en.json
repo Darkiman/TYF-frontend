@@ -63,7 +63,7 @@
   "no_contacts_with_that_name": "No contacts found with this name",
   "enable_notification": "Enable notification",
   "distance": "Distance",
-  "set_distance_value": "You will receive a push notification when the distance (kilometers) between you and your friend is less than the specified value",
+  "set_distance_value": "You will receive a push notification once a day when the distance (kilometers) between you and your friend is less than the specified value",
   "confidentiality": "Confidentiality",
   "show_position_on_map": "Show my geolocation on the map",
   "show_position_only_to_friends": "Show my geolocation only to my contacts",

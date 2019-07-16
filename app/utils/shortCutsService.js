@@ -37,7 +37,7 @@ const ShortCutsService = {
                         {
                             type: tracking ? 'stop' : 'start', // Required
                             title: i18nService.t(tracking ? 'stop_sharing' : 'start_sharing'), // Optional, if empty, `type` will be used instead
-                            icon: tracking ? 'Stop' : 'Play', // Icons instructions below,
+                            icon: tracking ? 'Pause' : 'Play', // Icons instructions below,
                             userInfo: {
                                 url: "app://home", // Provide any custom data like deep linking URL,
                             }

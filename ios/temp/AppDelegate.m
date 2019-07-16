@@ -14,6 +14,7 @@
 #import "RNSplashScreen.h"
 #import <Firebase.h> //Add This Line
 #import "RNFirebaseNotifications.h" //Add This Line
+#import "RNQuickActionManager.h"
 @import Firebase;
 
 @implementation AppDelegate
@@ -42,6 +43,10 @@
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self]; //Add This Line
   [RNSplashScreen show];  // here
   return YES;
+}
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL succeeded)) completionHandler {
+  [RNQuickActionManager onQuickActionPress:shortcutItem completionHandler:completionHandler];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

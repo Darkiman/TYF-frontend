@@ -58,7 +58,7 @@ const bottomTabNavigator = createBottomTabNavigator(
         tabBarOptions: {
             activeTintColor: 'tomato',
             inactiveTintColor: 'gray'
-        },
+        }
     }
 );
 export default bottomTabNavigator;

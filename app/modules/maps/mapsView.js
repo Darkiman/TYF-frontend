@@ -17,6 +17,7 @@ import {NavigationEvents} from "react-navigation";
 import FlashMessage from "react-native-flash-message";
 import messageService from "../../utils/messageService";
 import i18nService from "../../utils/i18n/i18nService";
+import NotificationParserService from "../../utils/notificationParserService";
 
 const colors = themeService.currentThemeColors;
 
@@ -52,6 +53,7 @@ export default class MapsView extends Component {
         };
         this.region = null;
         this.markers = {};
+        this.notificationTimeStamp = false;
     }
 
     componentDidMount() {
@@ -91,6 +93,7 @@ export default class MapsView extends Component {
 
 
     async initialize() {
+        NotificationParserService.mapsNotificationHandler = this.handleNotification;
         this.user = await userService.getUser();
         try {
             const result = await this.props.getContactsPosition(this.user.id);
@@ -117,6 +120,22 @@ export default class MapsView extends Component {
             refreshingRotate: new Animated.Value(0),
         });
     }
+
+    handleNotification = async (params) => {
+        const {key} = params;
+        await this.onRefresh();
+        for(let contact of this.state.contacts) {
+            console.log(contact.data);
+            if(contact.data && contact.key && contact.key === key) {
+                this.setRegion({
+                    ...this.convertCoords(contact.data.geoPosition.coords),
+                    latitudeDelta: LATITUDE_DELTA,
+                    longitudeDelta: LONGITUDE_DELTA,
+                });
+                break;
+            }
+        }
+    };
 
     handlePosition = (position) => {
          this.region = {
@@ -209,6 +228,9 @@ export default class MapsView extends Component {
         }
         this.startAnimation();
         try {
+            if(!this.user || !this.user.id) {
+                this.user = await userService.getUser();
+            }
             const result = await this.props.getContactsPosition(this.user.id);
             if(result.error) {
                 const errorText = i18nService.t(`validation_message.${result.message}`);
@@ -226,6 +248,7 @@ export default class MapsView extends Component {
             }
         }
         catch (e) {
+            console.log(e);
             messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available`));
             this.setState({
                 tracksViewChanges: true,
@@ -243,10 +266,22 @@ export default class MapsView extends Component {
     }
 
     onFocus = async () => {
-        // const locationEnabled = await PermissionsService.isLocationPermissionEnabled();
-        // if(!locationEnabled) {
-        //     PermissionsService.enableGeoLocation();
-        // }
+        try {
+            NotificationParserService.mapsNotificationHandler = this.handleNotification;
+            const {navigation} = this.props;
+            const key = navigation.getParam('key');
+            const notificationTimeStamp = navigation.getParam('timeStamp');
+            if(key && notificationTimeStamp !== this.notificationTimeStamp) {
+                this.notificationTimeStamp = notificationTimeStamp;
+                this.handleNotification({key});
+            }
+        } finally {
+            this.props.navigation.navigate(NavigationRoutes.MAPS);
+        }
+    };
+
+    onBlur = async () => {
+        NotificationParserService.mapsNotificationHandler = null;
     };
 
     render() {
@@ -277,6 +312,9 @@ export default class MapsView extends Component {
                 <NavigationEvents
                     onWillFocus={payload => {
                         this.onFocus();
+                    }}
+                    onWillBlur={payload => {
+                        this.onBlur();
                     }}
                 />
                 <View style={styles.mapContainer}>

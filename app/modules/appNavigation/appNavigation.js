@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {createAppContainer, createSwitchNavigator} from "react-navigation";
+import {createAppContainer} from "react-navigation";
 import bottomTabNavigator from "./appBottomTabNavigator";
 import AuthStack from "./authNavigator";
 import NavigationRoutes from "../../constants/NavigationRoutes";
@@ -17,7 +17,7 @@ const AppNavigation = createAppContainer(createAnimatedSwitchNavigator(
         transition: (
             <Transition.Together>
                 <Transition.Out
-                    type="slide-right"
+                    type="slide-left"
                     durationMs={400}
                     interpolation="easeIn"
                 />

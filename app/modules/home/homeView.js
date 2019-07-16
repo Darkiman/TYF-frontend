@@ -27,6 +27,7 @@ import FlashMessage from "react-native-flash-message";
 import messageService from "../../utils/messageService";
 import CommonConstant from "../../constants/CommonConstant";
 import ShortCutsService from "../../utils/shortCutsService";
+import NotificationParserService from "../../utils/notificationParserService";
 
 const colors = themeService.currentThemeColors;
 const styles = {
@@ -113,6 +114,7 @@ export default class HomeView extends Component {
         this.createNotificationListeners();
 
         ShortCutsService.initialize(this.handleShortCutPress);
+        console.log(NotificationParserService);
 
         this.setState({
             initialized: true,
@@ -166,6 +168,17 @@ export default class HomeView extends Component {
         this.removeNotificationListener = firebase.notifications().onNotification((notification: Notification) => {
             // Process your notification as required
             console.log('On notification', notification);
+            // const notification = new firebase.notifications.Notification()
+            //     .setNotificationId(identifier)
+            //     .setTitle(title)
+            //     .setBody(body)
+            //     .setData(userInfo)
+            //     .setSound('notification.wav')
+            //     .android.setAutoCancel(true)
+            //     .android.setPriority(firebase.notifications.Android.Priority.Max)
+            //     .android.setChannelId(activitiesChannel ? activitiesChannel.channelId : null);
+
+            firebase.notifications().displayNotification(notification);
         });
 
         this.removeNotificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen: NotificationOpen) => {
@@ -174,6 +187,7 @@ export default class HomeView extends Component {
             // Get information about the notification that was opened
             const notification: Notification = notificationOpen.notification;
             console.log('On notification opened', notification);
+            NotificationParserService.parseNotification(notification, this.props.navigation);
         });
 
         this.messageListener = firebase.messaging().onMessage((message) => {

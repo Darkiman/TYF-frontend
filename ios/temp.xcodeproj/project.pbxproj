@@ -104,6 +104,8 @@
 		5308DE9E229FCB4B0021089F /* AIRGoogleMapPolygon.m in Sources */ = {isa = PBXBuildFile; fileRef = 5308DE6B229FCB4A0021089F /* AIRGoogleMapPolygon.m */; };
 		5308DE9F229FCB4B0021089F /* AIRGMSMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 5308DE6C229FCB4A0021089F /* AIRGMSMarker.m */; };
 		5308DEA0229FCB4B0021089F /* AIRGoogleMapCalloutSubview.m in Sources */ = {isa = PBXBuildFile; fileRef = 5308DE6D229FCB4A0021089F /* AIRGoogleMapCalloutSubview.m */; };
+		5319F5A722DC9D660014B09C /* libRNQuickAction.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5319F5A622DC9CEB0014B09C /* libRNQuickAction.a */; };
+		5319F5B122DC9DE80014B09C /* libRNReanimated.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5319F5AE22DC9DE20014B09C /* libRNReanimated.a */; };
 		53258DCD228C566B009DDEDF /* TSLocationManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DCC228C566B009DDEDF /* TSLocationManager.framework */; };
 		53258DDA228C6033009DDEDF /* libRNBackgroundGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DD3228C5FC3009DDEDF /* libRNBackgroundGeolocation.a */; };
 		53258DDD228C6070009DDEDF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 53258DDC228C6070009DDEDF /* libsqlite3.tbd */; };
@@ -418,6 +420,27 @@
 			remoteGlobalIDString = E72EC1401F7ABB5A0001BC90;
 			remoteInfo = "RNDeviceInfo-tvOS";
 		};
+		5319F5A522DC9CEB0014B09C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5319F5A122DC9CEA0014B09C /* RNQuickAction.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 91090D8B1BB6C934009AE358;
+			remoteInfo = RNQuickAction;
+		};
+		5319F5AD22DC9DE20014B09C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5319F5A822DC9DE20014B09C /* RNReanimated.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNReanimated;
+		};
+		5319F5AF22DC9DE20014B09C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5319F5A822DC9DE20014B09C /* RNReanimated.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FDBB176E229BF04900D1E455;
+			remoteInfo = "RNReanimated-tvOS";
+		};
 		53258DCA228C4EDF009DDEDF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7E1FBEBC4ACC4910AC4B236B /* Lumberjack.xcodeproj */;
@@ -707,6 +730,8 @@
 		5308DE6B229FCB4A0021089F /* AIRGoogleMapPolygon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRGoogleMapPolygon.m; sourceTree = "<group>"; };
 		5308DE6C229FCB4A0021089F /* AIRGMSMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRGMSMarker.m; sourceTree = "<group>"; };
 		5308DE6D229FCB4A0021089F /* AIRGoogleMapCalloutSubview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRGoogleMapCalloutSubview.m; sourceTree = "<group>"; };
+		5319F5A122DC9CEA0014B09C /* RNQuickAction.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNQuickAction.xcodeproj; path = "../node_modules/react-native-quick-actions/RNQuickAction/RNQuickAction.xcodeproj"; sourceTree = "<group>"; };
+		5319F5A822DC9DE20014B09C /* RNReanimated.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNReanimated.xcodeproj; path = "../node_modules/react-native-reanimated/ios/RNReanimated.xcodeproj"; sourceTree = "<group>"; };
 		53258DCC228C566B009DDEDF /* TSLocationManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSLocationManager.framework; path = "../node_modules/react-native-background-geolocation/ios/RNBackgroundGeolocation/TSLocationManager.framework"; sourceTree = "<group>"; };
 		53258DCE228C5FC3009DDEDF /* RNBackgroundGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundGeolocation.xcodeproj; path = "../node_modules/react-native-background-geolocation/ios/RNBackgroundGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		53258DDC228C6070009DDEDF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -794,6 +819,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5319F5B122DC9DE80014B09C /* libRNReanimated.a in Frameworks */,
+				5319F5A722DC9D660014B09C /* libRNQuickAction.a in Frameworks */,
 				536DC9ED22BD14910092ED1A /* libReact Native Open Settings.a in Frameworks */,
 				5377957822BCC9D7007A3348 /* libReactNativePermissions.a in Frameworks */,
 				5308DC5F229D27770021089F /* libBVLinearGradient.a in Frameworks */,
@@ -1213,6 +1240,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5319F5A222DC9CEA0014B09C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5319F5A622DC9CEB0014B09C /* libRNQuickAction.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5319F5A922DC9DE20014B09C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5319F5AE22DC9DE20014B09C /* libRNReanimated.a */,
+				5319F5B022DC9DE20014B09C /* libRNReanimated-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		53258DC7228C4EDF009DDEDF /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1349,6 +1393,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5319F5A822DC9DE20014B09C /* RNReanimated.xcodeproj */,
+				5319F5A122DC9CEA0014B09C /* RNQuickAction.xcodeproj */,
 				536DC9E722BD14830092ED1A /* React Native Open Settings.xcodeproj */,
 				5377957222BCC9C3007A3348 /* ReactNativePermissions.xcodeproj */,
 				5308DC21229D27590021089F /* BVLinearGradient.xcodeproj */,
@@ -1661,6 +1707,14 @@
 					ProjectRef = 53258EB82293ED33009DDEDF /* RNImagePicker.xcodeproj */;
 				},
 				{
+					ProductGroup = 5319F5A222DC9CEA0014B09C /* Products */;
+					ProjectRef = 5319F5A122DC9CEA0014B09C /* RNQuickAction.xcodeproj */;
+				},
+				{
+					ProductGroup = 5319F5A922DC9DE20014B09C /* Products */;
+					ProjectRef = 5319F5A822DC9DE20014B09C /* RNReanimated.xcodeproj */;
+				},
+				{
 					ProductGroup = 53A25DAD2268648D00A69D66 /* Products */;
 					ProjectRef = 12F397A897894DADBC5D1B80 /* RNVectorIcons.xcodeproj */;
 				},
@@ -1923,6 +1977,27 @@
 			fileType = archive.ar;
 			path = "libRNDeviceInfo-tvOS.a";
 			remoteRef = 530E0BA22269EF080054DDE6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5319F5A622DC9CEB0014B09C /* libRNQuickAction.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNQuickAction.a;
+			remoteRef = 5319F5A522DC9CEB0014B09C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5319F5AE22DC9DE20014B09C /* libRNReanimated.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNReanimated.a;
+			remoteRef = 5319F5AD22DC9DE20014B09C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5319F5B022DC9DE20014B09C /* libRNReanimated-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNReanimated-tvOS.a";
+			remoteRef = 5319F5AF22DC9DE20014B09C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		53258DCB228C4EDF009DDEDF /* libCocoaLumberjack.a */ = {
@@ -2409,14 +2484,19 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-gesture-handlerios/**",
-					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-gesture-handlerios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-vector-iconsRNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/cocoa-lumberjack/CocoaLumberjack/**",
+					"$(SRCROOT)/../node_modules/react-native-quick-actions/RNQuickAction/**",
 				);
 				INFOPLIST_FILE = temp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2460,14 +2540,19 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-gesture-handlerios/**",
-					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-gesture-handlerios/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-vector-iconsRNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/@react-native-community/async-storage/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/cocoa-lumberjack/CocoaLumberjack/**",
+					"$(SRCROOT)/../node_modules/react-native-quick-actions/RNQuickAction/**",
 				);
 				INFOPLIST_FILE = temp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
