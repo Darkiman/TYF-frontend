@@ -1,9 +1,12 @@
 import QuickActions from "react-native-quick-actions";
 import {
-    DeviceEventEmitter
+    DeviceEventEmitter, Platform
 } from 'react-native';
 import i18nService from "./i18n/i18nService";
 import userService from "./userService";
+
+const playIcon = Platform.OS === 'ios' ? 'Play' : 'play';
+const pauseIcon = Platform.OS === 'ios' ? 'Pause' : 'pause';
 
 const ShortCutsService = {
     initialized: false,
@@ -37,7 +40,7 @@ const ShortCutsService = {
                         {
                             type: tracking ? 'stop' : 'start', // Required
                             title: i18nService.t(tracking ? 'stop_sharing' : 'start_sharing'), // Optional, if empty, `type` will be used instead
-                            icon: tracking ? 'Pause' : 'Play', // Icons instructions below,
+                            icon: tracking ? pauseIcon : playIcon, // Icons instructions below,
                             userInfo: {
                                 url: "app://home", // Provide any custom data like deep linking URL,
                             }
