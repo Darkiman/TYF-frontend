@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {
     View,
     SafeAreaView,
-    Image, Platform
+    Image,
+    Platform,
+    TouchableOpacity
 } from 'react-native';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import {Icon, ListItem, Text} from "react-native-elements";
@@ -42,7 +44,8 @@ const styles = {
     container: {
         paddingRight: 16,
         paddingLeft: 16,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        justifyContent: 'space-between'
     },
     header: {
         width: '100%',
@@ -88,6 +91,21 @@ const styles = {
         width: 90,
         height: 90,
         borderRadius: 45
+    },
+    showHistoryContainer: {
+        width: '100%',
+        marginBottom: 10,
+        height: 70,
+        backgroundColor: 'black'
+    },
+    historyTouchable: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    historyText: {
+        color: 'white'
     }
 };
 
@@ -109,6 +127,7 @@ export default class ContactOptionsView extends Component {
         console.log(this.data);
         this.state = {
             dontShowPosition: this.data && this.data.options ? this.data.options.dontShowPosition : false,
+            dontShowHistory: this.data && this.data.options ? this.data.options.dontShowHistory : false,
             enableNotifications: this.data && this.data.options ? this.data.options.enableNotifications : false,
             distance: this.data && this.data.options ? this.data.options.distance : '',
             showDistanceTooltip: false,
@@ -130,6 +149,13 @@ export default class ContactOptionsView extends Component {
     handlePositionOptionChange = (value) => {
         this.setState({
             dontShowPosition: value,
+            changed: true
+        });
+    };
+
+    handleHistoryOptionChange = (value) => {
+        this.setState({
+            dontShowHistory: value,
             changed: true
         });
     };
@@ -186,7 +212,7 @@ export default class ContactOptionsView extends Component {
             isLoading,
             error,
         } = this.props;
-        const {dontShowPosition, enableNotifications, distance, showDistanceTooltip, changed} = this.state;
+        const {dontShowPosition, enableNotifications, distance, showDistanceTooltip, dontShowHistory, changed} = this.state;
         const avatar = this.data && this.data.avatar ? `${apiConfig.static}avatars/${this.data.avatar}` : `${apiConfig.static}avatars/default.jpg`;
         const name = this.data && this.data.name[0];
         return (
@@ -218,71 +244,92 @@ export default class ContactOptionsView extends Component {
                         />
                     </View>
                     <View style={{...styles.mainView, ...styles.container}}>
-                        <ListItem
-                            containerStyle={styles.switchContainer}
-                            titleStyle={styles.switchTitle}
-                            title={i18nService.t('dont_show_position_on_map_for_this_contact')}
-                            switch={{
-                                onValueChange: this.handlePositionOptionChange,
-                                value: dontShowPosition
-                            }}
-                        >
-                        </ListItem>
-                        <ListItem
-                            containerStyle={styles.switchContainer}
-                            titleStyle={styles.switchTitle}
-                            title={i18nService.t('enable_notification')}
-                            switch={{
-                                onValueChange: this.onNotificationChange,
-                                value: enableNotifications
-                            }}
-                        >
-                        </ListItem>
+                        <View>
+                            <ListItem
+                                containerStyle={styles.switchContainer}
+                                titleStyle={styles.switchTitle}
+                                title={i18nService.t('dont_show_position_on_map_for_this_contact')}
+                                switch={{
+                                    onValueChange: this.handlePositionOptionChange,
+                                    value: dontShowPosition
+                                }}
+                            >
+                            </ListItem>
+                            <ListItem
+                                containerStyle={styles.switchContainer}
+                                titleStyle={styles.switchTitle}
+                                title={i18nService.t('dont_show_history_for_this_contact')}
+                                switch={{
+                                    onValueChange: this.handleHistoryOptionChange,
+                                    value: dontShowHistory
+                                }}
+                            >
+                            </ListItem>
+                            <ListItem
+                                containerStyle={styles.switchContainer}
+                                titleStyle={styles.switchTitle}
+                                title={i18nService.t('enable_notification')}
+                                switch={{
+                                    onValueChange: this.onNotificationChange,
+                                    value: enableNotifications
+                                }}
+                            >
+                            </ListItem>
+                            {
+                                enableNotifications ? <TextInput name={'distance'}
+                                                                 type={'outline'}
+                                                                 placeholder={i18nService.t('distance')}
+                                                                 icon={'resize'}
+                                                                 iconContainerStyle={{transform: [{rotate: '90deg'}]}}
+                                                                 value={distance}
+                                                                 maxLength={6}
+                                                                 keyboardType={'numeric'}
+                                                                 onChangeText={this.handleDistanceChange}
+                                                                 rightIcon={
+                                                                     <Icon
+                                                                         type={IconsType.Ionicon}
+                                                                         name={`${this.iconPrefix}-${'help-circle-outline'}`}
+                                                                         size={24}
+                                                                         color={colors.textLightColor}
+                                                                         underlayColor={'transparent'}
+                                                                         onPress={() => {
+                                                                             this.setState({
+                                                                                 showDistanceTooltip: !showDistanceTooltip
+                                                                             })
+                                                                         }}
+                                                                     />
+                                                                 }
+                                /> : null
+                            }
+                            {
+                                changed ? <LargeButton type={'solid'}
+                                                       title={i18nService.t('save')}
+                                                       disabled={enableNotifications ? !distance || distance == 0 : !changed}
+                                                       buttonStyle={{
+                                                           marginTop: 40,
+                                                           backgroundColor: colors.backgroundColor
+                                                       }}
+                                                       titleStyle={{
+                                                           color: 'white'
+                                                       }}
+                                                       loading={isLoading}
+                                                       loadingProps={{color: 'white'}}
+                                                       onPress={async () => {
+                                                           if(!isLoading) {
+                                                               await this.save();
+                                                           }
+                                                       }}
+                                /> : null
+                            }
+                        </View>
                         {
-                            enableNotifications ? <TextInput name={'distance'}
-                                                             type={'outline'}
-                                                             placeholder={i18nService.t('distance')}
-                                                             icon={'resize'}
-                                                             iconContainerStyle={{transform: [{rotate: '90deg'}]}}
-                                                             value={distance}
-                                                             maxLength={6}
-                                                             keyboardType={'numeric'}
-                                                             onChangeText={this.handleDistanceChange}
-                                                             rightIcon={
-                                                                 <Icon
-                                                                     type={IconsType.Ionicon}
-                                                                     name={`${this.iconPrefix}-${'help-circle-outline'}`}
-                                                                     size={24}
-                                                                     color={colors.textLightColor}
-                                                                     underlayColor={'transparent'}
-                                                                     onPress={() => {
-                                                                         this.setState({
-                                                                             showDistanceTooltip: !showDistanceTooltip
-                                                                         })
-                                                                     }}
-                                                                 />
-                                                             }
-                            /> : null
-                        }
-                        {
-                            changed ? <LargeButton type={'solid'}
-                                                   title={i18nService.t('save')}
-                                                   disabled={enableNotifications ? !distance || distance == 0 : !changed}
-                                                   buttonStyle={{
-                                                       marginTop: 40,
-                                                       backgroundColor: colors.backgroundColor
-                                                   }}
-                                                   titleStyle={{
-                                                       color: 'white'
-                                                   }}
-                                                   loading={isLoading}
-                                                   loadingProps={{color: 'white'}}
-                                                   onPress={async () => {
-                                                       if(!isLoading) {
-                                                           await this.save();
-                                                       }
-                                                   }}
-                            /> : null
+                            <View style={styles.showHistoryContainer}>
+                                <TouchableOpacity style={styles.historyTouchable} onPress={() => {
+                                    this.props.navigation.navigate(NavigationRoutes.HISTORY_MAP);
+                                }}>
+                                    <Text style={styles.historyText}>{i18nService.t('show_history')}</Text>
+                                </TouchableOpacity>
+                            </View>
                         }
                         <ModalOverlay
                             isVisible={showDistanceTooltip}

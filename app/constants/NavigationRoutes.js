@@ -22,5 +22,6 @@ export default NavigationRoutes = {
     CONFIDENTIALITY_SETTINGS: 'ConfidentialitySettings',
     ABOUT_SETTINGS: 'AboutSettings',
     //
-    MAPS: 'Maps'
+    MAPS: 'Maps',
+    HISTORY_MAP: 'HistoryMap'
 }

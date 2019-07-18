@@ -79,6 +79,8 @@
   "start_sharing_my_location": "Начать делиться геопозицией",
   "stop_sharing": "Остановить",
   "start_sharing": "Запустить",
+  "dont_show_history_for_this_contact": "Не показывать историю для этого контакта",
+  "show_history": "Показать историю",
   "validation_message": {
     "internet_connection_not_available": "Интернет недоступен",
     "email_is_not_valid": "Email недействительный",

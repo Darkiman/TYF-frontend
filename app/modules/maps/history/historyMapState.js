@@ -13,7 +13,7 @@ export const GET_HISTORY_SUCCESS = 'maps/GET_HISTORY_SUCCESS';
 export const GET_HISTORY_LOADING = 'maps/GET_HISTORY_LOADING';
 export const GET_HISTORY_ERROR = 'maps/GET_HISTORY_ERROR';
 
-export const getContactHistory = (id) => {
+export const getContactHistory = (id, contactId) => {
   return dispatch => {
     if(!networkService.isConnected) {
       dispatch({
@@ -25,7 +25,7 @@ export const getContactHistory = (id) => {
     dispatch({
       type: GET_HISTORY_LOADING,
     });
-    return ax.get(`${apiConfig.url}location/history?&id=${id}`)
+    return ax.get(`${apiConfig.url}location/history?&id=${id}&contactId=${contactId}`)
         .then(({data}) => {
           const result = {
             source: data,

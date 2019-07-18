@@ -87,22 +87,21 @@ export default class HistoryMapView extends Component {
 
 
     async initialize() {
-        NotificationParserService.mapsNotificationHandler = this.handleNotification;
         this.user = await userService.getUser();
         try {
-            const result = await this.props.getContactHistory(this.user.id);
-            if (result.error) {
-                const errorText = i18nService.t(`validation_message.${result.message}`);
-                messageService.showError(this.refs.flashMessage, errorText);
-                this.setState({
-                    refreshing: true
-                });
-            } else {
-                this.loadedImagesCount = 0;
-                this.setState({
-                    history: result.source.positions,
-                });
-            }
+            // const result = await this.props.getContactHistory(this.user.id);
+            // if (result.error) {
+            //     const errorText = i18nService.t(`validation_message.${result.message}`);
+            //     messageService.showError(this.refs.flashMessage, errorText);
+            //     this.setState({
+            //         refreshing: true
+            //     });
+            // } else {
+            //     this.loadedImagesCount = 0;
+            //     this.setState({
+            //         history: result.source.positions,
+            //     });
+            // }
         } catch (e) {
             messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available`));
             this.setState({
@@ -262,7 +261,6 @@ export default class HistoryMapView extends Component {
             <View style={sharedStyles.safeView}>
                 <View style={styles.mapContainer}>
                     <MapView
-                        showsUserLocation
                         provider={PROVIDER_GOOGLE}
                         ref={map => {
                             this.map = map
@@ -280,19 +278,19 @@ export default class HistoryMapView extends Component {
                     </MapView>
 
                 </View>
-                <Icon type={IconsType.Ionicon}
-                      name={`${this.iconPrefix}-compass`}
-                      size={50}
-                      containerStyle={{
-                          position: 'absolute',
-                          top: '50%',
-                          right: '5%',
-                          backgroundColor: 'transparent'
-                      }}
-                      color={'#666'}
-                      underlayColor={'transparent'}
-                      onPress={this.toCurrentPosition}
-                />
+                {/*<Icon type={IconsType.Ionicon}*/}
+                {/*      name={`${this.iconPrefix}-compass`}*/}
+                {/*      size={50}*/}
+                {/*      containerStyle={{*/}
+                {/*          position: 'absolute',*/}
+                {/*          top: '50%',*/}
+                {/*          right: '5%',*/}
+                {/*          backgroundColor: 'transparent'*/}
+                {/*      }}*/}
+                {/*      color={'#666'}*/}
+                {/*      underlayColor={'transparent'}*/}
+                {/*      onPress={this.toCurrentPosition}*/}
+                {/*/>*/}
                 <AnimatedIcon type={IconsType.Ionicon}
                               name={`${this.iconPrefix}-refresh-circle`}
                               size={50}
