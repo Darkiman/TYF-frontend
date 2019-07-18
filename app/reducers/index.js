@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
-import homeSate from '../modules/home/homeState';
+import homeState from '../modules/home/homeState';
+import mapsState from '../modules/maps/mapsState';
+import historyMapState from '../modules/maps/history/historyMapState';
 import profileState from '../modules/profile/profileState';
 import profileDataState from '../modules/profile/data/profileDataState';
 import settingsState from '../modules/settings/settingsState';
@@ -15,7 +17,9 @@ import contactOptionsState from '../modules/contacts/contactOptions/contactOptio
 
 // Root Reducer
 const rootReducer = combineReducers({
-  home: homeSate,
+  home: homeState,
+  maps: mapsState,
+  historyMap: historyMapState,
   profile: profileState,
   profileData: profileDataState,
   settings: settingsState,
