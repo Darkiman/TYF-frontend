@@ -325,7 +325,7 @@ export default class ContactOptionsView extends Component {
                         {
                             <View style={styles.showHistoryContainer}>
                                 <TouchableOpacity style={styles.historyTouchable} onPress={() => {
-                                    this.props.navigation.navigate(NavigationRoutes.HISTORY_MAP);
+                                    this.props.navigation.navigate(NavigationRoutes.HISTORY_MAP, {contactId: this.contactId});
                                 }}>
                                     <Text style={styles.historyText}>{i18nService.t('show_history')}</Text>
                                 </TouchableOpacity>

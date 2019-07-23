@@ -18,6 +18,7 @@ import FlashMessage from "react-native-flash-message";
 import messageService from "../../utils/messageService";
 import i18nService from "../../utils/i18n/i18nService";
 import NotificationParserService from "../../utils/notificationParserService";
+import commonFunctionsService from "../../utils/commonFunctionsService";
 
 const colors = themeService.currentThemeColors;
 
@@ -128,7 +129,7 @@ export default class MapsView extends Component {
             console.log(contact.data);
             if(contact.data && contact.key && contact.key === key) {
                 this.setRegion({
-                    ...this.convertCoords(contact.data.geoPosition.coords),
+                    ...commonFunctionsService.convertCoords(contact.data.geoPosition.coords),
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA,
                 });
@@ -261,10 +262,6 @@ export default class MapsView extends Component {
         this.getCurrentPosition();
     };
 
-    convertCoords(coords) {
-        return {latitude : coords._latitude, longitude: coords._longitude}
-    }
-
     onFocus = async () => {
         try {
             NotificationParserService.mapsNotificationHandler = this.handleNotification;
@@ -336,7 +333,7 @@ export default class MapsView extends Component {
                                     return <Marker key={item.key}
                                                    ref={ref => this.markers[item.key] = ref}
                                                    tracksViewChanges={tracksViewChanges}
-                                                   coordinate={this.convertCoords(item.data.geoPosition.coords)}>
+                                                   coordinate={commonFunctionsService.convertCoords(item.data.geoPosition.coords)}>
                                         <ContactMarker data={item.data}
                                                        onLoad={this.onImageLoad}/>
                                         <ContactMarkerCallout data={item.data}/>

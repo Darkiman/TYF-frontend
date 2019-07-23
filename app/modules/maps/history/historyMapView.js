@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Animated, View, Easing, Platform,} from 'react-native';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Marker, Polyline} from 'react-native-maps';
 import {Icon} from 'react-native-elements';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import iconsService from "../../../utils/iconsService";
@@ -12,7 +12,7 @@ import PermissionsService from "../../../utils/permissionsService";
 import FlashMessage from "react-native-flash-message";
 import messageService from "../../../utils/messageService";
 import i18nService from "../../../utils/i18n/i18nService";
-import NotificationParserService from "../../../utils/notificationParserService";
+import commonFunctionsService from '../../../utils/commonFunctionsService';
 
 const colors = themeService.currentThemeColors;
 
@@ -48,6 +48,7 @@ export default class HistoryMapView extends Component {
         };
         this.region = null;
         this.markers = {};
+        this.contactId = this.props.navigation.getParam('contactId');
     }
 
     componentDidMount() {
@@ -89,19 +90,19 @@ export default class HistoryMapView extends Component {
     async initialize() {
         this.user = await userService.getUser();
         try {
-            // const result = await this.props.getContactHistory(this.user.id);
-            // if (result.error) {
-            //     const errorText = i18nService.t(`validation_message.${result.message}`);
-            //     messageService.showError(this.refs.flashMessage, errorText);
-            //     this.setState({
-            //         refreshing: true
-            //     });
-            // } else {
-            //     this.loadedImagesCount = 0;
-            //     this.setState({
-            //         history: result.source.positions,
-            //     });
-            // }
+            const result = await this.props.getContactHistory(this.user.id, this.contactId);
+            if (result.error) {
+                const errorText = i18nService.t(`validation_message.${result.message}`);
+                messageService.showError(this.refs.flashMessage, errorText);
+                this.setState({
+                    refreshing: true
+                });
+            } else {
+                this.loadedImagesCount = 0;
+                this.setState({
+                    history: result.source.history,
+                });
+            }
         } catch (e) {
             messageService.showError(this.refs.flashMessage, i18nService.t(`validation_message.server_is_not_available`));
             this.setState({
@@ -181,16 +182,6 @@ export default class HistoryMapView extends Component {
         }
     };
 
-    onImageLoad = () => {
-        this.loadedImagesCount++;
-        if (this.loadedImagesCount >= this.state.history.length) {
-            this.loadedImagesCount = 0;
-            this.setState({
-                tracksViewChanges: false
-            });
-        }
-    };
-
     onRefresh = async () => {
         if (this.state.startAnimation) {
             return;
@@ -208,7 +199,7 @@ export default class HistoryMapView extends Component {
             if (!this.user || !this.user.id) {
                 this.user = await userService.getUser();
             }
-            const result = await this.props.getContactHistory(this.user.id);
+            const result = await this.props.getContactHistory(this.user.id, this.contactId);
             if (result.error) {
                 const errorText = i18nService.t(`validation_message.${result.message}`);
                 messageService.showError(this.refs.flashMessage, errorText);
@@ -218,7 +209,7 @@ export default class HistoryMapView extends Component {
                 });
             } else {
                 this.setState({
-                    history: result.source.positions,
+                    history: result.source.history,
                     tracksViewChanges: true,
                     refreshing: true,
                 });
@@ -241,6 +232,10 @@ export default class HistoryMapView extends Component {
         return {latitude: coords._latitude, longitude: coords._longitude}
     }
 
+    back = () => {
+        this.props.navigation.goBack();
+    };
+
     render() {
         const {region, history, tracksViewChanges} = this.state;
         const {children} = this.props;
@@ -257,6 +252,15 @@ export default class HistoryMapView extends Component {
         });
 
 
+        const historyCoordinates = history.map(item => {
+            return commonFunctionsService.convertCoords(item.coords);
+        });
+
+        let lineGradient = ['#6bddf2'];
+        if(historyCoordinates && historyCoordinates.length >= 2) {
+            lineGradient = commonFunctionsService.createLineGradient(historyCoordinates.length);
+        }
+
         return (
             <View style={sharedStyles.safeView}>
                 <View style={styles.mapContainer}>
@@ -272,25 +276,37 @@ export default class HistoryMapView extends Component {
                         customMapStyle={mapStyle}
                     >
                         {
-                            history && history.map(item => {
+                            <Polyline
+                                coordinates={historyCoordinates}
+                                strokeColor="#6bddf2" // fallback for when `strokeColors` is not supported by the map-provider
+                                strokeColors={lineGradient}
+                                strokeWidth={3}
+                            />
+                        }
+                        {
+                            historyCoordinates && historyCoordinates.map((item, index) => {
+                                return <Marker key={index}
+                                               coordinate={item}>
+                                </Marker>
+
                             })
                         }
                     </MapView>
 
                 </View>
-                {/*<Icon type={IconsType.Ionicon}*/}
-                {/*      name={`${this.iconPrefix}-compass`}*/}
-                {/*      size={50}*/}
-                {/*      containerStyle={{*/}
-                {/*          position: 'absolute',*/}
-                {/*          top: '50%',*/}
-                {/*          right: '5%',*/}
-                {/*          backgroundColor: 'transparent'*/}
-                {/*      }}*/}
-                {/*      color={'#666'}*/}
-                {/*      underlayColor={'transparent'}*/}
-                {/*      onPress={this.toCurrentPosition}*/}
-                {/*/>*/}
+                <Icon type={IconsType.Ionicon}
+                      name={`${this.iconPrefix}-arrow-back`}
+                      size={35}
+                      color={colors.color}
+                      underlayColor={'transparent'}
+                      containerStyle={{
+                          position: 'absolute',
+                          top: '7%',
+                          left: 16,
+                          backgroundColor: 'transparent'
+                      }}
+                      onPress={this.back}
+                />
                 <AnimatedIcon type={IconsType.Ionicon}
                               name={`${this.iconPrefix}-refresh-circle`}
                               size={50}
