@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {StyleSheet, Animated, View, Easing, Platform,} from 'react-native';
+import {StyleSheet, Animated, View, Easing, Platform, SafeAreaView,} from 'react-native';
 import MapView, {PROVIDER_GOOGLE, Marker, Polyline} from 'react-native-maps';
-import {Icon} from 'react-native-elements';
+import {Icon, ListItem, Text} from 'react-native-elements';
 import {sharedStyles} from "../../../shared/styles/sharedStyles";
 import iconsService from "../../../utils/iconsService";
 import IconsType from "../../../constants/IconsType";
@@ -13,6 +13,8 @@ import FlashMessage from "react-native-flash-message";
 import messageService from "../../../utils/messageService";
 import i18nService from "../../../utils/i18n/i18nService";
 import commonFunctionsService from '../../../utils/commonFunctionsService';
+import ModalOverlay from "../../../components/overlay/overlay";
+import LocationCallout from "../../../components/locationCallout/locationCallout";
 
 const colors = themeService.currentThemeColors;
 
@@ -28,6 +30,17 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
+    },
+    switchContainer: {
+        height: 60,
+        paddingRight: 0,
+        paddingLeft: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        margin: 0
+    },
+    switchTitle: {
+        fontSize: 18,
     },
 });
 
@@ -45,6 +58,10 @@ export default class HistoryMapView extends Component {
             startAnimation: false,
             history: [],
             refreshingRotate: new Animated.Value(0),
+
+            showOptions: false,
+            showLines: false,
+            showMarkers: false
         };
         this.region = null;
         this.markers = {};
@@ -53,15 +70,7 @@ export default class HistoryMapView extends Component {
 
     componentDidMount() {
         this.initialize();
-        this.getCurrentPosition();
         // AppState.addEventListener('change', this.handleAppStateChange);
-    }
-
-    componentWillUnmount() {
-        // AppState.removeEventListener('change', this.handleAppStateChange);
-        if (this.watchId) {
-            navigator.geolocation.clearWatch(this.watchId);
-        }
     }
 
     startAnimation = () => {
@@ -89,6 +98,22 @@ export default class HistoryMapView extends Component {
 
     async initialize() {
         this.user = await userService.getUser();
+        if (this.user.historyOptions) {
+            const {historyOptions} = this.user;
+            this.setState({
+                showLines: historyOptions.showLines,
+                showMarkers: historyOptions.showMarkers
+            })
+        } else {
+            this.setState({
+                showLines: true
+            });
+            this.user.historyOptions = {
+                showLines: true,
+                showMarkers: false
+            };
+            userService.setUser(this.user);
+        }
         try {
             const result = await this.props.getContactHistory(this.user.id, this.contactId);
             if (result.error) {
@@ -98,9 +123,17 @@ export default class HistoryMapView extends Component {
                     refreshing: true
                 });
             } else {
-                this.loadedImagesCount = 0;
+                const firstPosition = result.source.history[0] ? commonFunctionsService.convertCoords(result.source.history[0].coords) : null;
+                const region = {
+                    latitude: firstPosition.latitude,
+                    longitude: firstPosition.longitude,
+                    latitudeDelta: LATITUDE_DELTA,
+                    longitudeDelta: LONGITUDE_DELTA,
+                };
+                this.setRegion(region);
                 this.setState({
                     history: result.source.history,
+                    region: region
                 });
             }
         } catch (e) {
@@ -109,61 +142,11 @@ export default class HistoryMapView extends Component {
                 history: [],
             });
         }
-        this.loadedImagesCount = 0;
         this.setState({
             refreshingRotate: new Animated.Value(0),
         });
     }
 
-
-    handlePosition = (position) => {
-        this.region = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-        };
-    };
-
-    getCurrentPosition = async () => {
-        let locationEnabled = await PermissionsService.isLocationPermissionEnabled();
-        if (!locationEnabled && Platform.OS === 'ios') {
-            locationEnabled = await PermissionsService.isWhenInUseLocationPermissionEnabled();
-        }
-        if (locationEnabled) {
-            if (!this.watchId) {
-                this.watchId = navigator.geolocation.watchPosition(this.handlePosition);
-                try {
-                    navigator.geolocation.getCurrentPosition(
-                        (position) => {
-                            const region = {
-                                latitude: position.coords.latitude,
-                                longitude: position.coords.longitude,
-                                latitudeDelta: LATITUDE_DELTA,
-                                longitudeDelta: LONGITUDE_DELTA,
-                            };
-                            this.setState({
-                                region: region
-                            });
-                            this.setRegion(region);
-                        },
-                        (error) => {
-                            alert(error);
-                        }
-                    );
-                } catch (e) {
-                    alert(e.message || "");
-                }
-            } else {
-                this.setState({
-                    region: this.region
-                });
-                this.setRegion(this.region);
-            }
-        } else {
-            PermissionsService.enableGeoLocation('see_you_position_on_map');
-        }
-    };
 
     setRegion(region) {
         if (this.state.ready) {
@@ -176,9 +159,6 @@ export default class HistoryMapView extends Component {
             this.setState({
                 ready: true
             });
-            if (!this.state.region) {
-                this.getCurrentPosition();
-            }
         }
     };
 
@@ -224,20 +204,34 @@ export default class HistoryMapView extends Component {
         }
     };
 
-    toCurrentPosition = () => {
-        this.getCurrentPosition();
-    };
-
-    convertCoords(coords) {
-        return {latitude: coords._latitude, longitude: coords._longitude}
-    }
-
     back = () => {
         this.props.navigation.goBack();
     };
 
+    showOptions = () => {
+        this.setState({
+            showOptions: true
+        })
+    };
+
+    handleShowLinesChange = (value) => {
+        this.setState({
+            showLines: value
+        });
+        this.user.historyOptions.showLines = value;
+        userService.setUser(this.user);
+    };
+
+    handleShowMarkersChange = (value) => {
+        this.setState({
+            showMarkers: value
+        });
+        this.user.historyOptions.showMarkers = value;
+        userService.setUser(this.user);
+    };
+
     render() {
-        const {region, history, tracksViewChanges} = this.state;
+        const {region, history, showOptions, showLines, showMarkers} = this.state;
         const {children} = this.props;
 
         const {
@@ -253,12 +247,24 @@ export default class HistoryMapView extends Component {
 
 
         const historyCoordinates = history.map(item => {
-            return commonFunctionsService.convertCoords(item.coords);
+            return {
+                date: item.date,
+                coords: commonFunctionsService.convertCoords(item.coords)
+            };
         });
 
-        let lineGradient = ['#6bddf2'];
-        if(historyCoordinates && historyCoordinates.length >= 2) {
-            lineGradient = commonFunctionsService.createLineGradient(historyCoordinates.length);
+        const lines = [];
+        for (let i = 0; i < historyCoordinates.length - 1; i++) {
+            let lineGradient = ['#6bddf2'];
+            if (historyCoordinates && historyCoordinates.length >= 2) {
+                lineGradient = commonFunctionsService.createLineGradient(historyCoordinates.length);
+            }
+            lines.push(<Polyline
+                coordinates={[historyCoordinates[i].coords, historyCoordinates[i + 1].coords]}
+                strokeColor={lineGradient[i]}
+                strokeColors={lineGradient}
+                strokeWidth={3}
+            />);
         }
 
         return (
@@ -275,18 +281,13 @@ export default class HistoryMapView extends Component {
                         style={styles.map}
                         customMapStyle={mapStyle}
                     >
+                        {showLines ? lines : null}
                         {
-                            <Polyline
-                                coordinates={historyCoordinates}
-                                strokeColor="#6bddf2" // fallback for when `strokeColors` is not supported by the map-provider
-                                strokeColors={lineGradient}
-                                strokeWidth={3}
-                            />
-                        }
-                        {
-                            historyCoordinates && historyCoordinates.map((item, index) => {
+                            showMarkers && historyCoordinates && historyCoordinates.map((item, index) => {
                                 return <Marker key={index}
-                                               coordinate={item}>
+                                               pinColor={'linen'}
+                                               coordinate={item.coords}>
+                                    <LocationCallout date={item.date}></LocationCallout>
                                 </Marker>
 
                             })
@@ -294,6 +295,19 @@ export default class HistoryMapView extends Component {
                     </MapView>
 
                 </View>
+                <Icon type={IconsType.Ionicon}
+                      name={`${this.iconPrefix}-settings`}
+                      size={35}
+                      color={'#666'}
+                      underlayColor={'transparent'}
+                      containerStyle={{
+                          position: 'absolute',
+                          top: '7%',
+                          right: 16,
+                          backgroundColor: 'transparent'
+                      }}
+                      onPress={this.showOptions}
+                />
                 <Icon type={IconsType.Ionicon}
                       name={`${this.iconPrefix}-arrow-back`}
                       size={35}
@@ -321,6 +335,33 @@ export default class HistoryMapView extends Component {
                               underlayColor={'transparent'}
                               onPress={this.onRefresh}
                 />
+                <ModalOverlay
+                    isVisible={showOptions}
+                    containerStyle={{paddingTop: 0, paddingBottom: 0}}
+                    onBackdropPress={() => {
+                        this.setState({
+                            showOptions: !showOptions
+                        })
+                    }}>
+                    <ListItem
+                        containerStyle={styles.switchContainer}
+                        titleStyle={styles.switchTitle}
+                        title={i18nService.t('show_lines')}
+                        switch={{
+                            onValueChange: this.handleShowLinesChange,
+                            value: showLines
+                        }}
+                    />
+                    <ListItem
+                        containerStyle={styles.switchContainer}
+                        titleStyle={styles.switchTitle}
+                        title={i18nService.t('show_markers')}
+                        switch={{
+                            onValueChange: this.handleShowMarkersChange,
+                            value: showMarkers
+                        }}
+                    />
+                </ModalOverlay>
                 <FlashMessage position="top" ref={'flashMessage'}/>
             </View>
         );

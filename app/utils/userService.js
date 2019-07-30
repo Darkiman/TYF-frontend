@@ -37,7 +37,8 @@ const userService = {
                 language: result.language,
                 notificationToken: result.notificationToken,
                 verified: result.verified,
-                confidentiality: result.confidentiality
+                confidentiality: result.confidentiality,
+                historyOptions: result.historyOptions
             };
         }
         _currentUser = user;

@@ -81,6 +81,8 @@
   "start_sharing": "Start sharing",
   "dont_show_history_for_this_contact": "Dont show history for this contact",
   "show_history": "Show history",
+  "show_lines": "Show lines",
+  "show_markers": "Show markers",
   "validation_message": {
     "internet_connection_not_available": "Internet connection not available",
     "server_is_not_available": "Server is not available. Please try later.",
